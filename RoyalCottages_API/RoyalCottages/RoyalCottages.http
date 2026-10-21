@@ -1,0 +1,6 @@
+@RoyalCottages_HostAddress = http://localhost:5081
+
+GET {{RoyalCottages_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

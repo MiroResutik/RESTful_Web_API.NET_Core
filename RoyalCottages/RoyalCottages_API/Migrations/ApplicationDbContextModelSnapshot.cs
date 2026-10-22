@@ -58,6 +58,68 @@ namespace RoyalCottages_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cottage");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Experience a relaxing coastal retreat with breathtaking ocean views, spacious living areas, and exclusive access to a private beach.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa1.jpg",
+                            Name = "Royal Cottage",
+                            Occupancy = 6,
+                            Rate = 500.0,
+                            SqMeters = 250,
+                            UpdatedDate = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Enjoy an elegant mountain getaway featuring refined marble interiors, generous living spaces, and spectacular panoramic mountain views.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
+                            Name = "Diamond Cottage",
+                            Occupancy = 8,
+                            Rate = 750.0,
+                            SqMeters = 320,
+                            UpdatedDate = new DateTime(2026, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2026, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Relax in a contemporary retreat with a stunning infinity pool, stylish interiors, and a private outdoor area perfect for entertaining.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa3.jpg",
+                            Name = "Pool Cottage",
+                            Occupancy = 4,
+                            Rate = 350.0,
+                            SqMeters = 180,
+                            UpdatedDate = new DateTime(2026, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(2026, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Indulge in an exceptional luxury escape with expansive interiors, premium amenities, spa facilities, and personalised concierge services.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa4.jpg",
+                            Name = "Luxury Cottage",
+                            Occupancy = 10,
+                            Rate = 900.0,
+                            SqMeters = 4000,
+                            UpdatedDate = new DateTime(2026, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedDate = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Unwind in a peaceful countryside hideaway surrounded by lush gardens, natural scenery, and scenic walking trails, ideal for a quiet escape.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa5.jpg",
+                            Name = "Garden Cottage",
+                            Occupancy = 3,
+                            Rate = 275.0,
+                            SqMeters = 150,
+                            UpdatedDate = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 #pragma warning restore 612, 618
         }

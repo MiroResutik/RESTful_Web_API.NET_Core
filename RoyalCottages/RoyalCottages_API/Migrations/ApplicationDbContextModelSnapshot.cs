@@ -119,6 +119,126 @@ namespace RoyalCottages_API.Migrations
                             Rate = 275.0,
                             SqMeters = 150,
                             UpdatedDate = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedDate = new DateTime(2026, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Wake up to refreshing sea breezes in this charming coastal retreat, featuring bright interiors, a private terrace, and beautiful seaside views.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa1.jpg",
+                            Name = "Seaside Cottage",
+                            Occupancy = 5,
+                            Rate = 425.0,
+                            SqMeters = 200,
+                            UpdatedDate = new DateTime(2026, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Escape to a tranquil woodland hideaway surrounded by towering pine trees, rustic interiors, and peaceful outdoor spaces perfect for relaxing.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
+                            Name = "Pinewood Cottage",
+                            Occupancy = 4,
+                            Rate = 300.0,
+                            SqMeters = 160,
+                            UpdatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedDate = new DateTime(2026, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Enjoy unforgettable evenings in a stylish cottage with panoramic sunset views, comfortable living areas, and a spacious private balcony.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa3.jpg",
+                            Name = "Sunset Cottage",
+                            Occupancy = 5,
+                            Rate = 475.0,
+                            SqMeters = 190,
+                            UpdatedDate = new DateTime(2026, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedDate = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Discover a peaceful lakeside retreat with scenic water views, cosy interiors, and a private outdoor seating area ideal for morning coffee.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa4.jpg",
+                            Name = "Lakeside Cottage",
+                            Occupancy = 6,
+                            Rate = 550.0,
+                            SqMeters = 230,
+                            UpdatedDate = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedDate = new DateTime(2026, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Relax in a welcoming countryside cottage surrounded by open meadows, colourful wildflowers, and picturesque walking paths.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa5.jpg",
+                            Name = "Meadow Cottage",
+                            Occupancy = 3,
+                            Rate = 250.0,
+                            SqMeters = 140,
+                            UpdatedDate = new DateTime(2026, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedDate = new DateTime(2026, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Experience a memorable mountain escape with expansive windows, inviting living spaces, and breathtaking views of the surrounding peaks.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa1.jpg",
+                            Name = "Mountain View Cottage",
+                            Occupancy = 7,
+                            Rate = 625.0,
+                            SqMeters = 260,
+                            UpdatedDate = new DateTime(2026, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedDate = new DateTime(2026, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Find comfort in this elegant cottage featuring warm wooden finishes, a beautifully landscaped garden, and peaceful spaces for the whole family.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
+                            Name = "Willow Cottage",
+                            Occupancy = 4,
+                            Rate = 325.0,
+                            SqMeters = 170,
+                            UpdatedDate = new DateTime(2026, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedDate = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Enjoy a contemporary getaway with sophisticated furnishings, an open-plan layout, and sweeping views across the surrounding countryside.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa3.jpg",
+                            Name = "Horizon Cottage",
+                            Occupancy = 8,
+                            Rate = 700.0,
+                            SqMeters = 300,
+                            UpdatedDate = new DateTime(2026, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedDate = new DateTime(2026, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Step into a charming retreat with tasteful interiors, a private garden filled with seasonal flowers, and inviting spaces for a relaxing stay.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa4.jpg",
+                            Name = "Rosewood Cottage",
+                            Occupancy = 5,
+                            Rate = 375.0,
+                            SqMeters = 180,
+                            UpdatedDate = new DateTime(2026, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Details = "Reconnect with nature in a spacious woodland retreat featuring natural materials, comfortable bedrooms, and a secluded patio surrounded by greenery.",
+                            ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa5.jpg",
+                            Name = "Evergreen Cottage",
+                            Occupancy = 6,
+                            Rate = 450.0,
+                            SqMeters = 220,
+                            UpdatedDate = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 #pragma warning restore 612, 618

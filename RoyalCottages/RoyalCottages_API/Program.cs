@@ -17,8 +17,8 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-//// Seed data to Database
-//await SeedDataAsync(app);
+// Seed data to Database
+await SeedDataAsync(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -36,14 +36,13 @@ app.MapControllers();
 
 app.Run();
 
-/*
+
 static async Task SeedDataAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
 
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-    // Automaticaly apply any migrations that have not been applied to the DB
+    // Automatically apply any migrations that have not been applied to the DB
     await context.Database.MigrateAsync();
 }
-*/

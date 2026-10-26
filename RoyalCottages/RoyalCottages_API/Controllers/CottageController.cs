@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RoyalCottages_API.Data;
+using RoyalCottages_API.Models;
+using RoyalCottages_API.Models.DTO;
+using System.Collections;
 
 namespace RoyalCottages_API.Controllers
 {
@@ -7,47 +13,129 @@ namespace RoyalCottages_API.Controllers
     [ApiController]
     public class CottageController : ControllerBase
     {
-        // Endpoint to get all Cottages
-        [HttpGet]
-        public string GetCottages()
+        // Access the Database - access entity framework core
+        private readonly ApplicationDbContext _db;
+
+        private readonly IMapper _mapper;
+
+        // Constructor for Database - dependency injection
+        public CottageController(ApplicationDbContext db, IMapper mapper)
         {
-            return "List of all Cottages";
+            _db = db;
+            _mapper = mapper;
+        }
+
+        // Endpoint to get all Cottages
+        // ActionResult - To return a response to the client
+        // Async - To stop from blocking the thread
+        // IEnumerable - To return a collection of cottages
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Cottage>>> GetCottages()
+        {
+            return Ok(await _db.Cottage.ToListAsync());
         }
 
         // Endpoint to get  Cottage by Id
         // Route parameter binding
         [HttpGet("{id:int}")]
-        public string GetCottageById(int id)
+        public async Task<ActionResult<Cottage>> GetCottageById(int id)
         {
-            return "Get Cottage: " +id;
+            try
+            {
+                // ID Validation
+                if(id <= 0)
+                {
+                    return BadRequest("Cottage ID must be greater than 0");
+                }
+                // Get cottage by ID using linq query operation
+                var cottage = await _db.Cottage.FirstOrDefaultAsync(x => x.Id == id);
+
+                // Check if cottage is populated
+                if (cottage == null)
+                {
+                    return NotFound($"Cottage with ID {id} was not found!");
+                }
+                return Ok(cottage);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"An error occurred while retrieving cottage with ID {id}: {ex.Message}");
+            }
         }
 
-        //// Route parameter binding - string is default so it does not need to be declared
-        //[HttpGet("{id:int}/{name}")]
-        //public string GetCottageByIdAndName(int id, string name)
-        //{
-        //    return "Get Cottage: " + id + " " +name;
-        //}
+        // Endpoint to create Cottage
+        [HttpPost]
+        public async Task<ActionResult<Cottage>> CreateCottage(CottageCreateDTO cottageDTO)
+        {
+            try
+            {
+                // ID Validation
+                if (cottageDTO == null)
+                {
+                    return BadRequest("Cottage data is required");
+                }
+                // Convert to cottage object for _db
+                // Automatic mapping using mapper
+                Cottage cottage = _mapper.Map<Cottage>(cottageDTO);
 
-        //// Route parameter binding - string is default 
-        //[HttpGet("{id:int}/{name}")]
-        //public string GetCottageByIdAndNameFromRoute([FromRoute] int id, [FromRoute] string name)
-        //{
-        //    return "Get Cottage: " + id + " " + name;
-        //}        
-        
-        //// Route parameter binding - string is default 
-        //[HttpGet("{id:int}/{name}")]
-        //public string GetCottageByIdAndNameFromQuery([FromQuery] int id, [FromQuery] string name)
-        //{
-        //    return "Get Cottage: " + id + " " + name;
-        //}
+                // Manual mapping
+                /*
+                Cottage cottage = new()
+                {
+                    Name = cottageDTO.Name,
+                    Details = cottageDTO.Details,
+                    ImageUrl = cottageDTO.ImageUrl,
+                    Occupancy = cottageDTO.Occupancy,
+                    SqMeters = cottageDTO.SqMeters,
+                    Rate = cottageDTO.Rate,
+                    CreatedDate = DateTime.Now
+                };
+                */
+                // Create Cottage and send it and save it in DB
+                await _db.Cottage.AddAsync(cottage);
+                await _db.SaveChangesAsync();
+     
+                return Ok(cottageDTO);
+            }
+            catch (Exception ex)
+            {
 
-        //// Route parameter binding - string is default 
-        //[HttpGet("{id:int}/{name}")]
-        //public string GetCottageByIdAndNameFromHeader([FromHeader] int id, [FromHeader] string name)
-        //{
-        //    return "Get Cottage: " + id + " " + name;
-        //}
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"An error occurred while creating cottage!: {ex.Message}");
+            }
+        }
+
+        // Example of route parameter binding with different sources (commented out)
+        /*
+        // Route parameter binding - string is default so it does not need to be declared
+        [HttpGet("{id:int}/{name}")]
+        public string GetCottageByIdAndName(int id, string name)
+        {
+            return "Get Cottage: " + id + " " +name;
+        }
+
+        // Route parameter binding - string is default 
+        [HttpGet("{id:int}/{name}")]
+        public string GetCottageByIdAndNameFromRoute([FromRoute] int id, [FromRoute] string name)
+        {
+            return "Get Cottage: " + id + " " + name;
+        }        
+
+        // Route parameter binding - string is default 
+        [HttpGet("{id:int}/{name}")]
+        public string GetCottageByIdAndNameFromQuery([FromQuery] int id, [FromQuery] string name)
+        {
+            return "Get Cottage: " + id + " " + name;
+        }
+
+        // Route parameter binding - string is default 
+        [HttpGet("{id:int}/{name}")]
+        public string GetCottageByIdAndNameFromHeader([FromHeader] int id, [FromHeader] string name)
+        {
+            return "Get Cottage: " + id + " " + name;
+        }
+        */
     }
 }

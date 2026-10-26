@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RoyalCottages_API.Data;
+using RoyalCottages_API.Models;
+using RoyalCottages_API.Models.DTO;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,12 @@ options => options.UseSqlServer(builder.Configuration.GetConnectionString("Defau
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Add AutoMapper for DTO
+builder.Services.AddAutoMapper(o =>
+{
+    o.CreateMap<Cottage, CottageCreateDTO>().ReverseMap(); // ReverseMap() allows mapping in both directions
+});
 
 var app = builder.Build();
 
@@ -36,11 +44,12 @@ app.MapControllers();
 
 app.Run();
 
-
+// Seed data to Database
 static async Task SeedDataAsync(WebApplication app)
 {
+    // Create a scope to get the required services
     using var scope = app.Services.CreateScope();
-
+    // Get the ApplicationDbContext from the service provider
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
     // Automatically apply any migrations that have not been applied to the DB

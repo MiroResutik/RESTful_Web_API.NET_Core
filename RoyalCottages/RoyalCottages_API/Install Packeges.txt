@@ -1,0 +1,9 @@
+Install Nutget packages
+
+Microsoft.EntityFrameworkCore.SqlServer 
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.AspNetCore.OpenApi
+System.Security.Cryptography.Pkcs
+Scalar.AspNetCore
+Automapper
+

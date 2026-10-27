@@ -96,14 +96,90 @@ namespace RoyalCottages_API.Controllers
                 // Create Cottage and send it and save it in DB
                 await _db.Cottage.AddAsync(cottage);
                 await _db.SaveChangesAsync();
-     
-                return Ok(cottageDTO);
+
+                // Return the created cottage with a 201 status code and the location of the new resource
+                return CreatedAtAction(nameof(GetCottageById), new { id = cottage.Id }, cottage);
             }
             catch (Exception ex)
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     $"An error occurred while creating cottage!: {ex.Message}");
+            }
+        }
+
+        // Endpoint to update Cottage - ActionResult - To return a response to the client
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Cottage>> UpdateCottage(int id, CottageUpdateDTO cottageDTO)
+        {
+            try
+            {
+                // ID Validation
+                if (cottageDTO == null)
+                {
+                    return BadRequest("Cottage data is required");
+                }
+                // Check if the ID in the URL matches the ID in the request body
+                if (id != cottageDTO.Id)
+                {
+                    return BadRequest("Cottage ID in URL does not match Cottage ID in request body!!!");
+
+                }
+                // Get the existing cottage from the database
+                var existingCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Id == id);
+
+                // Check if the existing cottage is null
+                if (existingCottage == null)
+                {
+                    return NotFound($"Cottage with ID {id} was not found!!!");
+                }
+
+                // Map the updated properties from the DTO to the existing cottage entity
+                _mapper.Map(cottageDTO, existingCottage);
+
+                // Update the UpdatedDate property to the current date and time
+                existingCottage.UpdatedDate = DateTime.UtcNow;
+
+                // Save the changes to the database
+                await _db.SaveChangesAsync();
+
+                // Return the updated cottage with a 200 status code
+                return Ok(cottageDTO);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"An error occurred while updating cottage!: {ex.Message}");
+            }
+        }
+
+        // Endpoint to update Cottage 
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<Cottage>> DeleteCottage(int id)
+        {
+            try
+            {
+                // ID Validation
+                var existingCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Id == id);
+                // Check if the existing cottage is null
+                if (existingCottage == null)
+                {
+                    return NotFound($"Cottage with ID {id} was not found!!!");
+                }
+
+                // Remove the existing cottage from the database
+                _db.Cottage.Remove(existingCottage);
+
+                await _db.SaveChangesAsync();
+                // Return a 204 No Content response to indicate successful deletion
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"An error occurred while deleting the cottage!: {ex.Message}");
             }
         }
 

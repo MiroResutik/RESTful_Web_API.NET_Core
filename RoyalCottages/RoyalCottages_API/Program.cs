@@ -17,10 +17,13 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-// Add AutoMapper for DTO
+// Add AutoMapper for DTO 
+// AutoMapper is a library that helps to map objects from one type to another.
+// In this case, it is used to map between the Cottage model and the CottageCreateDTO and CottageUpdateDTO classes.
 builder.Services.AddAutoMapper(o =>
 {
     o.CreateMap<Cottage, CottageCreateDTO>().ReverseMap(); // ReverseMap() allows mapping in both directions
+    o.CreateMap<Cottage, CottageUpdateDTO>().ReverseMap(); 
 });
 
 var app = builder.Build();

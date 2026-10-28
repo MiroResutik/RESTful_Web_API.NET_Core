@@ -30,23 +30,31 @@ namespace RoyalCottages_API.Controllers
         // Async - To stop from blocking the thread
         // IEnumerable - To return a collection of cottages
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cottage>>> GetCottages()
+        public async Task<ActionResult<IEnumerable<CottageDTO>>> GetCottages()
         {
-            return Ok(await _db.Cottage.ToListAsync());
+            var cottages = await _db.Cottage.ToListAsync();
+            return Ok(_mapper.Map<List<CottageDTO>>(cottages));
         }
 
         // Endpoint to get  Cottage by Id
         // Route parameter binding
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Cottage>> GetCottageById(int id)
+        public async Task<ActionResult<ApiResponse<CottageDTO>>> GetCottageById(int id)
         {
             try
             {
                 // ID Validation
                 if(id <= 0)
                 {
-                    return BadRequest("Cottage ID must be greater than 0");
+                    return new ApiResponse<CottageDTO>()
+                    {
+                        StatusCode = 400,
+                        Errors = "Cottage ID must be greater than 0",
+                        Success = false,
+                        Message = "Bad Request"
+                    };
                 }
+
                 // Get cottage by ID using linq query operation
                 var cottage = await _db.Cottage.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -55,7 +63,15 @@ namespace RoyalCottages_API.Controllers
                 {
                     return NotFound($"Cottage with ID {id} was not found!");
                 }
-                return Ok(cottage);
+
+                return new ApiResponse<CottageDTO>()
+                {
+                    StatusCode = 200,
+                    Success = true,
+                    Message = "Records retrieved successfully",
+                    Data = _mapper.Map<CottageDTO>(cottage)
+                };
+                
             }
             catch (Exception ex)
             {
@@ -67,7 +83,7 @@ namespace RoyalCottages_API.Controllers
 
         // Endpoint to create Cottage
         [HttpPost]
-        public async Task<ActionResult<Cottage>> CreateCottage(CottageCreateDTO cottageDTO)
+        public async Task<ActionResult<CottageDTO>> CreateCottage(CottageCreateDTO cottageDTO)
         {
             try
             {
@@ -76,6 +92,15 @@ namespace RoyalCottages_API.Controllers
                 {
                     return BadRequest("Cottage data is required");
                 }
+                // Check for duplicate cottage name (case-insensitive) excluding the current cottage being updated
+                var duplicateCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Name.ToLower() == cottageDTO.Name.ToLower());
+
+                if (duplicateCottage != null)
+                {
+                    return Conflict($"A Cottage with hte name '{cottageDTO.Name}' already exists!!!");
+
+                }
+
                 // Convert to cottage object for _db
                 // Automatic mapping using mapper
                 Cottage cottage = _mapper.Map<Cottage>(cottageDTO);
@@ -98,7 +123,7 @@ namespace RoyalCottages_API.Controllers
                 await _db.SaveChangesAsync();
 
                 // Return the created cottage with a 201 status code and the location of the new resource
-                return CreatedAtAction(nameof(GetCottageById), new { id = cottage.Id }, cottage);
+                return CreatedAtAction(nameof(GetCottageById), new { id = cottage.Id }, _mapper.Map<CottageDTO>(cottage));
             }
             catch (Exception ex)
             {
@@ -110,7 +135,7 @@ namespace RoyalCottages_API.Controllers
 
         // Endpoint to update Cottage - ActionResult - To return a response to the client
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Cottage>> UpdateCottage(int id, CottageUpdateDTO cottageDTO)
+        public async Task<ActionResult<CottageUpdateDTO>> UpdateCottage(int id, CottageUpdateDTO cottageDTO)
         {
             try
             {
@@ -134,6 +159,14 @@ namespace RoyalCottages_API.Controllers
                     return NotFound($"Cottage with ID {id} was not found!!!");
                 }
 
+                // Check for duplicate cottage name (case-insensitive) excluding the current cottage being updated
+                var duplicateCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Name.ToLower() == cottageDTO.Name.ToLower() && v.Id != id);
+
+                if (duplicateCottage != null)
+                {
+                    return Conflict($"A Cottage with hte name '{cottageDTO.Name}' already exists!!!");
+
+                }
                 // Map the updated properties from the DTO to the existing cottage entity
                 _mapper.Map(cottageDTO, existingCottage);
 
@@ -156,7 +189,7 @@ namespace RoyalCottages_API.Controllers
 
         // Endpoint to update Cottage 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult<Cottage>> DeleteCottage(int id)
+        public async Task<ActionResult> DeleteCottage(int id)
         {
             try
             {

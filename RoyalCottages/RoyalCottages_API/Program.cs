@@ -24,6 +24,7 @@ builder.Services.AddAutoMapper(o =>
 {
     o.CreateMap<Cottage, CottageCreateDTO>().ReverseMap(); // ReverseMap() allows mapping in both directions
     o.CreateMap<Cottage, CottageUpdateDTO>().ReverseMap(); 
+    o.CreateMap<Cottage, CottageDTO>().ReverseMap();
 });
 
 var app = builder.Build();

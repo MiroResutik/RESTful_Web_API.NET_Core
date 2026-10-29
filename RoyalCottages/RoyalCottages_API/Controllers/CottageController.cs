@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace RoyalCottages_API.Controllers
 {
-    
+    // Route attribute to specify the base route for the controller
     [Route("api/cottage")]
     [ApiController]
     public class CottageController : ControllerBase
@@ -30,15 +30,23 @@ namespace RoyalCottages_API.Controllers
         // Async - To stop from blocking the thread
         // IEnumerable - To return a collection of cottages
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CottageDTO>>> GetCottages()
+        // ProducesResponseType - To specify the response type and status code
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<CottageDTO>>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ApiResponse<IEnumerable<CottageDTO>>>> GetCottages()
         {
             var cottages = await _db.Cottage.ToListAsync();
-            return Ok(_mapper.Map<List<CottageDTO>>(cottages));
+            var dtoResponseCottage = _mapper.Map<List<CottageDTO>>(cottages);
+            var response = ApiResponse<IEnumerable<CottageDTO>>.Ok(dtoResponseCottage, "Cottages retrieved successfully");
+            return Ok(response);
         }
 
         // Endpoint to get  Cottage by Id
         // Route parameter binding
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ApiResponse<CottageDTO>>> GetCottageById(int id)
         {
             try
@@ -46,6 +54,10 @@ namespace RoyalCottages_API.Controllers
                 // ID Validation
                 if(id <= 0)
                 {
+                    return NotFound(ApiResponse<object>.NotFound("Cottage ID must be greater than 0"));
+
+                    // Hardcoded Api Response
+                    /*
                     return new ApiResponse<CottageDTO>()
                     {
                         StatusCode = 400,
@@ -53,6 +65,7 @@ namespace RoyalCottages_API.Controllers
                         Success = false,
                         Message = "Bad Request"
                     };
+                    */
                 }
 
                 // Get cottage by ID using linq query operation
@@ -61,9 +74,15 @@ namespace RoyalCottages_API.Controllers
                 // Check if cottage is populated
                 if (cottage == null)
                 {
-                    return NotFound($"Cottage with ID {id} was not found!");
+                    return NotFound(ApiResponse<object>.NotFound($"Cottage with ID {id} was not found!"));
+                    //return NotFound($"Cottage with ID {id} was not found!");
                 }
 
+                // Return the cottage with a 200 status code and a success message
+                return Ok(ApiResponse<CottageDTO>.Ok(_mapper.Map<CottageDTO>(cottage), "Records retrieved successfully"));
+
+                // Hardcoded Api Response
+                /*
                 return new ApiResponse<CottageDTO>()
                 {
                     StatusCode = 200,
@@ -71,33 +90,43 @@ namespace RoyalCottages_API.Controllers
                     Message = "Records retrieved successfully",
                     Data = _mapper.Map<CottageDTO>(cottage)
                 };
-                
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"An error occurred while retrieving cottage with ID {id}: {ex.Message}");
-            }
+                */
         }
+        catch (Exception ex)
+        {
+                // Return a 500 status code and an error message
+                var errorResponse = ApiResponse<object>.Error(500, "An error occurred while retrieving cottage with ID", ex.Message);
+                return StatusCode(500, errorResponse);
+                //return StatusCode(StatusCodes.Status500InternalServerError,
+                //$"An error occurred while retrieving cottage with ID {id}: {ex.Message}");
+        }
+    }
 
         // Endpoint to create Cottage
         [HttpPost]
-        public async Task<ActionResult<CottageDTO>> CreateCottage(CottageCreateDTO cottageDTO)
+        [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ApiResponse<CottageDTO>>> CreateCottage(CottageCreateDTO cottageDTO)
         {
             try
             {
                 // ID Validation
                 if (cottageDTO == null)
                 {
-                    return BadRequest("Cottage data is required");
+                        return BadRequest(ApiResponse<object>.BadRequest("Cottage data is required"));
+
+                        //return BadRequest("Cottage data is required");
                 }
                 // Check for duplicate cottage name (case-insensitive) excluding the current cottage being updated
                 var duplicateCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Name.ToLower() == cottageDTO.Name.ToLower());
 
+                // Check if a duplicate cottage exists
                 if (duplicateCottage != null)
                 {
-                    return Conflict($"A Cottage with hte name '{cottageDTO.Name}' already exists!!!");
+                        return Conflict(ApiResponse<object>.Conflict($"A Cottage with the name '{cottageDTO.Name}' already exists!!!"));
+                        //return Conflict($"A Cottage with the name '{cottageDTO.Name}' already exists!!!");
 
                 }
 
@@ -118,36 +147,48 @@ namespace RoyalCottages_API.Controllers
                     CreatedDate = DateTime.Now
                 };
                 */
-                // Create Cottage and send it and save it in DB
-                await _db.Cottage.AddAsync(cottage);
-                await _db.SaveChangesAsync();
+                    // Create Cottage and send it and save it in DB
+                    await _db.Cottage.AddAsync(cottage);
+                    await _db.SaveChangesAsync();
+
+                // Return the created cottage with a 201 status code and a success message
+                var response = ApiResponse<CottageDTO>.CreatedAt(_mapper.Map<CottageDTO>(cottage), "Cottage created successfully");
 
                 // Return the created cottage with a 201 status code and the location of the new resource
-                return CreatedAtAction(nameof(GetCottageById), new { id = cottage.Id }, _mapper.Map<CottageDTO>(cottage));
-            }
-            catch (Exception ex)
-            {
+                return CreatedAtAction(nameof(GetCottageById), new { id = cottage.Id }, response);
 
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"An error occurred while creating cottage!: {ex.Message}");
-            }
+                }
+                catch (Exception ex)
+                {
+                    var errorResponse = ApiResponse<object>.Error(500, "An error occurred while creating cottage", ex.Message);
+                    return StatusCode(500, errorResponse);
+                }
         }
 
         // Endpoint to update Cottage - ActionResult - To return a response to the client
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<CottageUpdateDTO>> UpdateCottage(int id, CottageUpdateDTO cottageDTO)
+        [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiResponse<CottageDTO>>> UpdateCottage(int id, CottageUpdateDTO cottageDTO)
         {
             try
             {
                 // ID Validation
                 if (cottageDTO == null)
                 {
-                    return BadRequest("Cottage data is required");
+                    return BadRequest(ApiResponse<object>.BadRequest("Cottage data is required"));
+
+                    //return BadRequest("Cottage data is required");
                 }
                 // Check if the ID in the URL matches the ID in the request body
                 if (id != cottageDTO.Id)
                 {
-                    return BadRequest("Cottage ID in URL does not match Cottage ID in request body!!!");
+                    return BadRequest(ApiResponse<object>.BadRequest("Cottage ID in URL does not match Cottage ID in request body!!!"));
+
+                    //return BadRequest("Cottage ID in URL does not match Cottage ID in request body!!!");
 
                 }
                 // Get the existing cottage from the database
@@ -156,17 +197,23 @@ namespace RoyalCottages_API.Controllers
                 // Check if the existing cottage is null
                 if (existingCottage == null)
                 {
-                    return NotFound($"Cottage with ID {id} was not found!!!");
+                    return NotFound(ApiResponse<object>.NotFound($"Cottage with ID {id} was not found!"));
+
+                    //return NotFound($"Cottage with ID {id} was not found!!!");
                 }
 
                 // Check for duplicate cottage name (case-insensitive) excluding the current cottage being updated
                 var duplicateCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Name.ToLower() == cottageDTO.Name.ToLower() && v.Id != id);
 
+                // Check if a duplicate cottage exists
                 if (duplicateCottage != null)
                 {
-                    return Conflict($"A Cottage with hte name '{cottageDTO.Name}' already exists!!!");
+                    return Conflict(ApiResponse<object>.Conflict($"A Cottage with the name '{cottageDTO.Name}' already exists!!!"));
+
+                    //return Conflict($"A Cottage with hte name '{cottageDTO.Name}' already exists!!!");
 
                 }
+
                 // Map the updated properties from the DTO to the existing cottage entity
                 _mapper.Map(cottageDTO, existingCottage);
 
@@ -176,43 +223,56 @@ namespace RoyalCottages_API.Controllers
                 // Save the changes to the database
                 await _db.SaveChangesAsync();
 
+                // Return the updated cottage with a 200 status code and a success message
+                var response = ApiResponse<CottageDTO>.Ok(_mapper.Map<CottageDTO>(cottageDTO),"Cottage updated successfully");
+
                 // Return the updated cottage with a 200 status code
-                return Ok(cottageDTO);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"An error occurred while updating cottage!: {ex.Message}");
+                var errorResponse = ApiResponse<object>.Error(500, "An error occurred while updating cottage", ex.Message);
+                return StatusCode(500, errorResponse);
+                //return StatusCode(StatusCodes.Status500InternalServerError,
+                    //$"An error occurred while updating cottage!: {ex.Message}");
             }
         }
 
         // Endpoint to update Cottage 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteCottage(int id)
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApiResponse<object>>> DeleteCottage(int id)
         {
             try
             {
                 // ID Validation
                 var existingCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Id == id);
+
                 // Check if the existing cottage is null
                 if (existingCottage == null)
                 {
-                    return NotFound($"Cottage with ID {id} was not found!!!");
+                    return NotFound(ApiResponse<object>.NotFound($"Cottage with ID {id} was not found!"));
+
+                    //return NotFound($"Cottage with ID {id} was not found!!!");
                 }
 
                 // Remove the existing cottage from the database
                 _db.Cottage.Remove(existingCottage);
 
                 await _db.SaveChangesAsync();
-                // Return a 204 No Content response to indicate successful deletion
-                return NoContent();
+
+                // Return a 200 status code and a success message
+                var response = ApiResponse<object>.NoContent("Cottage deleted successfully");
+                return Ok(response);
             }
             catch (Exception ex)
             {
-
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"An error occurred while deleting the cottage!: {ex.Message}");
+                var errorResponse = ApiResponse<object>.Error(500, "An error occurred while deleting the cottage", ex.Message);
+                return StatusCode(500, errorResponse);
+                //return StatusCode(StatusCodes.Status500InternalServerError,
+                    //$"An error occurred while deleting the cottage!: {ex.Message}");
             }
         }
 

@@ -25,6 +25,7 @@ builder.Services.AddAutoMapper(o =>
     o.CreateMap<Cottage, CottageCreateDTO>().ReverseMap(); // ReverseMap() allows mapping in both directions
     o.CreateMap<Cottage, CottageUpdateDTO>().ReverseMap(); 
     o.CreateMap<Cottage, CottageDTO>().ReverseMap();
+    o.CreateMap<CottageUpdateDTO, CottageDTO>().ReverseMap();
 });
 
 var app = builder.Build();
@@ -40,10 +41,13 @@ if (app.Environment.IsDevelopment())
 
 }
 
+// Use HTTPS redirection to ensure that all HTTP requests are redirected to HTTPS for security.
 app.UseHttpsRedirection();
 
+// Use authorization middleware to ensure that the API endpoints are protected and require proper authentication and authorization.
 app.UseAuthorization();
 
+// Map controller routes to the endpoints defined in the controllers.
 app.MapControllers();
 
 app.Run();

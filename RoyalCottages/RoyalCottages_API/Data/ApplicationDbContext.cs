@@ -7,8 +7,13 @@ namespace RoyalCottages_API.Data
     // Accepting dbContextOptions to configure the database connection and other options
     public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {
+        // Define DbSet properties Cottage entity
         public DbSet<Cottage> Cottage { get; set; }
 
+        // Define DbSet properties for User entity
+        public DbSet<User> Users { get; set; }
+
+        // Override OnModelCreating to configure the model and seed initial data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

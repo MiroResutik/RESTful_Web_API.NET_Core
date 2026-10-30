@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
 using RoyalCottages_API.Models.DTO;
+using RoyalCottages_API.Services;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,14 +20,20 @@ builder.Services.AddOpenApi();
 
 // Add AutoMapper for DTO 
 // AutoMapper is a library that helps to map objects from one type to another.
-// In this case, it is used to map between the Cottage model and the CottageCreateDTO and CottageUpdateDTO classes.
+// In this case, it is used to map between the Cottage model and the CottageCreateDTO and CottageUpdateDTO
+// classes and User model and UserDTO class. This is useful for separating the data that is sent to the client
+// from the data that is stored in the database.
 builder.Services.AddAutoMapper(o =>
 {
     o.CreateMap<Cottage, CottageCreateDTO>().ReverseMap(); // ReverseMap() allows mapping in both directions
     o.CreateMap<Cottage, CottageUpdateDTO>().ReverseMap(); 
     o.CreateMap<Cottage, CottageDTO>().ReverseMap();
     o.CreateMap<CottageUpdateDTO, CottageDTO>().ReverseMap();
+    o.CreateMap<User, UserDTO>().ReverseMap();
 });
+
+// Add AuthService for authentication and authorization
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

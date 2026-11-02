@@ -4,6 +4,6 @@
     {
         public string? Token { get; set; }
 
-        public UserDTO? User { get; set; }
+        public UserDTO? UserDTO { get; set; }
     }
 }

@@ -1,16 +1,22 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
 using RoyalCottages_API.Models.DTO;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace RoyalCottages_API.Services
 {
+    // Service for handling authentication-related operations
     public class AuthService : IAuthService
     {
         // Inject the database context into the service
         private readonly ApplicationDbContext _db;
-
+        // Inject the configuration into the service
+        private readonly IConfiguration _configuration;
         // Inject the AutoMapper into the service
         private readonly IMapper _mapper;
 
@@ -18,6 +24,7 @@ namespace RoyalCottages_API.Services
         public AuthService(ApplicationDbContext db, IConfiguration configuration, IMapper mapper)
         {
             _db = db;
+            _configuration = configuration;
             _mapper = mapper;
         }
 
@@ -31,7 +38,35 @@ namespace RoyalCottages_API.Services
         // Endpoint for user login
         public async Task<LoginResponseDTO?> LoginAsync(LoginRequestDTO loginRequestDTO)
         {
-            throw new NotImplementedException();
+            // Validate the login request
+            try
+            {
+                // Find the user in the database by email (case-insensitive)
+                var user = await _db.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == loginRequestDTO.Email.ToLower());
+
+                // Check if the user object is null or if the password does not match
+                if (user == null || user.Password != loginRequestDTO.Password)
+                {
+                    return null;
+                }
+
+                // Generate a JWT token for the authenticated user
+                var token = GenerateJwtToken(user);
+
+
+                // Create a login response DTO
+                return new LoginResponseDTO
+                {
+                    UserDTO = _mapper.Map<UserDTO>(user),
+                    Token = token
+                };
+               
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and throw a new exception with a user-friendly message
+                throw new InvalidOperationException($"Error occurred during user login: {ex.Message}");
+            }
         }
 
         // Endpoint for user registration
@@ -67,6 +102,36 @@ namespace RoyalCottages_API.Services
                 // Log the exception and throw a new exception with a user-friendly message
                 throw new InvalidOperationException($"Error occurred while registering user: {ex.Message}");
             }
+        }
+
+        // Generate a JWT token for the authenticated user
+        private string GenerateJwtToken(User user)
+        {
+            // Get the secret key from the configuration
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("JwtSettings")["Secret"]);
+
+            // Create a token descriptor with claims, expiration, and signing credentials
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                // Set the subject of the token with claims for user ID, email, and role
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Role, user.Role)
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                // Set the signing credentials using the secret key and HMAC SHA256 algorithm
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            // Create a token handler to generate the JWT token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            // Create the token using the token descriptor
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            // Return the serialized token as a string
+            return tokenHandler.WriteToken(token);
         }
     }
 }

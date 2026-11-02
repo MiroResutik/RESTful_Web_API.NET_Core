@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RoyalCottages_API.Data;
@@ -11,6 +12,7 @@ namespace RoyalCottages_API.Controllers
     // Route attribute to specify the base route for the controller
     [Route("api/cottage")]
     [ApiController]
+    [Authorize(Roles ="Customer, Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
     public class CottageController : ControllerBase
     {
         // Access the Database - access entity framework core
@@ -30,6 +32,7 @@ namespace RoyalCottages_API.Controllers
         // Async - To stop from blocking the thread
         // IEnumerable - To return a collection of cottages
         [HttpGet]
+        // [Authorize(Roles ="Admin")] // Overwrite at action level - Authorize attribute to restrict access to users with the "Admin" role 
         // ProducesResponseType - To specify the response type and status code
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<CottageDTO>>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
@@ -44,6 +47,7 @@ namespace RoyalCottages_API.Controllers
         // Endpoint to get  Cottage by Id
         // Route parameter binding
         [HttpGet("{id:int}")]
+        // [AllowAnonymous] // Anyone can access
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]

@@ -6,4 +6,16 @@ Microsoft.AspNetCore.OpenApi
 System.Security.Cryptography.Pkcs
 Scalar.AspNetCore
 Automapper
+Microsoft.AspNetCore.Authentication.JwtBeare
+
+
+User login
+miro@test.co.uk
+Admin123
+
+Authorization
+Jwt Token: 
+Bearer
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJtaXJvQHRlc3QuY28udWsiLCJ1bmlxdWVfbmFtZSI6Ik1pcm8gVGVzdCBBdXRoZW50aWNhdGlvbiIsInJvbGUiOiJDdXN0b21lciIsIm5iZiI6MTc5MzYxODMzNiwiZXhwIjoxNzk0MjIzMTM2LCJpYXQiOjE3OTM2MTgzMzZ9.gsd2IuYR-WoTDRU4TwpuGNbZO8JXwp59DdbG7ec__20
+
 

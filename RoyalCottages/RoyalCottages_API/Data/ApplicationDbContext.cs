@@ -13,6 +13,9 @@ namespace RoyalCottages_API.Data
         // Define DbSet properties for User entity
         public DbSet<User> Users { get; set; }
 
+
+        public DbSet<CottageAmenities> CottageAmenities { get; set; }
+
         // Override OnModelCreating to configure the model and seed initial data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

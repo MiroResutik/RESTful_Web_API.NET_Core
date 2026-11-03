@@ -17,7 +17,7 @@ namespace RoyalCottages_API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.13")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -242,6 +242,37 @@ namespace RoyalCottages_API.Migrations
                         });
                 });
 
+            modelBuilder.Entity("RoyalCottages_API.Models.CottageAmenities", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CottageId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CottageId");
+
+                    b.ToTable("CottageAmenities");
+                });
+
             modelBuilder.Entity("RoyalCottages_API.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -277,6 +308,22 @@ namespace RoyalCottages_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RoyalCottages_API.Models.CottageAmenities", b =>
+                {
+                    b.HasOne("RoyalCottages_API.Models.Cottage", "Cottage")
+                        .WithMany("Amenities")
+                        .HasForeignKey("CottageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cottage");
+                });
+
+            modelBuilder.Entity("RoyalCottages_API.Models.Cottage", b =>
+                {
+                    b.Navigation("Amenities");
                 });
 #pragma warning restore 612, 618
         }

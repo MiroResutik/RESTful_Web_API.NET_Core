@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="RoyalCottages_API/RoyalCottages_API.csproj" />
+  <Project Path="RoyalCottage_DTO/RoyalCottage_DTO.csproj" Id="81a91d4f-0e72-4b57-9175-8febcd8a98b4" />
+  <Project Path="RoyalCottage_Web/RoyalCottage_Web.csproj" Id="f6a53893-0f12-4866-8561-332150d35e9b" />
 </Solution>

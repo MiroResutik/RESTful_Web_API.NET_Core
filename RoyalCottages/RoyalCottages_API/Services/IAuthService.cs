@@ -1,4 +1,4 @@
-﻿using RoyalCottages_API.Models.DTO;
+﻿using RoyalCottage_DTO;
 
 namespace RoyalCottages_API.Services
 {

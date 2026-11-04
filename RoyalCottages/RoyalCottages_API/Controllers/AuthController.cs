@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RoyalCottage_DTO;
 using RoyalCottages_API.Data;
-using RoyalCottages_API.Models.DTO;
 using RoyalCottages_API.Services;
 
 namespace RoyalCottages_API.Controllers

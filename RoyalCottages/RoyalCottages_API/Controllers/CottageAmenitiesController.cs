@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RoyalCottage_DTO;
 using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
-using RoyalCottages_API.Models.DTO;
 
 namespace RoyalCottages_API.Controllers
 {

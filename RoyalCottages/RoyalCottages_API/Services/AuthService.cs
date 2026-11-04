@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RoyalCottage_DTO;
 using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
-using RoyalCottages_API.Models.DTO;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -108,7 +108,7 @@ namespace RoyalCottages_API.Services
         private string GenerateJwtToken(User user)
         {
             // Get the secret key from the configuration
-            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("JwtSettings")["Secret"]);
+            var secret = _configuration.GetSection("JwtSettings")["Secret"]; if (string.IsNullOrEmpty(secret)) throw new InvalidOperationException("JwtSecret not configured"); var key = Encoding.ASCII.GetBytes(secret);
 
             // Create a token descriptor with claims, expiration, and signing credentials
             var tokenDescriptor = new SecurityTokenDescriptor

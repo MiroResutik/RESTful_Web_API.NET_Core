@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Get the secret key from the configuration for JWT token generation and validation
 var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtSettings")["Secret"]);
+
 // Add services to the container.
 
 // Add authentication services to the container and configure JWT bearer authentication
@@ -87,6 +88,12 @@ builder.Services.AddAutoMapper(o =>
     o.CreateMap<Cottage, CottageDTO>().ReverseMap();
     o.CreateMap<CottageUpdateDTO, CottageDTO>().ReverseMap();
     o.CreateMap<User, UserDTO>().ReverseMap();
+    o.CreateMap<CottageAmenities, CottageAmenitiesCreateDTO>().ReverseMap();
+    o.CreateMap<CottageAmenities, CottageAmenitiesUpdateDTO>().ReverseMap();
+    o.CreateMap<CottageAmenities, CottageAmenitiesDTO>()
+    .ForMember(destination =>destination.CottageName, opt=>opt.MapFrom(src=>src.Cottage!=null? src.Cottage.Name : null));
+    o.CreateMap<CottageAmenitiesDTO, CottageAmenities>();
+
 });
 
 // Add AuthService for authentication and authorization

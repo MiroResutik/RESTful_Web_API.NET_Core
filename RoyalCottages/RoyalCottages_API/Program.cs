@@ -36,6 +36,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors();
+
 // Set up default connection to Server SQL
 builder.Services.AddDbContext<ApplicationDbContext>(
 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -111,6 +113,8 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 
 }
+// No restriction on API Enpoint
+app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("*"));
 
 // Use HTTPS redirection to ensure that all HTTP requests are redirected to HTTPS for security.
 app.UseHttpsRedirection();

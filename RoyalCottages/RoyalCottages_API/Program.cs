@@ -113,7 +113,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 
 }
-// No restriction on API Enpoint
+// No restriction on API Endpoint
 app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("*"));
 
 // Use HTTPS redirection to ensure that all HTTP requests are redirected to HTTPS for security.

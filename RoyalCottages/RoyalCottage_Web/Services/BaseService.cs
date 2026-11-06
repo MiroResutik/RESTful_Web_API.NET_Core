@@ -38,7 +38,7 @@ namespace RoyalCottage_Web.Services
                 // Create an HttpRequestMessage with the specified URL and HTTP method based on the ApiType
                 var message = new HttpRequestMessage
                 {
-                    RequestUri = new Uri(apiRequest.Url),
+                    RequestUri = new Uri(apiRequest.Url, uriKind:UriKind.Relative),
                     Method = GetHttpMethod(apiRequest.ApiType)
                 };
 

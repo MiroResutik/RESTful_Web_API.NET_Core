@@ -1,7 +1,36 @@
+using RoyalCottage_DTO;
+using RoyalCottage_Web.Services;
+using RoyalCottage_Web.Services.IServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Register AutoMapper with the specified mappings
+builder.Services.AddAutoMapper(o =>
+{
+    o.CreateMap<CottageDTO, CottageCreateDTO>().ReverseMap(); // ReverseMap() allows mapping in both directions
+    o.CreateMap<CottageDTO, CottageUpdateDTO>().ReverseMap();
+
+});
+
+// Register the CottageService with the dependency injection container
+builder.Services.AddHttpClient("RoyalCottageAPI", client =>
+{
+    // Retrieve the CottageAPI URL from the configuration settings
+    var cottageAPIUrl = builder.Configuration.GetValue<string>("ServiceUrl:CottageAPI");
+
+    // Set the base address for the HttpClient to the CottageAPI URL
+    client.BaseAddress = new Uri(cottageAPIUrl);
+
+    // Add the "Accept" header to indicate that the client expects JSON responses
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+});
+
+// Register the ICottageService interface with its implementation CottageService
+builder.Services.AddScoped<ICottageService, CottageService>();
 
 var app = builder.Build();
 

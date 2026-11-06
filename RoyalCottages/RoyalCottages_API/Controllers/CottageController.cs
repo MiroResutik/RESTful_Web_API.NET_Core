@@ -12,7 +12,8 @@ namespace RoyalCottages_API.Controllers
     // Route attribute to specify the base route for the controller
     [Route("api/cottage")]
     [ApiController]
-    [Authorize(Roles ="Customer, Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
+    [AllowAnonymous] // Allow anyone to access - only for development phase
+    //[Authorize(Roles ="Customer, Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
     public class CottageController : ControllerBase
     {
         // Access the Database - access entity framework core
@@ -47,7 +48,7 @@ namespace RoyalCottages_API.Controllers
         // Endpoint to get  Cottage by Id
         // Route parameter binding
         [HttpGet("{id:int}")]
-        // [AllowAnonymous] // Anyone can access
+        [AllowAnonymous] // Anyone can access
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]

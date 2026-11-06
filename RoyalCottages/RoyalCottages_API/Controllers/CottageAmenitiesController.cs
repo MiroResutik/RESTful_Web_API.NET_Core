@@ -10,6 +10,7 @@ namespace RoyalCottages_API.Controllers
 {
     [Route("api/cottage-amenities")]
     [ApiController]
+    [AllowAnonymous] // Allow anyone to access - only for development phase
     //[Authorize(Roles = "Customer, Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
 
     public class CottageAmenitiesController : ControllerBase

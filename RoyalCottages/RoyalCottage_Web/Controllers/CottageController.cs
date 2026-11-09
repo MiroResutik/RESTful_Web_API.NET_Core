@@ -45,6 +45,11 @@ namespace RoyalCottage_Web.Controllers
             return View(cottageList);
         }
 
+        public  IActionResult Create()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

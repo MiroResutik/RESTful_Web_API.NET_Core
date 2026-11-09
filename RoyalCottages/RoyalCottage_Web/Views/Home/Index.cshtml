@@ -1,351 +1,748 @@
-﻿@using RoyalCottage_DTO
-
+﻿
+@using RoyalCottage_DTO
 @model IEnumerable<CottageDTO>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Luxury Cottage Collection";
+
+    var cottages = Model?.ToList() ?? new List<CottageDTO>();
+
+    var totalCottages = cottages.Count;
+    var startingRate = totalCottages > 0 ? cottages.Min(c => c.Rate) : 0;
+    var maxOccupancy = totalCottages > 0 ? cottages.Max(c => c.Occupancy) : 0;
+    var totalSqMeters = cottages.Sum(c => c.SqMeters);
 }
 
-<!-- Hero Carousel Section -->
-<div id="heroCarousel" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
+<!-- Hero Carousel -->
+<div id="heroCarousel" class="carousel slide carousel-fade hero-carousel"
+     data-bs-ride="carousel">
+
     <div class="carousel-indicators">
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#heroCarousel"
+                data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel"
+                data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel"
+                data-bs-slide-to="2"></button>
     </div>
+
     <div class="carousel-inner">
+
         <div class="carousel-item active">
-            <div class="carousel-slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                <div class="carousel-caption-custom">
-                    <h1 class="display-3 fw-bold mb-4 animate-fade-in">Welcome to Luxury Villas</h1>
-                    <p class="lead mb-4 fs-4">Discover your perfect getaway in paradise</p>
-                    <a href="#villa-listings" class="btn btn-light btn-lg px-5 smooth-scroll">
-                        <i class="bi bi-arrow-down-circle"></i> Explore Villas
+            <div class="hero-slide hero-one">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-subtitle">WELCOME TO ROYAL COTTAGE</span>
+                    <h1>Escape to Something Extraordinary</h1>
+                    <p>
+                        Discover beautiful cottages designed for comfort,
+                        relaxation and unforgettable experiences.
+                    </p>
+                    <a href="#cottage-listings" class="btn btn-teal">
+                        Explore Our Collection
+                        <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
             </div>
         </div>
+
         <div class="carousel-item">
-            <div class="carousel-slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                <div class="carousel-caption-custom">
-                    <h1 class="display-3 fw-bold mb-4 animate-fade-in">Premium Amenities</h1>
-                    <p class="lead mb-4 fs-4">Experience luxury living at its finest</p>
-                    <a href="#villa-listings" class="btn btn-light btn-lg px-5 smooth-scroll">
-                        <i class="bi bi-star-fill"></i> View Collection
+            <div class="hero-slide hero-two">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-subtitle">EXCLUSIVE EXPERIENCES</span>
+                    <h1>Your Perfect Getaway Awaits</h1>
+                    <p>
+                        From peaceful countryside retreats to stunning
+                        coastal escapes, find your perfect destination.
+                    </p>
+                    <a href="#cottage-listings" class="btn btn-teal">
+                        Discover More
+                        <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
             </div>
         </div>
+
         <div class="carousel-item">
-            <div class="carousel-slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                <div class="carousel-caption-custom">
-                    <h1 class="display-3 fw-bold mb-4 animate-fade-in">Book Your Dream Villa</h1>
-                    <p class="lead mb-4 fs-4">Unforgettable memories await you</p>
-                    <a href="#villa-listings" class="btn btn-light btn-lg px-5 smooth-scroll">
-                        <i class="bi bi-calendar-check"></i> Check Availability
+            <div class="hero-slide hero-three">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-subtitle">LUXURY MEETS COMFORT</span>
+                    <h1>Make Every Stay Special</h1>
+                    <p>
+                        Beautiful surroundings, exceptional comfort
+                        and memories that last a lifetime.
+                    </p>
+                    <a href="#cottage-listings" class="btn btn-teal">
+                        Find Your Cottage
+                        <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
             </div>
         </div>
+
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+    <button class="carousel-control-prev" type="button"
+            data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+    <button class="carousel-control-next" type="button"
+            data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
         <span class="visually-hidden">Next</span>
     </button>
+
 </div>
 
-<div class="container mt-4" id="villa-listings">
-    <!-- Header Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="text-center">
-                <h2 class="display-4 fw-bold text-primary">
-                    <i class="bi bi-house-door-fill"></i> Luxury Villa Collection
-                </h2>
-                <p class="lead text-muted">Browse our exclusive selection of premium properties</p>
-                <div class="divider-custom">
-                    <div class="divider-line"></div>
-                    <div class="divider-icon"><i class="bi bi-gem"></i></div>
-                    <div class="divider-line"></div>
-                </div>
-            </div>
+<div class="container cottage-container" id="cottage-listings">
+
+    <!-- Section Heading -->
+    <div class="section-heading text-center">
+
+        <span class="section-subtitle">DISCOVER YOUR NEXT ESCAPE</span>
+
+        <h2>Our Exclusive Cottage Collection</h2>
+
+        <p>
+            Explore our carefully selected cottages offering comfort,
+            elegance and unforgettable experiences.
+        </p>
+
+        <div class="blue-divider">
+            <span></span>
+            <i class="bi bi-gem"></i>
+            <span></span>
         </div>
+
     </div>
+
+    <!-- Error Message -->
     @if (TempData["error"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i>@TempData["error"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-danger alert-dismissible fade show"
+             role="alert">
+
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            @TempData["error"]
+
+            <button type="button" class="btn-close"
+                    data-bs-dismiss="alert" aria-label="Close"></button>
+
         </div>
     }
-    @if (Model == null || !Model.Any())
+
+    <!-- Empty State -->
+    @if (!cottages.Any())
     {
-        <div class="row">
-            <div class="col-12">
-                <div class="alert alert-info text-center" role="alert">
-                    <i class="bi bi-info-circle-fill fs-1 d-block mb-3"></i>
-                    <h4>No Villas Available</h4>
-                    <p class="mb-0">There are currently no villas to display. Please check back later!</p>
-                </div>
-            </div>
+        <div class="empty-state text-center">
+
+            <i class="bi bi-house-x"></i>
+
+            <h4>No Cottages Available</h4>
+
+            <p>
+                There are currently no cottages available.
+                Please check back later.
+            </p>
+
         </div>
     }
     else
     {
-        <!-- Villa Cards Grid -->
+        <!-- Cottage Cards -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            @foreach (var cottage in Model)
+
+            @foreach (var cottage in cottages)
             {
                 <div class="col">
-                    <div class="card h-100 shadow-sm hover-shadow transition">
-                        <!-- Villa Image -->
-                        <div class="position-relative overflow-hidden">
-                            @if(!string.IsNullOrEmpty(cottage.ImageUrl))
-                            {
-                                <img src="@cottage.ImageUrl" class="card-img-top villa-image" style="height: 250px; object-fit: cover;">
 
+                    <div class="cottage-card h-100">
+
+                        <!-- Cottage Image -->
+                        <div class="cottage-image-wrapper">
+
+                            @if (!string.IsNullOrWhiteSpace(cottage.ImageUrl))
+                            {
+                                <img src="@cottage.ImageUrl"
+                                     alt="@cottage.Name"
+                                     class="cottage-image"
+                                     loading="lazy" />
                             }
                             else
                             {
-                                <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" style="height: 250px;">
-                                    <i class="bi bi-image text-white" style="font-size: 4rem;"></i>
+                                <div class="image-placeholder">
+                                    <i class="bi bi-house-door"></i>
                                 </div>
                             }
 
                             <!-- Price Badge -->
-                            <div class="position-absolute top-0 end-0 m-3">
-                                <span class="badge bg-success fs-6 px-3 py-2 rounded-pill shadow">
-                                    £@cottage.Rate.ToString("0")/night
-                                </span>
+                            <div class="price-tag">
+                                <span>£@cottage.Rate.ToString("N0")</span>
+                                <small>/ night</small>
                             </div>
+
+                            <div class="image-overlay"></div>
+
                         </div>
 
-                        <!-- Card Body -->
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-primary fw-bold mb-3">@cottage.Name</h5>
+                        <!-- Cottage Information -->
+                        <div class="cottage-card-body">
 
-                            <p class="card-text text-muted flex-grow-1">
+                            <h5 class="cottage-title">
+                                @cottage.Name
+                            </h5>
+
+                            <p class="cottage-description">
                                 @cottage.Details
                             </p>
 
-                            <!-- Villa Details -->
-                            <div class="mb-3">
-                                <div class="row g-2">
-                                    <div class="col-6">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-people-fill text-primary me-2"></i>
-                                            <small class="text-muted">@cottage.Occupancy Guests</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-house text-primary me-2"></i>
-                                            <small class="text-muted">@cottage.SqMeters SqMeter</small>
-                                        </div>
+                            <div class="cottage-divider"></div>
+
+                            <!-- Cottage Features -->
+                            <div class="cottage-features">
+
+                                <div class="feature-item">
+                                    <i class="bi bi-people"></i>
+                                    <div>
+                                        <strong>@cottage.Occupancy</strong>
+                                        <small>Guests</small>
                                     </div>
                                 </div>
+
+                                <div class="feature-item">
+                                    <i class="bi bi-arrows-fullscreen"></i>
+                                    <div>
+                                        <strong>@cottage.SqMeters</strong>
+                                        <small>Sq. meters</small>
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <!-- Action Buttons -->
-                            <div class="d-grid gap-2">
-                                <a href="mailto:hello@dotnetmastery.com?"
-                                   class="btn btn-primary btn-hover">
-                                    <i class="bi bi-envelope"></i> Contact Us
-                                </a>
-                            </div>
+                            <!-- Contact Button -->
+                            <a href="mailto:hello@dotnetmastery.com?subject=Enquiry%20about%20@Uri.EscapeDataString(cottage.Name)"
+                               class="btn btn-cottage w-100">
+
+                                <i class="bi bi-envelope me-2"></i>
+                                Enquire About This Cottage
+                                <i class="bi bi-arrow-right ms-auto"></i>
+
+                            </a>
+
                         </div>
 
                     </div>
+
                 </div>
             }
+
         </div>
     }
+
     <!-- Statistics Section -->
-    <div class="row mt-5 mb-5">
-        <div class="col-12">
-            <div class="card shadow-lg border-0 stats-card">
-                <div class="card-body p-4">
-                    <h3 class="text-center mb-4 fw-bold">At a Glance</h3>
-                    <div class="row text-center g-4">
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <i class="bi bi-house-heart-fill text-primary fs-1 mb-3"></i>
-                                <h3 class="text-primary fw-bold mb-1">@Model.Count()</h3>
-                                <p class="text-muted mb-0">Total Villas</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <i class="bi bi-cash-coin text-success fs-1 mb-3"></i>
-                                <h3 class="text-success fw-bold mb-1">@Model.Min(v=>v.Rate).ToString("N0")</h3>
-                                <p class="text-muted mb-0">Starting From</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <i class="bi bi-people-fill text-info fs-1 mb-3"></i>
-                                <h3 class="text-info fw-bold mb-1">@Model.Max(o=>o.Occupancy)</h3>
-                                <p class="text-muted mb-0">Max Occupancy</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stat-item">
-                                <i class="bi bi-arrows-fullscreen text-warning fs-1 mb-3"></i>
-                                <h3 class="text-warning fw-bold mb-1">@Model.Sum(s=>s.SqMeters).ToString("N0")</h3>
-                                <p class="text-muted mb-0">Total SqMeter</p>
-                            </div>
-                        </div>
+    <section class="statistics-section">
+
+        <div class="section-heading text-center">
+
+            <span class="section-subtitle">THE ROYAL COTTAGE EXPERIENCE</span>
+
+            <h2>Our Collection at a Glance</h2>
+
+            <p>Discover what makes our cottage collection special.</p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="bi bi-house-heart"></i>
                     </div>
+                    <h3>@totalCottages</h3>
+                    <p>Total Cottages</p>
                 </div>
             </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                    <h3>£@(totalCottages > 0 ? startingRate.ToString("N0") : "N/A")</h3>
+                    <p>Starting Price / Night</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3>@maxOccupancy</h3>
+                    <p>Maximum Occupancy</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="bi bi-aspect-ratio"></i>
+                    </div>
+                    <h3>@totalSqMeters.ToString("N0")</h3>
+                    <p>Total Sq. Meters</p>
+                </div>
+            </div>
+
         </div>
-    </div>
+
+    </section>
 
 </div>
 
-<!-- Custom Styles -->
+<!-- Custom CSS -->
 <style>
-    /* Carousel Styles */
-    .carousel-slide {
-        height: 500px;
+
+    :root {
+        --cottage-dark: #172554;
+        --cottage-secondary: #1e3a8a;
+        --cottage-blue: #2563eb;
+        --cottage-teal: #14b8a6;
+        --cottage-teal-light: #5eead4;
+        --cottage-text: #334155;
+        --cottage-muted: #64748b;
+        --cottage-light: #f8fafc;
+        --cottage-white: #ffffff;
+    }
+
+    /* Global */
+
+    .cottage-container {
+        padding-top: 65px;
+        padding-bottom: 50px;
+    }
+
+    /* Hero Carousel */
+
+    .hero-carousel {
+        overflow: hidden;
+    }
+
+    .hero-slide {
+        height: 540px;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
+        background-size: cover;
+        background-position: center;
     }
 
-    .carousel-caption-custom {
+    .hero-one {
+        background: linear-gradient(135deg, #172554, #1e40af);
+    }
+
+    .hero-two {
+        background: linear-gradient(135deg, #0f766e, #164e63);
+    }
+
+    .hero-three {
+        background: linear-gradient(135deg, #1e3a8a, #0f172a);
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 90deg, rgba(15, 23, 42, .85), rgba(15, 23, 42, .3) );
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 850px;
+        padding: 30px;
         text-align: center;
         color: white;
-        z-index: 10;
-        animation: fadeInUp 1s ease-in-out;
+        animation: fadeInUp 1s ease;
     }
+
+    .hero-subtitle {
+        display: inline-block;
+        color: var(--cottage-teal-light);
+        letter-spacing: 4px;
+        font-size: .8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p {
+        font-size: 1.15rem;
+        color: rgba(255,255,255,.85);
+        margin-bottom: 30px;
+    }
+
+    .btn-teal {
+        background: var(--cottage-teal);
+        color: #102a43;
+        border: 1px solid var(--cottage-teal);
+        padding: 13px 30px;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: all .3s ease;
+    }
+
+        .btn-teal:hover {
+            background: var(--cottage-teal-light);
+            border-color: var(--cottage-teal-light);
+            color: var(--cottage-dark);
+            transform: translateY(-3px);
+        }
+
+    /* Carousel Controls */
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: rgba(23,37,84,.55);
+        border-radius: 50%;
+        padding: 20px;
+    }
+
+    /* Section Heading */
+
+    .section-heading {
+        margin-bottom: 45px;
+    }
+
+    .section-subtitle {
+        color: var(--cottage-blue);
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+    }
+
+    .section-heading h2 {
+        color: var(--cottage-dark);
+        font-size: 2.3rem;
+        font-weight: 700;
+        margin: 12px 0;
+    }
+
+    .section-heading p {
+        color: var(--cottage-muted);
+        font-size: 1rem;
+    }
+
+    .blue-divider {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        color: var(--cottage-teal);
+        margin-top: 25px;
+    }
+
+        .blue-divider span {
+            width: 65px;
+            height: 2px;
+            background: linear-gradient( 90deg, transparent, var(--cottage-blue), transparent );
+        }
+
+    /* Cottage Cards */
+
+    .cottage-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 5px 20px rgba(23,37,84,.06);
+        transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+        .cottage-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(23,37,84,.14);
+        }
+
+    .cottage-image-wrapper {
+        height: 250px;
+        position: relative;
+        overflow: hidden;
+        background: var(--cottage-secondary);
+    }
+
+    .cottage-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .6s ease;
+    }
+
+    .cottage-card:hover .cottage-image {
+        transform: scale(1.08);
+    }
+
+    .image-placeholder {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 4rem;
+    }
+
+    .image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( to top, rgba(15,23,42,.25), transparent 50% );
+        pointer-events: none;
+    }
+
+    /* Price Badge */
+
+    .price-tag {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        z-index: 2;
+        background: var(--cottage-teal);
+        color: #102a43;
+        padding: 9px 15px;
+        border-radius: 6px;
+        font-weight: 700;
+        box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    }
+
+        .price-tag small {
+            font-weight: 500;
+            font-size: .75rem;
+        }
+
+    /* Cottage Information */
+
+    .cottage-card-body {
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        min-height: 285px;
+    }
+
+    .cottage-title {
+        color: var(--cottage-dark);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .cottage-description {
+        color: var(--cottage-muted);
+        font-size: .92rem;
+        line-height: 1.7;
+        flex-grow: 1;
+    }
+
+    .cottage-divider {
+        height: 1px;
+        background: #e2e8f0;
+        margin: 15px 0;
+    }
+
+    /* Cottage Features */
+
+    .cottage-features {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 22px;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .feature-item i {
+            color: var(--cottage-blue);
+            font-size: 1.35rem;
+        }
+
+        .feature-item strong {
+            display: block;
+            color: var(--cottage-dark);
+            font-size: .9rem;
+        }
+
+        .feature-item small {
+            display: block;
+            color: var(--cottage-muted);
+            font-size: .75rem;
+        }
+
+    /* Contact Button */
+
+    .btn-cottage {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background: var(--cottage-dark);
+        color: white;
+        border: 1px solid var(--cottage-dark);
+        border-radius: 6px;
+        padding: 12px 15px;
+        font-weight: 600;
+        transition: all .3s ease;
+    }
+
+        .btn-cottage:hover {
+            background: var(--cottage-blue);
+            border-color: var(--cottage-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37,99,235,.2);
+        }
+
+    /* Statistics */
+
+    .statistics-section {
+        margin-top: 90px;
+        padding: 55px 35px;
+        background: linear-gradient( 135deg, #172554, #1e40af );
+        border-radius: 15px;
+    }
+
+        .statistics-section .section-heading h2 {
+            color: white;
+        }
+
+        .statistics-section .section-heading p {
+            color: rgba(255,255,255,.75);
+        }
+
+        .statistics-section .section-subtitle {
+            color: var(--cottage-teal-light);
+        }
+
+    .stat-card {
+        height: 100%;
+        padding: 25px 15px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 10px;
+        background: rgba(255,255,255,.06);
+        transition: all .3s ease;
+    }
+
+        .stat-card:hover {
+            background: rgba(255,255,255,.12);
+            transform: translateY(-5px);
+        }
+
+    .stat-icon {
+        color: var(--cottage-teal-light);
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+    }
+
+    .stat-card h3 {
+        color: white;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .stat-card p {
+        color: rgba(255,255,255,.75);
+        margin: 0;
+        font-size: .9rem;
+    }
+
+    /* Empty State */
+
+    .empty-state {
+        padding: 70px 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 5px 20px rgba(23,37,84,.05);
+    }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--cottage-blue);
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h4 {
+            color: var(--cottage-dark);
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            color: var(--cottage-muted);
+        }
+
+    /* Animations */
 
     @@keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(25px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
         }
     }
 
-    .carousel-fade .carousel-item {
-        transition: opacity 1s ease-in-out;
-    }
+    /* Responsive */
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        background-color: rgba(0, 0, 0, 0.5);
-        border-radius: 50%;
-        padding: 20px;
-    }
-
-    /* Divider Styles */
-    .divider-custom {
-        display: flex;
-        align-items: center;
-        margin: 2rem 0;
-    }
-
-    .divider-line {
-        flex: 1;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, #667eea, transparent);
-    }
-
-    .divider-icon {
-        padding: 0 1rem;
-        font-size: 1.5rem;
-        color: #667eea;
-    }
-
-    /* Card Hover Effects */
-    .hover-shadow {
-        transition: all 0.3s ease-in-out;
-        border-radius: 15px;
-    }
-
-    .hover-shadow:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 1.5rem 4rem rgba(0,0,0,.2) !important;
-    }
-
-    .villa-image {
-        transition: transform 0.5s ease-in-out;
-    }
-
-    .card:hover .villa-image {
-        transform: scale(1.1);
-    }
-
-    .card {
-        border: none;
-        overflow: hidden;
-        border-radius: 15px;
-    }
-
-    .transition {
-        transition: all 0.3s ease;
-    }
-
-    /* Button Hover Effect */
-    .btn-hover {
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .btn-hover:hover {
-        transform: scale(1.02);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    /* Stats Card */
-    .stats-card {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        border-radius: 15px;
-    }
-
-    .stat-item {
-        padding: 1rem;
-        transition: transform 0.3s ease;
-    }
-
-    .stat-item:hover {
-        transform: translateY(-5px);
-    }
-
-    /* Background Gradient */
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    /* Smooth Scroll */
-    .smooth-scroll {
-        scroll-behavior: smooth;
-    }
-
-    /* Responsive adjustments */
     @@media (max-width: 768px) {
-        .carousel-slide {
-            height: 400px;
+
+        .hero-slide {
+            height: 430px;
         }
 
-        .carousel-caption-custom h1 {
-            font-size: 2rem;
+        .hero-content {
+            padding: 20px;
         }
 
-        .carousel-caption-custom p {
-            font-size: 1rem;
+            .hero-content h1 {
+                font-size: 2.1rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+        .cottage-container {
+            padding-top: 40px;
+        }
+
+        .section-heading h2 {
+            font-size: 1.8rem;
+        }
+
+        .statistics-section {
+            padding: 35px 15px;
+            margin-top: 60px;
+        }
+
+        .cottage-card-body {
+            padding: 20px;
         }
     }
+
 </style>
-
-

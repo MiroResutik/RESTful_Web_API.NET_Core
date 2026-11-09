@@ -1,6 +1,470 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container privacy-container">
+
+    <!-- Page Header -->
+    <div class="privacy-header text-center">
+
+        <div class="privacy-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+        </div>
+
+        <span class="privacy-subtitle">YOUR PRIVACY MATTERS</span>
+
+        <h1>Privacy Policy</h1>
+
+        <p>
+            Your privacy and the protection of your personal information
+            are important to us. Learn how we handle your information
+            when using Royal Cottage.
+        </p>
+
+        <div class="privacy-divider">
+            <span></span>
+            <i class="bi bi-gem"></i>
+            <span></span>
+        </div>
+
+    </div>
+
+    <!-- Privacy Introduction -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-info-circle-fill"></i>
+            <h4>Introduction</h4>
+        </div>
+
+        <p>
+            Welcome to Royal Cottage. This Privacy Policy explains how
+            personal information may be collected, used and protected
+            when you visit our website or contact us regarding our
+            cottage accommodation.
+        </p>
+
+        <p class="mb-0">
+            By using this website, you acknowledge that your information
+            may be processed as described in this policy.
+        </p>
+
+    </div>
+
+    <!-- Information Collection -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-person-lines-fill"></i>
+            <h4>Information We Collect</h4>
+        </div>
+
+        <p>
+            We may collect information that you voluntarily provide
+            when contacting us or making an enquiry, including:
+        </p>
+
+        <ul class="privacy-list">
+            <li>Your name and contact details.</li>
+            <li>Your email address.</li>
+            <li>Details included in your enquiry or correspondence.</li>
+            <li>Information relevant to your accommodation request.</li>
+        </ul>
+
+    </div>
+
+    <!-- Use of Information -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-gear-fill"></i>
+            <h4>How We Use Your Information</h4>
+        </div>
+
+        <p>
+            Information provided to us may be used for the following
+            purposes:
+        </p>
+
+        <ul class="privacy-list">
+            <li>Responding to enquiries and customer requests.</li>
+            <li>Providing information about our cottages.</li>
+            <li>Managing accommodation enquiries and bookings, where applicable.</li>
+            <li>Improving our website and customer experience.</li>
+            <li>Maintaining website security and preventing misuse.</li>
+        </ul>
+
+    </div>
+
+    <!-- Data Protection -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-shield-check"></i>
+            <h4>Data Protection and Security</h4>
+        </div>
+
+        <p>
+            We take reasonable measures to protect personal information
+            against unauthorised access, alteration, disclosure or loss.
+        </p>
+
+        <p class="mb-0">
+            Access to personal information should be limited to
+            individuals who require it for legitimate business purposes.
+        </p>
+
+    </div>
+
+    <!-- Cookies -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-cookie"></i>
+            <h4>Cookies and Website Usage</h4>
+        </div>
+
+        <p>
+            Our website may use cookies or similar technologies to
+            support website functionality, improve user experience
+            and understand how visitors interact with our pages.
+        </p>
+
+        <p class="mb-0">
+            You can manage cookies through your browser settings.
+            Where required, we will request consent before using
+            non-essential cookies.
+        </p>
+
+    </div>
+
+    <!-- Third Party Services -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-globe"></i>
+            <h4>Third-Party Services</h4>
+        </div>
+
+        <p>
+            Our website may contain links to external websites or
+            services. We are not responsible for the privacy practices
+            or content of third-party websites.
+        </p>
+
+        <p class="mb-0">
+            We recommend reviewing the privacy policies of any
+            external websites you visit.
+        </p>
+
+    </div>
+
+    <!-- User Rights -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-person-check-fill"></i>
+            <h4>Your Privacy Rights</h4>
+        </div>
+
+        <p>
+            Depending on applicable data protection legislation,
+            you may have rights concerning your personal information,
+            including:
+        </p>
+
+        <ul class="privacy-list">
+            <li>The right to access your personal information.</li>
+            <li>The right to request correction of inaccurate information.</li>
+            <li>The right to request deletion of your information where applicable.</li>
+            <li>The right to object to or restrict certain processing.</li>
+            <li>The right to withdraw consent where processing is based on consent.</li>
+        </ul>
+
+    </div>
+
+    <!-- Policy Updates -->
+    <div class="privacy-card">
+
+        <div class="privacy-section-heading">
+            <i class="bi bi-arrow-repeat"></i>
+            <h4>Changes to This Privacy Policy</h4>
+        </div>
+
+        <p class="mb-0">
+            We may update this Privacy Policy from time to time to
+            reflect changes to our website, services or applicable
+            legal requirements. Any updates will be published on
+            this page.
+        </p>
+
+    </div>
+
+    <!-- Contact Section -->
+    <div class="privacy-contact">
+
+        <div class="privacy-contact-icon">
+            <i class="bi bi-envelope-paper-fill"></i>
+        </div>
+
+        <h3>Have Questions About Your Privacy?</h3>
+
+        <p>
+            If you have any questions about this Privacy Policy
+            or how your personal information is handled,
+            please get in touch with us.
+        </p>
+
+        <a href="mailto:hello@dotnetmastery.com"
+           class="btn btn-privacy-contact">
+
+            <i class="bi bi-envelope me-2"></i>
+            Contact Us
+
+        </a>
+
+    </div>
+
+    <!-- Last Updated -->
+    <div class="privacy-updated text-center">
+        <i class="bi bi-calendar3 me-2"></i>
+        Last updated: @DateTime.Now.ToString("dd MMMM yyyy")
+    </div>
+
+</div>
+
+
+<!-- Privacy Page Styles -->
+<style>
+
+    :root {
+        --cottage-dark: #172554;
+        --cottage-secondary: #1e3a8a;
+        --cottage-blue: #2563eb;
+        --cottage-teal: #14b8a6;
+        --cottage-teal-light: #5eead4;
+        --cottage-text: #334155;
+        --cottage-muted: #64748b;
+        --cottage-light: #f8fafc;
+    }
+
+    /* Page Container */
+
+    .privacy-container {
+        max-width: 1000px;
+        padding-top: 65px;
+        padding-bottom: 65px;
+    }
+
+    /* Page Header */
+
+    .privacy-header {
+        margin-bottom: 45px;
+    }
+
+    .privacy-icon {
+        width: 85px;
+        height: 85px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        background: linear-gradient( 135deg, #172554, #2563eb );
+        border-radius: 20px;
+        color: var(--cottage-teal-light);
+        font-size: 2.5rem;
+        box-shadow: 0 8px 20px rgba(23,37,84,.15);
+    }
+
+    .privacy-subtitle {
+        display: block;
+        color: var(--cottage-blue);
+        font-size: .8rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+        margin-bottom: 12px;
+    }
+
+    .privacy-header h1 {
+        color: var(--cottage-dark);
+        font-size: 2.7rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .privacy-header p {
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--cottage-muted);
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
+
+    .privacy-divider {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        color: var(--cottage-teal);
+        margin-top: 25px;
+    }
+
+        .privacy-divider span {
+            width: 65px;
+            height: 2px;
+            background: linear-gradient( 90deg, transparent, var(--cottage-blue), transparent );
+        }
+
+    /* Privacy Cards */
+
+    .privacy-card {
+        background: white;
+        padding: 30px;
+        margin-bottom: 20px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(23,37,84,.04);
+        transition: all .3s ease;
+    }
+
+        .privacy-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(23,37,84,.08);
+        }
+
+    .privacy-section-heading {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 18px;
+    }
+
+        .privacy-section-heading i {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(20,184,166,.12);
+            color: #0f766e;
+            border-radius: 10px;
+            font-size: 1.25rem;
+        }
+
+        .privacy-section-heading h4 {
+            color: var(--cottage-dark);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .privacy-card p {
+        color: var(--cottage-muted);
+        font-size: .95rem;
+        line-height: 1.8;
+    }
+
+    /* Privacy Lists */
+
+    .privacy-list {
+        padding-left: 20px;
+        margin-bottom: 0;
+    }
+
+        .privacy-list li {
+            color: var(--cottage-muted);
+            font-size: .94rem;
+            line-height: 1.9;
+            padding-left: 5px;
+        }
+
+            .privacy-list li::marker {
+                color: var(--cottage-teal);
+            }
+
+    /* Contact Section */
+
+    .privacy-contact {
+        text-align: center;
+        margin-top: 40px;
+        padding: 45px 30px;
+        border-radius: 15px;
+        background: linear-gradient( 135deg, #172554, #1e40af );
+        color: white;
+    }
+
+    .privacy-contact-icon {
+        font-size: 2.5rem;
+        color: var(--cottage-teal-light);
+        margin-bottom: 15px;
+    }
+
+    .privacy-contact h3 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .privacy-contact p {
+        max-width: 600px;
+        margin: 0 auto 25px;
+        color: rgba(255,255,255,.8);
+        line-height: 1.8;
+    }
+
+    .btn-privacy-contact {
+        background: var(--cottage-teal);
+        color: #102a43;
+        padding: 12px 28px;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: all .3s ease;
+    }
+
+        .btn-privacy-contact:hover {
+            background: var(--cottage-teal-light);
+            color: var(--cottage-dark);
+            transform: translateY(-3px);
+        }
+
+    /* Last Updated */
+
+    .privacy-updated {
+        margin-top: 30px;
+        color: var(--cottage-muted);
+        font-size: .85rem;
+    }
+
+        .privacy-updated i {
+            color: var(--cottage-blue);
+        }
+
+    /* Responsive */
+
+    @@media (max-width: 768px) {
+
+        .privacy-container {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        .privacy-header h1 {
+            font-size: 2.1rem;
+        }
+
+        .privacy-card {
+            padding: 22px;
+        }
+
+        .privacy-contact {
+            padding: 35px 20px;
+        }
+
+            .privacy-contact h3 {
+                font-size: 1.35rem;
+            }
+    }
+
+</style>

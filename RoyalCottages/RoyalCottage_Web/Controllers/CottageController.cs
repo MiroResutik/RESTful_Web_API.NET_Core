@@ -50,6 +50,35 @@ namespace RoyalCottage_Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CottageCreateDTO createDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(createDTO);
+            }
+            
+            try
+            {
+                
+                var response = await _cottageService.CreateAsync<ApiResponse<CottageDTO>>(createDTO,"");
+
+                // Check if the response is successful and contains data
+                if (response != null && response.Success && response.Data != null)
+                {
+                    TempData["success"] = "Cottage created successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during the API call and log the error message
+                TempData["error"] = $"An error occurred: {ex.Message}";
+            }
+            
+            return View(createDTO);
+        }
         public IActionResult Privacy()
         {
             return View();

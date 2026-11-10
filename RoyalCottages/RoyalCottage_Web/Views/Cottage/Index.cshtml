@@ -83,7 +83,7 @@
                                         else
                                         {
                                             <div class="bg-secondary rounded d-flex align-items-center justify-content-center text-white"
-                                            style="width: 60px; height: 45px;">
+                                                 style="width: 60px; height: 45px;">
                                                 <i class="bi bi-image"></i>
                                             </div>
                                         }
@@ -93,13 +93,13 @@
                                     </td>
                                     <td class="align-middle">
                                         <small class="text-muted">
-                                            @if(string.IsNullOrEmpty(cottage.Details))
+                                            @if (string.IsNullOrEmpty(cottage.Details))
                                             {
                                                 <span class="fst-italic">No Details</span>
                                             }
                                             else
                                             {
-                                                @(cottage.Details.Length >50 ? cottage.Details.Substring(0,50) + "..." : cottage.Details)
+                                                @(cottage.Details.Length > 50 ? cottage.Details.Substring(0, 50) + "..." : cottage.Details)
                                             }
                                         </small>
                                     </td>
@@ -115,12 +115,12 @@
                                     <td class="align-middle text-center">
                                         <div class="btn-group btn-group-sm">
 
-                                            <a href="#"
-                                            class="btn btn-outline-warning" title="Edit">
+                                            <a asp-action="Edit" asp-route-id="@cottage.Id"
+                                               class="btn btn-outline-warning" title="Edit">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <a href="#"
-                                            class="btn btn-outline-danger" title="Delete">
+                                            <a asp-action="Delete" asp-route-id="@cottage.Id"
+                                               class="btn btn-outline-danger" title="Delete">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </div>
@@ -160,7 +160,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <style>

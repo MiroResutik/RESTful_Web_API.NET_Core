@@ -32,6 +32,9 @@ builder.Services.AddHttpClient("RoyalCottageAPI", client =>
 // Register the ICottageService interface with its implementation CottageService
 builder.Services.AddScoped<ICottageService, CottageService>();
 
+// Register the IAuthService interface with its implementation AuthService
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

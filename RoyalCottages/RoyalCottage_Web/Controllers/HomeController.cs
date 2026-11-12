@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RoyalCottage_DTO;
 using RoyalCottage_Web.Models;
@@ -21,6 +22,7 @@ namespace RoyalCottage_Web.Controllers
         }
 
         // Action method to handle the Index page request
+        //[Authorize]
         public async Task<IActionResult> Index()
         {
             // Initialize an empty list to hold CottageDTO objects

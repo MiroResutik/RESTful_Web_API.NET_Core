@@ -7,7 +7,7 @@ System.Security.Cryptography.Pkcs
 Scalar.AspNetCore
 Automapper
 Microsoft.AspNetCore.Authentication.JwtBeare
-
+System.IdentityModel.TokensJwt
 
 User login
 miro@test.co.uk

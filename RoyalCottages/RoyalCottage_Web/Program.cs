@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using RoyalCottage_DTO;
 using RoyalCottage_Web.Services;
 using RoyalCottage_Web.Services.IServices;
@@ -14,6 +15,17 @@ builder.Services.AddAutoMapper(o =>
     o.CreateMap<CottageDTO, CottageUpdateDTO>().ReverseMap();
 
 });
+
+// Register the IHttpContextAccessor service to access the current HTTP context
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true; // Set the HttpOnly flag for the authentication cookie to enhance security
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Set the expiration time for the authentication cookie to 60 minutes
+        options.SlidingExpiration = true; // Enable sliding expiration, which extends the expiration time if the user is active
+        options.LoginPath = "/auth/login"; // Set the login path for unauthenticated users to redirect to the login page
+        options.AccessDeniedPath = "/auth/accessdenied"; // Set the access denied path for users without sufficient permissions to redirect to the access denied page
+    });
 
 // Register the CottageService with the dependency injection container
 builder.Services.AddHttpClient("RoyalCottageAPI", client =>
@@ -48,6 +60,10 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+// Enable authentication middleware to handle user authentication and manage authentication cookies
+app.UseAuthentication();
+
+// Enable authorization middleware to enforce access control based on user roles and permissions
 app.UseAuthorization();
 
 app.MapStaticAssets();

@@ -5,15 +5,15 @@ namespace RoyalCottage_Web.Services.IServices
     public interface ICottageService
     {
         // Method to create a new cottage by sending a POST request to the API
-        Task<T?> GetAllAsync<T>(string token);
+        Task<T?> GetAllAsync<T>();
         // Method to retrieve a specific cottage by sending a GET request to the API
-        Task<T?> GetAsync<T>(int id,string token);
+        Task<T?> GetAsync<T>(int id);
         // Method to update a cottage by sending a PUT request to the API
-        Task<T?> CreateAsync<T>(CottageCreateDTO dto, string token);
+        Task<T?> CreateAsync<T>(CottageCreateDTO dto);
         // Method to update a cottage by sending a PUT request to the API
-        Task<T?> UpdateAsync<T>(CottageUpdateDTO dto, string token);
+        Task<T?> UpdateAsync<T>(CottageUpdateDTO dto);
         // Method to delete a cottage by sending a DELETE request to the API
-        Task<T?> DeleteAsync<T>(int id, string token);
+        Task<T?> DeleteAsync<T>(int id);
 
     }
 }

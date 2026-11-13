@@ -7,5 +7,8 @@
         {
             GET, POST, PUT, DELETE
         }
+
+        // SessionToken is a constant string that represents the key used to store the JWT token in the session
+        public const string SessionToken = "JWTToken";
     }
 }

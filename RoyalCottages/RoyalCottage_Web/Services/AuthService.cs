@@ -10,8 +10,8 @@ namespace RoyalCottage_Web.Services
         // Define a constant for the API endpoint used for authentication-related requests
         private const string APIEndpoint = "/api/auth";
 
-        // Constructor to initialize the AuthService with an IHttpClientFactory and IConfiguration
-        public AuthService(IHttpClientFactory httpClient, IConfiguration configuration) : base(httpClient)
+        // Constructor to initialize the AuthService with dependencies
+        public AuthService(IHttpClientFactory httpClient, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClient, httpContextAccessor)
         {
 
         }

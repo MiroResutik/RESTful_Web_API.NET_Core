@@ -15,6 +15,8 @@ namespace RoyalCottage_Web.Controllers
     {
         // Inject Dependencies 
         private readonly IAuthService _authService;
+
+        // Inject IMapper for mapping between DTOs and models
         private readonly IMapper _mapper;
 
         // Constructor to initialize dependencies
@@ -44,7 +46,8 @@ namespace RoyalCottage_Web.Controllers
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)
                 {
-                    LoginResponseDTO model= response.Data;
+                    // Retrieve the login response data from the response
+                    LoginResponseDTO model = response.Data;
 
                     // Create a JwtSecurityTokenHandler to read the JWT token from the response
                     var handler = new JwtSecurityTokenHandler();
@@ -60,6 +63,9 @@ namespace RoyalCottage_Web.Controllers
 
                     // Sign in the user and set the authentication cookie
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    // Store the JWT token in the session for later use
+                    HttpContext.Session.SetString(SD.SessionToken, model.Token);
 
                     // Redirect the user to the home page after successful login
                     return RedirectToAction("Index", "Home");
@@ -110,7 +116,6 @@ namespace RoyalCottage_Web.Controllers
                 {
                     TempData["error"] = response?.Message??  "Registration failed. Please try again";
                     return View(registrationRequestDTO);
-
                 }
             }
             catch (Exception ex)

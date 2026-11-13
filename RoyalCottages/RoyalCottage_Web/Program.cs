@@ -8,6 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Register the IHttpClientFactory service to create HttpClient instances for making HTTP requests
+builder.Services.AddHttpContextAccessor();
+
+// Register the BaseService with the dependency injection container
+builder.Services.AddDistributedMemoryCache();
+
+// Register the IHttpContextAccessor service to access the current HTTP context
+builder.Services.AddSession(option =>
+{
+    option.IdleTimeout = TimeSpan.FromMinutes(60);
+    option.Cookie.HttpOnly = true;
+    option.Cookie.IsEssential = true;
+});
+
 // Register AutoMapper with the specified mappings
 builder.Services.AddAutoMapper(o =>
 {
@@ -57,8 +71,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Enable HTTPS redirection to redirect HTTP requests to HTTPS
 app.UseHttpsRedirection();
+
+// Enable static file middleware to serve static files (e.g., CSS, JavaScript, images) from the wwwroot folder
 app.UseRouting();
+
+// Enable session middleware to manage user sessions and store session data
+app.UseSession();
 
 // Enable authentication middleware to handle user authentication and manage authentication cookies
 app.UseAuthentication();
@@ -66,8 +86,10 @@ app.UseAuthentication();
 // Enable authorization middleware to enforce access control based on user roles and permissions
 app.UseAuthorization();
 
+// Enable static file middleware to serve static files (e.g., CSS, JavaScript, images) from the wwwroot folder
 app.MapStaticAssets();
 
+// Configure the default route for the application, specifying the controller, action, and optional id parameter
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")

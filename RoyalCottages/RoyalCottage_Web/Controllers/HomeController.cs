@@ -12,6 +12,8 @@ namespace RoyalCottage_Web.Controllers
     {
         // Inject Dependencies 
         private readonly ICottageService _cottageService;
+
+        // Inject Dependencies
         private readonly IMapper _mapper;
 
         // Constructor to initialize dependencies
@@ -30,7 +32,7 @@ namespace RoyalCottage_Web.Controllers
             try
             {
                 // Call the service to get all cottages and handle the response
-                var response = await _cottageService.GetAllAsync<ApiResponse<List<CottageDTO>>>("");
+                var response = await _cottageService.GetAllAsync<ApiResponse<List<CottageDTO>>>();
 
                 // Check if the response is successful and contains data
                 if (response !=null && response.Success && response.Data !=null )

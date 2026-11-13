@@ -12,13 +12,14 @@ namespace RoyalCottages_API.Controllers
     // Route attribute to specify the base route for the controller
     [Route("api/cottage")]
     [ApiController]
-    [AllowAnonymous] // Allow anyone to access - only for development phase
-    //[Authorize(Roles ="Customer, Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
+    //[Authorize] // Authorize attribute to restrict access to authenticated users
+    //[AllowAnonymous] // Allow anyone to access - only for development phase
     public class CottageController : ControllerBase
     {
         // Access the Database - access entity framework core
         private readonly ApplicationDbContext _db;
 
+        // Access the Mapper - access AutoMapper
         private readonly IMapper _mapper;
 
         // Constructor for Database - dependency injection
@@ -33,7 +34,6 @@ namespace RoyalCottages_API.Controllers
         // Async - To stop from blocking the thread
         // IEnumerable - To return a collection of cottages
         [HttpGet]
-        // [Authorize(Roles ="Admin")] // Overwrite at action level - Authorize attribute to restrict access to users with the "Admin" role 
         // ProducesResponseType - To specify the response type and status code
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<CottageDTO>>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
@@ -48,7 +48,7 @@ namespace RoyalCottages_API.Controllers
         // Endpoint to get  Cottage by Id
         // Route parameter binding
         [HttpGet("{id:int}")]
-        [AllowAnonymous] // Anyone can access
+        //[AllowAnonymous] // Anyone can access
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
@@ -109,6 +109,7 @@ namespace RoyalCottages_API.Controllers
 
         // Endpoint to create Cottage
         [HttpPost]
+        [Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
@@ -172,6 +173,7 @@ namespace RoyalCottages_API.Controllers
 
         // Endpoint to update Cottage - ActionResult - To return a response to the client
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
@@ -245,6 +247,7 @@ namespace RoyalCottages_API.Controllers
 
         // Endpoint to update Cottage 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the"Admin" roles
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]

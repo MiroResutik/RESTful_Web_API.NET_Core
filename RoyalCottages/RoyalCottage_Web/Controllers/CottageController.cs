@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RoyalCottage_DTO;
@@ -12,6 +13,8 @@ namespace RoyalCottage_Web.Controllers
     {
         // Inject Dependencies 
         private readonly ICottageService _cottageService;
+
+        // Inject Dependencies
         private readonly IMapper _mapper;
 
         // Constructor to initialize dependencies
@@ -29,7 +32,7 @@ namespace RoyalCottage_Web.Controllers
             try
             {
                 // Call the service to get all cottages and handle the response
-                var response = await _cottageService.GetAllAsync<ApiResponse<List<CottageDTO>>>("");
+                var response = await _cottageService.GetAllAsync<ApiResponse<List<CottageDTO>>>();
 
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)
@@ -47,6 +50,7 @@ namespace RoyalCottage_Web.Controllers
         }
 
         // Action method to display the Create Cottage form
+        [Authorize(Roles = "Admin")] 
         public IActionResult Create()
         {
             return View();
@@ -54,6 +58,7 @@ namespace RoyalCottage_Web.Controllers
 
         // Action method to handle the form submission for creating a new cottage
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CottageCreateDTO createDTO)
         {
@@ -66,7 +71,7 @@ namespace RoyalCottage_Web.Controllers
             try
             {
                 // Call the service to create a new cottage and handle the response
-                var response = await _cottageService.CreateAsync<ApiResponse<CottageDTO>>(createDTO, "");
+                var response = await _cottageService.CreateAsync<ApiResponse<CottageDTO>>(createDTO);
 
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)
@@ -85,6 +90,7 @@ namespace RoyalCottage_Web.Controllers
         }
 
         // Action method to display the Delete Cottage confirmation page
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             // Check if the provided ID is valid before proceeding with the deletion
@@ -96,7 +102,7 @@ namespace RoyalCottage_Web.Controllers
             try
             {
                 // Call the service to get the specific cottage details and handle the response
-                var response = await _cottageService.GetAsync<ApiResponse<CottageDTO>>(id, "");
+                var response = await _cottageService.GetAsync<ApiResponse<CottageDTO>>(id);
 
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)
@@ -115,13 +121,14 @@ namespace RoyalCottage_Web.Controllers
 
         // Action method to handle the form submission for creating a new cottage
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(CottageDTO cottageDTO)
         {
             try
             {
                 // Call the service to delete the specific cottage and handle the response
-                var response = await _cottageService.DeleteAsync<ApiResponse<object>>(cottageDTO.Id, "");
+                var response = await _cottageService.DeleteAsync<ApiResponse<object>>(cottageDTO.Id);
 
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)
@@ -140,6 +147,7 @@ namespace RoyalCottage_Web.Controllers
         }
 
         // Action method to display the Edit Cottage form
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             // Check if the provided ID is valid before proceeding with the edit
@@ -151,7 +159,7 @@ namespace RoyalCottage_Web.Controllers
             try
             {
                 // Call the service to get the specific cottage details and handle the response
-                var response = await _cottageService.GetAsync<ApiResponse<CottageDTO>>(id, "");
+                var response = await _cottageService.GetAsync<ApiResponse<CottageDTO>>(id);
 
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)
@@ -171,13 +179,14 @@ namespace RoyalCottage_Web.Controllers
 
         // Action method to handle the form submission for updating an existing cottage
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CottageUpdateDTO updateDTO)
         {
             try
             {
                 // Call the service to update the specific cottage and handle the response
-                var response = await _cottageService.UpdateAsync<ApiResponse<object>>(updateDTO, "");
+                var response = await _cottageService.UpdateAsync<ApiResponse<object>>(updateDTO);
 
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)

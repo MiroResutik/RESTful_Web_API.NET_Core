@@ -1,104 +1,193 @@
 ﻿@model RoyalCottage_DTO.RegistrationRequestDTO
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="register-page">
+
+    <div class="register-card">
+
+        <!-- Header -->
+        <div class="register-header">
+
+            <div class="register-icon">
+                <i class="bi bi-person-plus-fill"></i>
+            </div>
+
+            <span class="register-subtitle">WELCOME TO ROYALCOTTAGE</span>
+
+            <h2>Create Your Account</h2>
+
+            <p>Join our exclusive cottage community and discover your next getaway.</p>
+
+        </div>
+
+        <!-- Form Body -->
+        <div class="register-body">
+
             <!-- TempData Messages -->
             @if (TempData["success"] != null)
             {
-                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i> @TempData["success"]
+                <div class="alert alert-success alert-dismissible fade show register-alert" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    @TempData["success"]
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
+
             @if (TempData["error"] != null)
             {
-
-                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["error"]
+                <div class="alert alert-danger alert-dismissible fade show register-alert" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    @TempData["error"]
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 
+            <form asp-action="Register" method="post">
 
-            <div class="card shadow mt-5 mb-5">
-                <div class="card-body p-5">
-                    <!-- Header -->
-                    <div class="text-center mb-4">
-                        <div class="mb-3">
-                            <i class="bi bi-person-plus-fill text-success display-1"></i>
-                        </div>
-                        <h3 class="fw-bold text-primary mb-2">Create Account</h3>
-                        <p class="text-muted">Join our exclusive villa community</p>
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="validation-summary mb-3"></div>
+
+                <!-- Name -->
+                <div class="register-field">
+                    <label asp-for="Name" class="register-label">
+                        Full Name
+                    </label>
+
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-person"></i>
+                        <input asp-for="Name"
+                               class="form-control register-input"
+                               placeholder="Enter your full name"
+                               autocomplete="name" />
                     </div>
 
-                    <!-- Register Form -->
-                    <form asp-action="Register" method="post">
-                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
-
-                        <!-- Name Field -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Name" class="form-control" placeholder="Full Name" />
-                            <label asp-for="Name" class="form-label">
-                                <i class="bi bi-person me-2"></i>Full Name
-                            </label>
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-
-                        <!-- Email Field -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Email" class="form-control" placeholder="name@example.com" />
-                            <label asp-for="Email" class="form-label">
-                                <i class="bi bi-envelope me-2"></i>Email Address
-                            </label>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <!-- Password Field -->
-                        <div class="form-floating mb-3">
-                            <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
-                            <label asp-for="Password" class="form-label">
-                                <i class="bi bi-lock me-2"></i>Password
-                            </label>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <!-- Role Field -->
-                        <div class="form-floating mb-4">
-                            <select asp-for="Role" class="form-select">
-                                <option value="Customer" selected>Customer</option>
-                                <option value="Admin">Admin</option>
-                            </select>
-                            <label asp-for="Role" class="form-label">
-                                <i class="bi bi-shield-check me-2"></i>Account Type
-                            </label>
-                            <span asp-validation-for="Role" class="text-danger"></span>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <i class="bi bi-check-circle me-2"></i>Create Account
-                            </button>
-                        </div>
-
-                        <!-- Divider -->
-                        <hr class="my-4">
-                        <div class="text-center">
-                            <small class="text-muted">OR</small>
-                        </div>
-                        <hr class="my-4">
-
-                        <!-- Login Link -->
-                        <div class="text-center">
-                            <p class="mb-3 text-muted">Already have an account?</p>
-                            <a asp-action="Login" class="btn btn-outline-primary">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In Instead
-                            </a>
-                        </div>
-                    </form>
+                    <span asp-validation-for="Name" class="field-validation"></span>
                 </div>
-            </div>
+
+                <!-- Email -->
+                <div class="register-field">
+                    <label asp-for="Email" class="register-label">
+                        Email Address
+                    </label>
+
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-envelope"></i>
+                        <input asp-for="Email"
+                               class="form-control register-input"
+                               placeholder="name@example.com"
+                               autocomplete="email" />
+                    </div>
+
+                    <span asp-validation-for="Email" class="field-validation"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="register-field">
+                    <label asp-for="Password" class="register-label">
+                        Password
+                    </label>
+
+                    <div class="input-icon-wrapper password-wrapper">
+                        <i class="bi bi-lock"></i>
+
+                        <input asp-for="Password"
+                               id="registerPassword"
+                               type="password"
+                               class="form-control register-input"
+                               placeholder="Create a password"
+                               autocomplete="new-password" />
+
+                        <button type="button"
+                                class="password-toggle"
+                                onclick="toggleRegisterPassword()"
+                                aria-label="Show password">
+                            <i class="bi bi-eye" id="passwordToggleIcon"></i>
+                        </button>
+                    </div>
+
+                    <span asp-validation-for="Password" class="field-validation"></span>
+
+                    <small class="password-hint">
+                        <i class="bi bi-shield-check me-1"></i>
+                        Choose a strong password to protect your account.
+                    </small>
+                </div>
+
+                <!-- Account Type -->
+                <div class="register-field">
+                    <label asp-for="Role" class="register-label">
+                        Account Type
+                    </label>
+
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-shield-check"></i>
+
+                        <select asp-for="Role" class="form-select register-input">
+                            <option value="Customer">Customer</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <span asp-validation-for="Role" class="field-validation"></span>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-register">
+                    <span>Create Account</span>
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+
+                <!-- Login Link -->
+                <div class="register-divider">
+                    <span>ALREADY A MEMBER?</span>
+                </div>
+
+                <div class="login-prompt">
+                    <p>Already have an account?</p>
+
+                    <a asp-action="Login" class="btn-login">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>
+                        Sign In Instead
+                    </a>
+                </div>
+
+            </form>
+
         </div>
+
+        <!-- Footer -->
+        <div class="register-footer">
+            <i class="bi bi-shield-lock-fill"></i>
+            Your information is protected by RoyalCottage
+        </div>
+
     </div>
+
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function toggleRegisterPassword() {
+            const password = document.getElementById("registerPassword");
+            const icon = document.getElementById("passwordToggleIcon");
+            const button = document.querySelector(".password-toggle");
+
+            if (password.type === "password") {
+                password.type = "text";
+                icon.classList.replace("bi-eye", "bi-eye-slash");
+                button.setAttribute("aria-label", "Hide password");
+            } else {
+                password.type = "password";
+                icon.classList.replace("bi-eye-slash", "bi-eye");
+                button.setAttribute("aria-label", "Show password");
+            }
+        }
+    </script>
+}
+

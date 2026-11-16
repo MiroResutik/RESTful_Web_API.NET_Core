@@ -1,79 +1,188 @@
 ﻿@model RoyalCottage_DTO.LoginRequestDTO
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <!-- Header -->
+        <div class="login-header">
+
+            <div class="login-icon">
+                <i class="bi bi-person-circle"></i>
+            </div>
+
+            <span class="login-subtitle">WELCOME BACK TO ROYALCOTTAGE</span>
+
+            <h2>Welcome Back</h2>
+
+            <p>Sign in to manage your bookings and discover your next getaway.</p>
+
+        </div>
+
+        <!-- Form Body -->
+        <div class="login-body">
+
             <!-- TempData Messages -->
             @if (TempData["success"] != null)
             {
-            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i> @TempData["success"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+                <div class="alert alert-success alert-dismissible fade show login-alert" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    @TempData["success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             }
+
             @if (TempData["error"] != null)
             {
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["error"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+                <div class="alert alert-danger alert-dismissible fade show login-alert" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    @TempData["error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             }
-            <div class="card shadow mt-5 mb-5">
-                <div class="card-body p-5">
-                    <!-- Header -->
-                    <div class="text-center mb-4">
-                        <div class="mb-3">
-                            <i class="bi bi-person-circle text-primary display-1"></i>
-                        </div>
-                        <h3 class="fw-bold text-primary mb-2">Welcome Back</h3>
-                        <p class="text-muted">Sign in to your account</p>
+
+            <form asp-action="Login" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="validation-summary mb-3"></div>
+
+                <!-- Email -->
+                <div class="login-field">
+
+                    <label asp-for="Email" class="login-label">
+                        Email Address
+                    </label>
+
+                    <div class="login-input-wrapper">
+                        <i class="bi bi-envelope"></i>
+
+                        <input asp-for="Email"
+                               class="form-control login-input"
+                               placeholder="name@example.com"
+                               autocomplete="username"
+                               autofocus />
                     </div>
 
-                    <!-- Login Form -->
-                    <form asp-action="Login" method="post">
-                        <!-- Email Field -->
-                        <div asp-validation-summary="All" class="form-floating mb-3">
-                            <input asp-for="Email" class="form-control" placeholder="name@example.com" />
-                            <label asp-for="Email" class="form-label">
-                                <i class="bi bi-envelope me-2"></i>Email Address
-                            </label>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+                    <span asp-validation-for="Email" class="field-validation"></span>
 
-                        <!-- Password Field -->
-                        <div class="form-floating mb-4">
-                            <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
-                            <label asp-for="Password" class="form-label">
-                                <i class="bi bi-lock me-2"></i>Password
-                            </label>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-
-                        <!-- Submit Button -->
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
-                            </button>
-                        </div>
-
-                        <!-- Divider -->
-                        <hr class="my-4">
-                        <div class="text-center">
-                            <small class="text-muted">OR</small>
-                        </div>
-                        <hr class="my-4">
-
-                        <!-- Register Link -->
-                        <div class="text-center">
-                            <p class="mb-3 text-muted">Don't have an account?</p>
-                            <a asp-action="Register" class="btn btn-outline-primary">
-                                <i class="bi bi-person-plus me-2"></i>Create Account
-                            </a>
-                        </div>
-                    </form>
                 </div>
-            </div>
+
+                <!-- Password -->
+                <div class="login-field">
+
+                    <label asp-for="Password" class="login-label">
+                        Password
+                    </label>
+
+                    <div class="login-input-wrapper password-wrapper">
+
+                        <i class="bi bi-lock"></i>
+
+                        <input asp-for="Password"
+                               id="loginPassword"
+                               type="password"
+                               class="form-control login-input"
+                               placeholder="Enter your password"
+                               autocomplete="current-password" />
+
+                        <button type="button"
+                                class="password-toggle"
+                                onclick="toggleLoginPassword()"
+                                aria-label="Show password">
+                            <i class="bi bi-eye" id="loginPasswordIcon"></i>
+                        </button>
+
+                    </div>
+
+                    <span asp-validation-for="Password" class="field-validation"></span>
+
+                </div>
+
+                
+                <!-- Remember Me & Forgot Password -->
+                <div class="login-options">
+
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="rememberMe"
+                               name="RememberMe"
+                               value="true" />
+
+                        <label class="form-check-label" for="rememberMe">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <a asp-action="ForgotPassword"
+                       class="forgot-password-link">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-login-submit">
+                    <span>Sign In</span>
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+
+                <!-- Divider -->
+                <div class="login-divider">
+                    <span>NEW TO ROYALCOTTAGE?</span>
+                </div>
+
+                <!-- Register Link -->
+                <div class="register-prompt">
+
+                    <p>Don't have an account yet?</p>
+
+                    <a asp-action="Register" class="btn-create-account">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Create Account
+                    </a>
+
+                </div>
+
+            </form>
+
         </div>
+
+        <!-- Footer -->
+        <div class="login-footer">
+            <i class="bi bi-shield-lock-fill"></i>
+            Secure sign in protected by RoyalCottage
+        </div>
+
     </div>
+
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function toggleLoginPassword() {
+
+            const password = document.getElementById("loginPassword");
+            const icon = document.getElementById("loginPasswordIcon");
+            const button = document.querySelector(".password-toggle");
+
+            if (password.type === "password") {
+                password.type = "text";
+                icon.classList.replace("bi-eye", "bi-eye-slash");
+                button.setAttribute("aria-label", "Hide password");
+            } else {
+                password.type = "password";
+                icon.classList.replace("bi-eye-slash", "bi-eye");
+                button.setAttribute("aria-label", "Show password");
+            }
+        }
+    </script>
+}
+

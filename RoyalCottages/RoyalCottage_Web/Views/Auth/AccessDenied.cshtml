@@ -1,28 +1,80 @@
-﻿
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow mt-5 mb-5">
-                <div class="card-body p-5 text-center">
-                    <!-- Header -->
-                    <div class="mb-4">
-                        <i class="bi bi-shield-exclamation text-warning display-1"></i>
-                    </div>
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
 
-                    <h3 class="fw-bold text-danger mb-3">Access Denied</h3>
-                    <p class="text-muted mb-4">
-                        Sorry, you don't have permission to access this resource.
-                        Please contact your administrator if you believe this is an error.
+<div class="access-denied-page">
+
+    <div class="access-denied-card">
+
+        <!-- Decorative Header -->
+        <div class="access-denied-header">
+            <div class="security-icon">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+
+            <span class="security-label">SECURITY NOTICE</span>
+
+            <h1>Access Denied</h1>
+
+            <p>
+                You don't have permission to access this page.
+            </p>
+        </div>
+
+        <!-- Content -->
+        <div class="access-denied-body">
+
+            <div class="warning-panel">
+                <div class="warning-icon">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+
+                <div>
+                    <h6>Restricted Area</h6>
+                    <p>
+                        This resource is protected and requires additional
+                        permissions. If you believe this is a mistake,
+                        please contact your administrator.
                     </p>
-
-                    <!-- Action Buttons -->
-                    <div class="d-grid gap-2">
-                        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">
-                            <i class="bi bi-house me-2"></i>Go to Home
-                        </a>
-                    </div>
                 </div>
             </div>
+
+            <div class="access-denied-message">
+                <i class="bi bi-info-circle"></i>
+                <span>
+                    You can return to the homepage or go back to your
+                    previous activity.
+                </span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="access-denied-actions">
+
+                <a asp-action="Index"
+                   asp-controller="Home"
+                   class="btn-access-home">
+                    <i class="bi bi-house-door-fill"></i>
+                    Return to Home
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+                <button type="button"
+                        class="btn-access-back"
+                        onclick="history.back()">
+                    <i class="bi bi-arrow-left"></i>
+                    Go Back
+                </button>
+
+            </div>
+
+            <div class="access-denied-footer">
+                <i class="bi bi-shield-check"></i>
+                RoyalCottage Security
+            </div>
+
         </div>
+
     </div>
+
 </div>
+

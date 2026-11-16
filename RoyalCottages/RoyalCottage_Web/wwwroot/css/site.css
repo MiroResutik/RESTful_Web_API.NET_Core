@@ -1,36 +1,910 @@
-html {
-  font-size: 14px;
+/* ============================ Home Index ================================= */
+
+/* =========================================================
+   ROYALCOTTAGE - HOME PAGE
+   Navy / Blue / Teal Design
+========================================================= */
+
+:root {
+    --cottage-dark: #172554;
+    --cottage-secondary: #1e3a8a;
+    --cottage-blue: #2563eb;
+    --cottage-teal: #14b8a6;
+    --cottage-teal-light: #5eead4;
+    --cottage-text: #334155;
+    --cottage-muted: #64748b;
+    --cottage-light: #f8fafc;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/* =========================================================
+   HERO CAROUSEL
+========================================================= */
+
+.rc-hero {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 55px;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.rc-hero-slide {
+    position: relative;
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 25px;
+    overflow: hidden;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.rc-hero-one {
+    background: linear-gradient(135deg, #172554, #1e40af, #2563eb);
 }
 
-body {
-  margin-bottom: 60px;
+.rc-hero-two {
+    background: linear-gradient(135deg, #0f766e, #164e63, #172554);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.rc-hero-three {
+    background: linear-gradient(135deg, #1e3a8a, #172554, #0f172a);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.rc-hero-slide::before,
+.rc-hero-slide::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
-/* ============================ _Layout ================================= */
+.rc-hero-slide::before {
+    width: 550px;
+    height: 550px;
+    top: -300px;
+    right: -100px;
+}
+
+.rc-hero-slide::after {
+    width: 400px;
+    height: 400px;
+    bottom: -270px;
+    left: -100px;
+}
+
+.rc-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+    text-align: center;
+    color: #ffffff;
+    animation: rcFadeInUp 1s ease;
+}
+
+.rc-hero-eyebrow {
+    display: inline-block;
+    margin-bottom: 22px;
+    color: var(--cottage-teal-light);
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+    .rc-hero-eyebrow i {
+        margin-right: 6px;
+    }
+
+.rc-hero-content h1 {
+    margin-bottom: 22px;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.rc-hero-content p {
+    max-width: 700px;
+    margin: 0 auto 32px;
+    color: rgba(255, 255, 255, .85);
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+.rc-btn-light {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px 27px;
+    color: var(--cottage-dark);
+    background: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    font-size: .92rem;
+    font-weight: 750;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+
+    .rc-btn-light:hover {
+        color: #ffffff;
+        background: var(--cottage-teal);
+        border-color: var(--cottage-teal);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+    }
+
+    .rc-btn-light i {
+        color: var(--cottage-teal);
+        transition: transform .3s ease;
+    }
+
+    .rc-btn-light:hover i {
+        color: #ffffff;
+        transform: translateY(3px);
+    }
+
+.rc-hero .carousel-indicators {
+    z-index: 3;
+}
+
+    .rc-hero .carousel-indicators button {
+        width: 35px;
+        height: 5px;
+        border: 0;
+        border-radius: 5px;
+    }
+
+.rc-hero .carousel-control-prev-icon,
+.rc-hero .carousel-control-next-icon {
+    width: 42px;
+    height: 42px;
+    padding: 10px;
+    background-color: rgba(15, 23, 42, .45);
+    background-size: 50%;
+    border-radius: 50%;
+}
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.rc-home-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.rc-section-heading {
+    margin: 0 auto 45px;
+    text-align: center;
+}
+
+.rc-section-eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: var(--cottage-teal);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.rc-section-heading h2 {
+    margin-bottom: 15px;
+    color: var(--cottage-dark);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+}
+
+    .rc-section-heading h2 i {
+        margin-right: 8px;
+        color: var(--cottage-teal);
+    }
+
+.rc-section-heading > p {
+    color: var(--cottage-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.rc-heading-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    max-width: 250px;
+    margin: 25px auto 0;
+}
+
+    .rc-heading-divider span {
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--cottage-teal));
+    }
+
+        .rc-heading-divider span:last-child {
+            background: linear-gradient(90deg, var(--cottage-teal), transparent);
+        }
+
+    .rc-heading-divider i {
+        color: var(--cottage-teal);
+        font-size: 1.25rem;
+    }
+
+/* =========================================================
+   DIGITAL DETOX SECTION
+========================================================= */
+
+.rc-detox-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 35px 40px;
+    margin-bottom: 55px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #172554, #1e3a8a);
+    border: 1px solid rgba(20, 184, 166, .2);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(23, 37, 84, .1);
+}
+
+    .rc-detox-section::after {
+        content: "";
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        right: -100px;
+        bottom: -150px;
+        border: 1px solid rgba(255, 255, 255, .1);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+.rc-detox-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cottage-teal-light);
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 25px;
+    font-size: 3rem;
+}
+
+.rc-detox-cross {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: var(--cottage-teal);
+    border: 3px solid #1e3a8a;
+    border-radius: 50%;
+    font-size: .95rem;
+}
+
+.rc-detox-content {
+    position: relative;
+    z-index: 1;
+}
+
+.rc-detox-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--cottage-teal-light);
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.rc-detox-content h3 {
+    margin-bottom: 12px;
+    color: #ffffff;
+    font-size: 1.65rem;
+    font-weight: 800;
+}
+
+.rc-detox-content > p {
+    max-width: 900px;
+    margin-bottom: 18px;
+    color: rgba(255, 255, 255, .8);
+    font-size: .92rem;
+    line-height: 1.8;
+}
+
+.rc-detox-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 25px;
+}
+
+    .rc-detox-features span {
+        color: #ffffff;
+        font-size: .83rem;
+        font-weight: 600;
+    }
+
+    .rc-detox-features i {
+        margin-right: 5px;
+        color: var(--cottage-teal-light);
+    }
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+.rc-alert {
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+/* =========================================================
+   COTTAGE CARDS
+========================================================= */
+
+.rc-cottage-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(23, 37, 84, .07);
+    transition: all .35s ease;
+}
+
+    .rc-cottage-card:hover {
+        transform: translateY(-9px);
+        border-color: rgba(20, 184, 166, .45);
+        box-shadow: 0 20px 40px rgba(23, 37, 84, .15);
+    }
+
+/* Cottage Image */
+
+.rc-cottage-image-wrapper {
+    position: relative;
+    height: 260px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #172554, #2563eb);
+}
+
+.rc-cottage-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease;
+}
+
+.rc-cottage-card:hover .rc-cottage-image {
+    transform: scale(1.08);
+}
+
+.rc-cottage-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 4rem;
+}
+
+.rc-image-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( to top, rgba(15, 23, 42, .6), transparent 65% );
+    pointer-events: none;
+}
+
+/* Price */
+
+.rc-price-tag {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 105px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, .96);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .15);
+    backdrop-filter: blur(8px);
+}
+
+    .rc-price-tag strong {
+        color: var(--cottage-dark);
+        font-size: 1.3rem;
+        font-weight: 800;
+    }
+
+    .rc-price-tag span {
+        color: var(--cottage-muted);
+        font-size: .72rem;
+        font-weight: 600;
+    }
+
+/* Image Label */
+
+.rc-image-label {
+    position: absolute;
+    bottom: 18px;
+    left: 20px;
+    z-index: 2;
+    color: #ffffff;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+    .rc-image-label i {
+        margin-right: 5px;
+        color: var(--cottage-teal-light);
+    }
+
+/* Card Body */
+
+.rc-cottage-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 25px;
+}
+
+.rc-cottage-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.rc-cottage-category {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--cottage-teal);
+    font-size: .67rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.rc-cottage-title {
+    margin: 0;
+    color: var(--cottage-dark);
+    font-size: 1.3rem;
+    font-weight: 750;
+}
+
+.rc-cottage-heading-icon {
+    flex-shrink: 0;
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cottage-blue);
+    background: #eff6ff;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    transition: all .3s ease;
+}
+
+.rc-cottage-card:hover .rc-cottage-heading-icon {
+    color: #ffffff;
+    background: var(--cottage-teal);
+}
+
+/* Description */
+
+.rc-cottage-description {
+    display: -webkit-box;
+    min-height: 75px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    color: var(--cottage-muted);
+    font-size: .88rem;
+    line-height: 1.7;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+/* Features */
+
+.rc-cottage-features {
+    display: flex;
+    gap: 12px;
+    padding: 16px 0;
+    margin-top: auto;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.rc-feature-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .rc-feature-item > i {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--cottage-blue);
+        background: #eff6ff;
+        border-radius: 9px;
+        font-size: 1.1rem;
+    }
+
+    .rc-feature-item strong {
+        display: block;
+        color: var(--cottage-dark);
+        font-size: .88rem;
+        font-weight: 750;
+    }
+
+    .rc-feature-item small {
+        display: block;
+        color: var(--cottage-muted);
+        font-size: .72rem;
+    }
+
+/* Digital Detox Badge */
+
+.rc-cottage-detox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    color: #0f766e;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+    .rc-cottage-detox i {
+        color: var(--cottage-teal);
+        font-size: 1rem;
+    }
+
+/* Enquiry Button */
+
+.rc-cottage-footer {
+    padding-top: 20px;
+}
+
+.rc-btn-cottage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 13px 17px;
+    color: #ffffff;
+    background: var(--cottage-dark);
+    border: 1px solid var(--cottage-dark);
+    border-radius: 9px;
+    font-size: .9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+
+    .rc-btn-cottage i {
+        color: var(--cottage-teal-light);
+        font-size: 1.1rem;
+        transition: transform .3s ease;
+    }
+
+    .rc-btn-cottage:hover {
+        color: #ffffff;
+        background: var(--cottage-blue);
+        border-color: var(--cottage-blue);
+        box-shadow: 0 6px 15px rgba(37, 99, 235, .2);
+    }
+
+        .rc-btn-cottage:hover i {
+            transform: translate(3px, -3px);
+        }
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.rc-statistics-section {
+    margin: 75px 0 60px;
+    padding: 40px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(23, 37, 84, .07);
+}
+
+.rc-statistics-heading {
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+    .rc-statistics-heading > span {
+        color: var(--cottage-teal);
+        font-size: .7rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+    }
+
+    .rc-statistics-heading h2 {
+        margin: 10px 0;
+        color: var(--cottage-dark);
+        font-size: 1.8rem;
+        font-weight: 800;
+    }
+
+    .rc-statistics-heading p {
+        margin: 0;
+        color: var(--cottage-muted);
+        font-size: .9rem;
+    }
+
+.rc-stat-card {
+    height: 100%;
+    padding: 25px 15px;
+    text-align: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    transition: all .3s ease;
+}
+
+    .rc-stat-card:hover {
+        transform: translateY(-5px);
+        background: #eff6ff;
+        border-color: rgba(20, 184, 166, .4);
+        box-shadow: 0 10px 25px rgba(23, 37, 84, .08);
+    }
+
+.rc-stat-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    color: var(--cottage-blue);
+    background: #dbeafe;
+    border-radius: 15px;
+    font-size: 1.7rem;
+}
+
+.rc-stat-card h3 {
+    margin-bottom: 7px;
+    color: var(--cottage-dark);
+    font-size: 1.65rem;
+    font-weight: 800;
+}
+
+.rc-stat-card p {
+    margin: 0;
+    color: var(--cottage-muted);
+    font-size: .82rem;
+    font-weight: 600;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.rc-empty-state {
+    max-width: 650px;
+    margin: 30px auto 60px;
+    padding: 55px 30px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(23, 37, 84, .06);
+}
+
+.rc-empty-icon {
+    width: 85px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--cottage-blue);
+    background: #eff6ff;
+    border-radius: 22px;
+    font-size: 2.7rem;
+}
+
+.rc-empty-state h3 {
+    margin-bottom: 12px;
+    color: var(--cottage-dark);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.rc-empty-state p {
+    max-width: 450px;
+    margin: 0 auto;
+    color: var(--cottage-muted);
+    font-size: .9rem;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes rcFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .rc-hero-slide {
+        min-height: 460px;
+    }
+
+    .rc-detox-section {
+        padding: 30px;
+    }
+
+    .rc-cottage-image-wrapper {
+        height: 235px;
+    }
+
+    .rc-statistics-section {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .rc-hero-slide {
+        min-height: 400px;
+        padding: 60px 25px;
+    }
+
+    .rc-hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .rc-hero-content p {
+        font-size: 1rem;
+    }
+
+    .rc-home-container {
+        padding: 0 20px;
+    }
+
+    .rc-detox-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px;
+        padding: 25px;
+    }
+
+    .rc-detox-icon {
+        width: 75px;
+        height: 75px;
+        font-size: 2.3rem;
+    }
+
+    .rc-detox-content h3 {
+        font-size: 1.4rem;
+    }
+
+    .rc-statistics-section {
+        margin-top: 55px;
+        padding: 25px 18px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .rc-hero-slide {
+        min-height: 360px;
+        padding: 50px 20px;
+    }
+
+    .rc-hero-content h1 {
+        font-size: 1.85rem;
+    }
+
+    .rc-hero-content p {
+        font-size: .9rem;
+    }
+
+    .rc-hero-eyebrow {
+        font-size: .65rem;
+        letter-spacing: 1.5px;
+    }
+
+    .rc-btn-light {
+        padding: 12px 18px;
+        font-size: .85rem;
+    }
+
+    .rc-home-container {
+        padding: 0 15px;
+    }
+
+    .rc-section-heading h2 {
+        font-size: 1.75rem;
+    }
+
+    .rc-cottage-image-wrapper {
+        height: 225px;
+    }
+
+    .rc-cottage-body {
+        padding: 20px;
+    }
+
+    .rc-cottage-title {
+        font-size: 1.15rem;
+    }
+
+    .rc-detox-features {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .rc-statistics-heading h2 {
+        font-size: 1.5rem;
+    }
+
+    .rc-stat-card {
+        padding: 20px 10px;
+    }
+
+        .rc-stat-card h3 {
+            font-size: 1.35rem;
+        }
+
+        .rc-stat-card p {
+            font-size: .75rem;
+        }
+}
+
+/* =========================================================
+   ROYALCOTTAGE - HOME PAGE                     END
+========================================================= */
+
+
+/* =========================================================
+   ROYALCOTTAGE - LAYOUT PAGE                     
+========================================================= */
 :root {
     --cottage-dark: #172554;
     --cottage-secondary: #1e3a8a;
@@ -276,4 +1150,3257 @@ body {
         margin-top: 15px;
     }
 }
-/* ============================ _Layout ================================= */
+
+/* =========================================================
+   NAVBAR - LEFT & RIGHT NAVIGATION GROUPS
+========================================================= */
+
+.luxury-navbar .navbar-collapse {
+    align-items: center;
+}
+
+/* Left navigation */
+.luxury-navbar .navbar-nav.me-auto {
+    margin-right: auto !important;
+}
+
+/* Right navigation */
+.luxury-navbar .navbar-nav.ms-auto {
+    margin-left: auto !important;
+}
+
+/* Navigation links */
+.luxury-navbar .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 13px;
+    font-weight: 600;
+    transition: all .25s ease;
+}
+
+/* Contact button */
+.luxury-navbar .nav-contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 17px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    border-radius: 8px;
+    font-size: .88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+
+    .luxury-navbar .nav-contact:hover {
+        color: #ffffff;
+        background: linear-gradient(135deg, #0d9488, #0f766e);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(20, 184, 166, .25);
+    }
+
+/* Account dropdown */
+.luxury-navbar .dropdown-menu {
+    min-width: 180px;
+    padding: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(23, 37, 84, .12);
+}
+
+.luxury-navbar .dropdown-item {
+    padding: 10px 12px;
+    color: #334155;
+    border-radius: 7px;
+    font-size: .88rem;
+}
+
+    .luxury-navbar .dropdown-item:hover {
+        color: #2563eb;
+        background: #eff6ff;
+    }
+
+/* Mobile */
+@media (max-width: 991.98px) {
+
+    .luxury-navbar .navbar-collapse {
+        padding: 15px 0;
+    }
+
+    .luxury-navbar .navbar-nav {
+        width: 100%;
+        align-items: stretch !important;
+    }
+
+    .luxury-navbar .nav-link {
+        padding: 11px 5px;
+    }
+
+    .luxury-navbar .nav-contact {
+        display: flex;
+        width: fit-content;
+        margin-top: 5px;
+    }
+
+    .luxury-navbar .dropdown-menu {
+        margin-bottom: 10px;
+    }
+}
+
+/* =========================================================
+   ROYALCOTTAGE - LAYOUT PAGE                END     
+========================================================= */
+
+
+/* =========================================================
+   ROYAL COTTAGE - COTTAGE MANAGEMENT INDEX
+   ========================================================= */
+
+.rc-admin-page {
+    min-height: 100vh;
+    background: #f8fafc;
+    color: var(--cottage-text, #334155);
+}
+
+/* PAGE HEADER */
+
+.rc-admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 28px 32px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #172554, #1e3a8a, #2563eb);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(23, 37, 84, 0.15);
+}
+
+.rc-admin-header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.rc-admin-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #5eead4;
+    font-size: 1.8rem;
+}
+
+.rc-admin-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #5eead4;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+}
+
+.rc-admin-header h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.rc-admin-header p {
+    margin: 6px 0 0;
+    color: #dbeafe;
+    font-size: 0.92rem;
+}
+
+/* ADD BUTTON */
+
+.rc-admin-add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+    .rc-admin-add-btn:hover {
+        color: #fff;
+        background: linear-gradient(135deg, #0d9488, #0f766e);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(20, 184, 166, 0.25);
+    }
+
+/* NOTIFICATIONS */
+
+.rc-admin-alert-success,
+.rc-admin-alert-error {
+    border: none;
+    border-radius: 10px;
+    padding: 15px 18px;
+    font-weight: 500;
+}
+
+.rc-admin-alert-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.rc-admin-alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* SUMMARY CARDS */
+
+.rc-admin-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    min-height: 125px;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .rc-admin-stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(23, 37, 84, 0.08);
+    }
+
+.rc-admin-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    font-size: 1.45rem;
+}
+
+.rc-stat-blue {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.rc-stat-teal {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+.rc-stat-purple {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.rc-stat-orange {
+    background: #ffedd5;
+    color: #ea580c;
+}
+
+.rc-admin-stat-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.rc-admin-stat-card h3 {
+    margin: 0;
+    color: #172554;
+    font-size: 1.55rem;
+    font-weight: 750;
+}
+
+.rc-admin-stat-card small {
+    display: block;
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 0.75rem;
+}
+
+/* COTTAGE LIST CARD */
+
+.rc-admin-list-card {
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.rc-admin-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 25px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+    .rc-admin-list-header h4 {
+        margin: 0;
+        color: #172554;
+        font-size: 1.08rem;
+        font-weight: 700;
+    }
+
+        .rc-admin-list-header h4 i {
+            color: #14b8a6;
+        }
+
+    .rc-admin-list-header p {
+        margin: 5px 0 0;
+        color: #64748b;
+        font-size: 0.84rem;
+    }
+
+.rc-admin-count {
+    padding: 7px 13px;
+    border-radius: 20px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* TABLE */
+
+.rc-admin-table {
+    min-width: 850px;
+}
+
+    .rc-admin-table thead th {
+        padding: 15px 16px;
+        border-bottom: 1px solid #e2e8f0;
+        background: #f8fafc;
+        color: #475569;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .rc-admin-table tbody td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #475569;
+        font-size: 0.86rem;
+    }
+
+    .rc-admin-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .rc-admin-table tbody tr {
+        transition: background 0.2s ease;
+    }
+
+        .rc-admin-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+.rc-image-column {
+    width: 100px;
+}
+
+/* COTTAGE IMAGE */
+
+.rc-admin-cottage-image,
+.rc-admin-image-placeholder {
+    width: 72px;
+    height: 55px;
+    border-radius: 8px;
+}
+
+.rc-admin-cottage-image {
+    display: block;
+    object-fit: cover;
+    border: 1px solid #e2e8f0;
+}
+
+.rc-admin-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #94a3b8;
+    font-size: 1.35rem;
+}
+
+/* COTTAGE DETAILS */
+
+.rc-admin-cottage-name {
+    color: #172554;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.rc-admin-cottage-id {
+    display: block;
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 0.72rem;
+}
+
+.rc-admin-details {
+    display: block;
+    max-width: 230px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.rc-admin-no-details {
+    color: #94a3b8;
+    font-size: 0.78rem;
+    font-style: italic;
+}
+
+/* PRICE */
+
+.rc-admin-price {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 7px;
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* FEATURES */
+
+.rc-admin-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #475569;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+    .rc-admin-feature i {
+        color: #14b8a6;
+    }
+
+/* ACTION BUTTONS */
+
+.rc-admin-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.rc-admin-action-edit,
+.rc-admin-action-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.rc-admin-action-edit {
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+    .rc-admin-action-edit:hover {
+        background: #2563eb;
+        color: #fff;
+    }
+
+.rc-admin-action-delete {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+    .rc-admin-action-delete:hover {
+        background: #dc2626;
+        color: #fff;
+    }
+
+/* TABLE FOOTER */
+
+.rc-admin-list-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px 22px;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 0.78rem;
+}
+
+/* EMPTY STATE */
+
+.rc-admin-empty-state {
+    padding: 65px 20px;
+    text-align: center;
+}
+
+.rc-admin-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 2.2rem;
+}
+
+.rc-admin-empty-state h4 {
+    margin-bottom: 10px;
+    color: #172554;
+    font-weight: 700;
+}
+
+.rc-admin-empty-state p {
+    max-width: 430px;
+    margin: 0 auto 22px;
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 991.98px) {
+    .rc-admin-header {
+        padding: 24px;
+    }
+
+        .rc-admin-header h1 {
+            font-size: 1.5rem;
+        }
+}
+
+@media (max-width: 767.98px) {
+    .rc-admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rc-admin-header-content {
+        align-items: flex-start;
+    }
+
+    .rc-admin-add-btn {
+        width: 100%;
+    }
+
+    .rc-admin-list-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .rc-admin-list-footer {
+        flex-direction: column;
+        gap: 7px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .rc-admin-header {
+        padding: 20px;
+    }
+
+    .rc-admin-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.4rem;
+    }
+
+    .rc-admin-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .rc-admin-eyebrow {
+        font-size: 0.62rem;
+    }
+
+    .rc-admin-stat-card {
+        min-height: 105px;
+        padding: 16px;
+    }
+
+    .rc-admin-stat-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+}
+/* =========================================================
+   ROYAL COTTAGE - PAGINATION
+   ========================================================= */
+
+.rc-admin-pagination-info {
+    color: #64748b;
+    font-size: 0.82rem;
+}
+
+    .rc-admin-pagination-info strong {
+        color: #172554;
+    }
+
+.rc-admin-pagination {
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+    .rc-admin-pagination .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        padding: 6px 11px;
+        border: 1px solid #e2e8f0;
+        border-radius: 7px !important;
+        background: #fff;
+        color: #334155;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+        .rc-admin-pagination .page-link:hover {
+            border-color: #14b8a6;
+            background: #ccfbf1;
+            color: #0f766e;
+        }
+
+    .rc-admin-pagination .page-item.active .page-link {
+        border-color: #1e3a8a;
+        background: linear-gradient(135deg, #172554, #2563eb);
+        color: #fff;
+        box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+    }
+
+    .rc-admin-pagination .page-item.disabled .page-link {
+        border-color: #e2e8f0;
+        background: #f8fafc;
+        color: #cbd5e1;
+        pointer-events: none;
+    }
+
+@media (max-width: 767.98px) {
+    .rc-admin-list-footer {
+        align-items: center;
+    }
+
+    .rc-admin-pagination {
+        justify-content: center;
+    }
+}
+/* =========================================================
+   ROYAL COTTAGE - COTTAGE MANAGEMENT INDEX      END
+   ========================================================= */
+
+
+/* =========================================================
+   ROYAL COTTAGE - EDIT COTTAGE PAGE
+   ========================================================= */
+
+.rc-edit-page {
+    min-height: 100vh;
+    background: #f8fafc;
+    color: #334155;
+}
+
+/* PAGE HEADER */
+
+.rc-edit-header {
+    padding: 27px 30px;
+    border-radius: 15px;
+    background: linear-gradient(120deg, #172554, #1e3a8a, #2563eb);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(23, 37, 84, 0.14);
+}
+
+.rc-edit-header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.rc-edit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #5eead4;
+    font-size: 1.8rem;
+}
+
+.rc-edit-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #5eead4;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+}
+
+.rc-edit-header h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.rc-edit-header p {
+    margin: 6px 0 0;
+    color: #dbeafe;
+    font-size: 0.9rem;
+}
+
+/* FORM CARD */
+
+.rc-edit-card {
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+}
+
+.rc-edit-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 28px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #fff;
+}
+
+    .rc-edit-card-header h4 {
+        margin: 0;
+        color: #172554;
+        font-size: 1.08rem;
+        font-weight: 700;
+    }
+
+        .rc-edit-card-header h4 i {
+            color: #14b8a6;
+        }
+
+    .rc-edit-card-header p {
+        margin: 6px 0 0;
+        color: #64748b;
+        font-size: 0.82rem;
+    }
+
+.rc-edit-badge {
+    padding: 7px 13px;
+    border-radius: 20px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.rc-edit-card-body {
+    padding: 30px;
+}
+
+/* FORM LABELS */
+
+.rc-edit-label {
+    display: block;
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+/* FORM INPUTS */
+
+.rc-edit-input-group {
+    display: flex;
+    align-items: center;
+}
+
+    .rc-edit-input-group > i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        min-height: 44px;
+        border: 1px solid #cbd5e1;
+        border-right: 0;
+        border-radius: 8px 0 0 8px;
+        background: #f8fafc;
+        color: #64748b;
+    }
+
+    .rc-edit-input-group .form-control {
+        min-height: 44px;
+        border: 1px solid #cbd5e1;
+        border-radius: 0 8px 8px 0;
+        color: #334155;
+        font-size: 0.9rem;
+        box-shadow: none;
+    }
+
+    .rc-edit-input-group > .form-control:first-child {
+        border-radius: 8px;
+    }
+
+    .rc-edit-input-group .form-control:focus {
+        border-color: #14b8a6;
+        box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+    }
+
+    .rc-edit-input-group .input-group-text {
+        min-height: 44px;
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        color: #0f766e;
+        font-weight: 700;
+    }
+
+        .rc-edit-input-group .input-group-text:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .rc-edit-input-group .input-group-text:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .rc-edit-input-group .input-group-text + .form-control {
+            border-radius: 0 8px 8px 0;
+        }
+
+.rc-edit-textarea {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    color: #334155;
+    font-size: 0.9rem;
+    resize: vertical;
+    box-shadow: none;
+}
+
+    .rc-edit-textarea:focus {
+        border-color: #14b8a6;
+        box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+    }
+
+.rc-edit-help {
+    display: block;
+    margin-top: 7px;
+    color: #94a3b8;
+    font-size: 0.76rem;
+}
+
+/* IMAGE PREVIEW */
+
+.rc-edit-image-section {
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+    background: #f8fafc;
+}
+
+.rc-edit-image-heading {
+    margin-bottom: 14px;
+    color: #172554;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+    .rc-edit-image-heading i {
+        color: #14b8a6;
+    }
+
+.rc-edit-image-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    overflow: hidden;
+    border: 1px dashed #cbd5e1;
+    border-radius: 9px;
+    background: #fff;
+}
+
+    .rc-edit-image-preview img {
+        display: block;
+        width: 100%;
+        max-height: 320px;
+        object-fit: contain;
+    }
+
+.rc-edit-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 30px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+    .rc-edit-image-placeholder i {
+        font-size: 2.5rem;
+    }
+
+/* ACTION BUTTONS */
+
+.rc-edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 22px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.rc-edit-cancel-btn,
+.rc-edit-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.rc-edit-cancel-btn {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #475569;
+}
+
+    .rc-edit-cancel-btn:hover {
+        border-color: #94a3b8;
+        background: #f1f5f9;
+        color: #172554;
+    }
+
+.rc-edit-submit-btn {
+    border: none;
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    color: #fff;
+}
+
+    .rc-edit-submit-btn:hover {
+        background: linear-gradient(135deg, #0d9488, #0f766e);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 14px rgba(20, 184, 166, 0.25);
+    }
+
+/* VALIDATION */
+
+.rc-edit-card .field-validation-error {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.78rem;
+}
+
+.rc-edit-card .validation-summary-errors {
+    margin-bottom: 22px;
+    border-radius: 8px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 575.98px) {
+
+    .rc-edit-header {
+        padding: 20px;
+    }
+
+    .rc-edit-header-content {
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .rc-edit-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.4rem;
+    }
+
+    .rc-edit-header h1 {
+        font-size: 1.35rem;
+    }
+
+    .rc-edit-eyebrow {
+        font-size: 0.6rem;
+    }
+
+    .rc-edit-card-header {
+        padding: 18px;
+    }
+
+    .rc-edit-card-body {
+        padding: 20px;
+    }
+
+    .rc-edit-actions {
+        flex-direction: column-reverse;
+    }
+
+    .rc-edit-cancel-btn,
+    .rc-edit-submit-btn {
+        width: 100%;
+    }
+
+    .rc-edit-image-preview {
+        min-height: 170px;
+    }
+}
+
+/* =========================================================
+   ROYAL COTTAGE - EDIT IMAGE UPLOAD
+   ========================================================= */
+
+.rc-edit-image-section {
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+    background: #f8fafc;
+}
+
+.rc-edit-image-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+    .rc-edit-image-heading h5 {
+        margin: 0;
+        color: #172554;
+        font-size: 0.95rem;
+        font-weight: 700;
+    }
+
+        .rc-edit-image-heading h5 i {
+            color: #14b8a6;
+        }
+
+    .rc-edit-image-heading p {
+        margin: 6px 0 0;
+        color: #64748b;
+        font-size: 0.8rem;
+    }
+
+.rc-edit-image-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+/* IMAGE PREVIEW */
+
+.rc-edit-image-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    overflow: hidden;
+    border: 1px dashed #cbd5e1;
+    border-radius: 9px;
+    background: #fff;
+}
+
+    .rc-edit-image-preview img {
+        display: block;
+        width: 100%;
+        max-height: 320px;
+        object-fit: contain;
+    }
+
+.rc-edit-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 30px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+    .rc-edit-image-placeholder i {
+        font-size: 2.5rem;
+    }
+
+.rc-edit-preview-caption {
+    margin-top: -5px;
+    margin-bottom: 16px;
+    color: #64748b;
+    font-size: 0.76rem;
+}
+
+/* UPLOAD AREA */
+
+.rc-edit-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 175px;
+    padding: 22px 18px;
+    border: 2px dashed #94a3b8;
+    border-radius: 10px;
+    background: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .rc-edit-upload-area:hover,
+    .rc-edit-upload-active {
+        border-color: #14b8a6;
+        background: #f0fdfa;
+    }
+
+.rc-edit-upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 1.7rem;
+}
+
+.rc-edit-upload-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .rc-edit-upload-text strong {
+        color: #172554;
+        font-size: 0.88rem;
+    }
+
+    .rc-edit-upload-text span {
+        color: #64748b;
+        font-size: 0.8rem;
+    }
+
+.rc-edit-upload-area > small {
+    color: #94a3b8;
+    font-size: 0.72rem;
+}
+
+/* SELECTED FILE */
+
+.rc-edit-selected-file {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 13px;
+    border: 1px solid #99f6e4;
+    border-radius: 9px;
+    background: #f0fdfa;
+}
+
+.rc-edit-file-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 1.25rem;
+}
+
+.rc-edit-file-details {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 3px;
+}
+
+    .rc-edit-file-details strong {
+        overflow: hidden;
+        color: #172554;
+        font-size: 0.82rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .rc-edit-file-details span {
+        color: #64748b;
+        font-size: 0.74rem;
+    }
+
+.rc-edit-remove-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 7px;
+    background: #fee2e2;
+    color: #dc2626;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .rc-edit-remove-image:hover {
+        background: #dc2626;
+        color: #fff;
+    }
+
+/* UPLOAD ERROR */
+
+.rc-edit-upload-error {
+    margin-top: 12px;
+    padding: 11px 13px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 0.8rem;
+}
+
+/* OR DIVIDER */
+
+.rc-edit-image-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 22px 0;
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+    .rc-edit-image-divider::before,
+    .rc-edit-image-divider::after {
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+        content: "";
+    }
+
+/* RESPONSIVE */
+
+@media (max-width: 575.98px) {
+
+    .rc-edit-image-section {
+        padding: 15px;
+    }
+
+    .rc-edit-image-heading {
+        flex-direction: column;
+    }
+
+    .rc-edit-upload-area {
+        min-height: 160px;
+        padding: 18px 12px;
+    }
+
+    .rc-edit-image-preview {
+        min-height: 170px;
+    }
+}
+
+/* =========================================================
+   ROYAL COTTAGE - EDIT COTTAGE PAGE       END
+   ========================================================= */
+
+
+/* =========================================================
+   ROYAL COTTAGE - DELETE COTTAGE PAGE
+   ========================================================= */
+
+.rc-delete-page {
+    min-height: 100vh;
+    background: #f8fafc;
+    color: #334155;
+}
+
+/* PAGE HEADER */
+
+.rc-delete-header {
+    padding: 27px 30px;
+    border-radius: 15px;
+    background: linear-gradient(120deg, #172554, #1e3a8a, #2563eb);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(23, 37, 84, 0.14);
+}
+
+.rc-delete-header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.rc-delete-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fca5a5;
+    font-size: 1.8rem;
+}
+
+.rc-delete-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #5eead4;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+}
+
+.rc-delete-header h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.rc-delete-header p {
+    margin: 6px 0 0;
+    color: #dbeafe;
+    font-size: 0.9rem;
+}
+
+/* WARNING */
+
+.rc-delete-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    border: 1px solid #fecaca;
+    border-radius: 11px;
+    background: #fff1f2;
+}
+
+.rc-delete-warning-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #fee2e2;
+    color: #dc2626;
+    font-size: 1.3rem;
+}
+
+.rc-delete-warning h5 {
+    margin: 2px 0 6px;
+    color: #991b1b;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.rc-delete-warning p {
+    margin: 0;
+    color: #b91c1c;
+    font-size: 0.83rem;
+    line-height: 1.6;
+}
+
+/* FORM CARD */
+
+.rc-delete-card {
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+}
+
+.rc-delete-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 28px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #fff;
+}
+
+    .rc-delete-card-header h4 {
+        margin: 0;
+        color: #172554;
+        font-size: 1.08rem;
+        font-weight: 700;
+    }
+
+        .rc-delete-card-header h4 i {
+            color: #14b8a6;
+        }
+
+    .rc-delete-card-header p {
+        margin: 6px 0 0;
+        color: #64748b;
+        font-size: 0.82rem;
+    }
+
+.rc-delete-badge {
+    padding: 7px 13px;
+    border-radius: 20px;
+    background: #fee2e2;
+    color: #dc2626;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.rc-delete-card-body {
+    padding: 30px;
+}
+
+/* FORM LABELS */
+
+.rc-delete-label {
+    display: block;
+    margin-bottom: 9px;
+    color: #334155;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+/* READONLY INPUTS */
+
+.rc-delete-input-group {
+    display: flex;
+    align-items: center;
+}
+
+    .rc-delete-input-group > i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        min-height: 44px;
+        border: 1px solid #e2e8f0;
+        border-right: 0;
+        border-radius: 8px 0 0 8px;
+        background: #f8fafc;
+        color: #94a3b8;
+    }
+
+    .rc-delete-input-group .form-control {
+        min-height: 44px;
+        border: 1px solid #e2e8f0;
+        border-radius: 0 8px 8px 0;
+        background: #f8fafc;
+        color: #64748b;
+        font-size: 0.9rem;
+        box-shadow: none;
+    }
+
+        .rc-delete-input-group .form-control:first-child {
+            border-radius: 8px;
+        }
+
+    .rc-delete-input-group .input-group-text {
+        min-height: 44px;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+        color: #64748b;
+        font-weight: 700;
+    }
+
+        .rc-delete-input-group .input-group-text:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .rc-delete-input-group .input-group-text + .form-control {
+            border-radius: 0 8px 8px 0;
+        }
+
+.rc-delete-textarea {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 0.9rem;
+    resize: vertical;
+}
+
+/* IMAGE PREVIEW */
+
+.rc-delete-image-section {
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+    background: #f8fafc;
+}
+
+.rc-delete-image-heading {
+    margin-bottom: 14px;
+    color: #172554;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+    .rc-delete-image-heading i {
+        color: #14b8a6;
+    }
+
+.rc-delete-image-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    overflow: hidden;
+    border: 1px dashed #cbd5e1;
+    border-radius: 9px;
+    background: #fff;
+}
+
+    .rc-delete-image-preview img {
+        display: block;
+        width: 100%;
+        max-height: 320px;
+        object-fit: contain;
+    }
+
+.rc-delete-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 30px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+    .rc-delete-image-placeholder i {
+        font-size: 2.5rem;
+    }
+
+/* CONFIRMATION */
+
+.rc-delete-confirmation {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    background: #fff7f7;
+    color: #991b1b;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+    .rc-delete-confirmation i {
+        flex-shrink: 0;
+        font-size: 1.2rem;
+    }
+
+/* ACTION BUTTONS */
+
+.rc-delete-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 22px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.rc-delete-cancel-btn,
+.rc-delete-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.rc-delete-cancel-btn {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #475569;
+}
+
+    .rc-delete-cancel-btn:hover {
+        border-color: #94a3b8;
+        background: #f1f5f9;
+        color: #172554;
+    }
+
+.rc-delete-submit-btn {
+    border: none;
+    background: linear-gradient(135deg, #b91c1c, #ef4444);
+    color: #fff;
+}
+
+    .rc-delete-submit-btn:hover {
+        background: linear-gradient(135deg, #991b1b, #dc2626);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 14px rgba(220, 38, 38, 0.22);
+    }
+
+/* RESPONSIVE */
+
+@media (max-width: 575.98px) {
+
+    .rc-delete-header {
+        padding: 20px;
+    }
+
+    .rc-delete-header-content {
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .rc-delete-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.4rem;
+    }
+
+    .rc-delete-header h1 {
+        font-size: 1.35rem;
+    }
+
+    .rc-delete-eyebrow {
+        font-size: 0.6rem;
+    }
+
+    .rc-delete-card-header {
+        padding: 18px;
+    }
+
+    .rc-delete-card-body {
+        padding: 20px;
+    }
+
+    .rc-delete-actions {
+        flex-direction: column-reverse;
+    }
+
+    .rc-delete-cancel-btn,
+    .rc-delete-submit-btn {
+        width: 100%;
+    }
+
+    .rc-delete-image-preview {
+        min-height: 170px;
+    }
+}
+/* =========================================================
+   ROYAL COTTAGE - DELETE COTTAGE PAGE         END
+   ========================================================= */
+
+
+/* =========================================================
+   ROYAL COTTAGE - CREATE IMAGE UPLOAD
+   ========================================================= */
+
+.create-cottage-container {
+    background: var(--cottage-light);
+    padding: 45px 20px 60px;
+    min-height: 100%;
+}
+
+/* Page Header */
+.create-cottage-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.header-icon {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--cottage-dark), var(--cottage-blue));
+    color: var(--cottage-teal-light);
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+}
+
+.create-cottage-header h1 {
+    color: var(--cottage-dark);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.create-cottage-header p {
+    color: var(--cottage-muted);
+    margin-bottom: 15px;
+}
+
+.header-divider {
+    width: 75px;
+    height: 4px;
+    background: linear-gradient(to right, var(--cottage-blue), var(--cottage-teal));
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+/* Form Card */
+.create-cottage-card {
+    background: var(--cottage-white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(23, 37, 84, 0.08);
+}
+
+.card-heading {
+    background: linear-gradient(135deg, var(--cottage-dark), var(--cottage-secondary), var(--cottage-blue));
+    color: var(--cottage-white);
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+    .card-heading h4 {
+        font-weight: 700;
+        margin: 0 0 5px;
+        font-size: 1.2rem;
+    }
+
+        .card-heading h4 i {
+            color: var(--cottage-teal-light);
+        }
+
+    .card-heading p {
+        color: #cbd5e1;
+        font-size: 0.85rem;
+        margin: 0;
+    }
+
+.heading-badge {
+    background: rgba(20, 184, 166, 0.15);
+    border: 1px solid rgba(94, 234, 212, 0.4);
+    color: var(--cottage-teal-light);
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+.card-content {
+    padding: 30px;
+}
+
+/* Form Fields */
+.form-label {
+    color: var(--cottage-dark);
+    font-weight: 650;
+    font-size: 0.92rem;
+    margin-bottom: 9px;
+}
+
+.required {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+.form-control,
+.input-group-text {
+    min-height: 46px;
+    border-color: #cbd5e1;
+    border-radius: 8px;
+    color: var(--cottage-text);
+}
+
+.form-control {
+    font-size: 0.92rem;
+    padding: 11px 13px;
+    background-color: #ffffff;
+}
+
+    .form-control::placeholder {
+        color: #94a3b8;
+    }
+
+    .form-control:focus {
+        border-color: var(--cottage-teal);
+        box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+    }
+
+textarea.form-control {
+    min-height: 115px;
+    resize: vertical;
+}
+
+.input-icon-wrapper {
+    position: relative;
+}
+
+    .input-icon-wrapper .form-control {
+        padding-left: 42px;
+    }
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cottage-muted);
+    z-index: 2;
+}
+
+.cottage-input-group .input-group-text {
+    background: #eff6ff;
+    color: var(--cottage-secondary);
+    font-weight: 700;
+    border-right: 0;
+    padding: 0 16px;
+}
+
+.cottage-input-group .form-control {
+    border-left: 0;
+}
+
+    .cottage-input-group .form-control:focus {
+        border-left: 1px solid var(--cottage-teal);
+    }
+
+.validation-message {
+    display: block;
+    color: #dc2626;
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+.form-hint {
+    display: block;
+    color: var(--cottage-muted);
+    font-size: 0.78rem;
+    margin-top: 6px;
+}
+
+/* Buttons */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 24px;
+    margin-top: 10px;
+}
+
+.btn-cancel,
+.btn-create {
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-weight: 650;
+    transition: all 0.25s ease;
+}
+
+.btn-cancel {
+    background: #f1f5f9;
+    color: var(--cottage-text);
+    border: 1px solid #cbd5e1;
+}
+
+    .btn-cancel:hover {
+        background: #e2e8f0;
+        color: var(--cottage-dark);
+        transform: translateY(-2px);
+    }
+
+.btn-create {
+    background: linear-gradient(135deg, var(--cottage-blue), var(--cottage-teal));
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+    .btn-create:hover {
+        background: linear-gradient(135deg, var(--cottage-dark), var(--cottage-blue));
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+    }
+
+.form-footer-note {
+    text-align: center;
+    color: var(--cottage-muted);
+    font-size: 0.82rem;
+    margin-top: 20px;
+}
+
+/* Responsive */
+@@media (max-width: 576px) {
+    .create-cottage-container {
+        padding: 30px 12px 45px;
+    }
+
+    .create-cottage-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .card-heading {
+        padding: 18px;
+        align-items: flex-start;
+    }
+
+    .heading-badge {
+        display: none;
+    }
+
+    .card-content {
+        padding: 22px 18px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+}
+.rc-create-image-section {
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.rc-create-image-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+    .rc-create-image-heading h5 {
+        margin: 0;
+        color: #172554;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+        .rc-create-image-heading h5 i {
+            color: #14b8a6;
+        }
+
+    .rc-create-image-heading p {
+        margin: 6px 0 0;
+        color: #64748b;
+        font-size: 0.82rem;
+    }
+
+.rc-create-optional-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+/* UPLOAD AREA */
+
+.rc-create-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 190px;
+    padding: 25px 20px;
+    border: 2px dashed #94a3b8;
+    border-radius: 11px;
+    background: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+    .rc-create-upload-area:hover,
+    .rc-create-upload-active {
+        border-color: #14b8a6;
+        background: #f0fdfa;
+    }
+
+.rc-create-upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 1.8rem;
+}
+
+.rc-create-upload-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .rc-create-upload-text strong {
+        color: #172554;
+        font-size: 0.9rem;
+    }
+
+    .rc-create-upload-text span {
+        color: #64748b;
+        font-size: 0.82rem;
+    }
+
+.rc-create-upload-area > small {
+    color: #94a3b8;
+    font-size: 0.72rem;
+}
+
+/* SELECTED FILE */
+
+.rc-create-selected-file {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 13px;
+    border: 1px solid #99f6e4;
+    border-radius: 9px;
+    background: #f0fdfa;
+}
+
+.rc-create-file-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 1.25rem;
+}
+
+.rc-create-file-details {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 3px;
+}
+
+    .rc-create-file-details strong {
+        overflow: hidden;
+        color: #172554;
+        font-size: 0.82rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .rc-create-file-details span {
+        color: #64748b;
+        font-size: 0.74rem;
+    }
+
+.rc-create-remove-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 7px;
+    background: #fee2e2;
+    color: #dc2626;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .rc-create-remove-image:hover {
+        background: #dc2626;
+        color: #fff;
+    }
+
+/* IMAGE PREVIEW */
+
+.rc-create-preview-container {
+    margin-top: 16px;
+    padding: 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #fff;
+}
+
+.rc-create-preview-heading {
+    margin-bottom: 12px;
+    color: #172554;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+    .rc-create-preview-heading i {
+        color: #14b8a6;
+    }
+
+.rc-create-preview-container img {
+    display: block;
+    width: 100%;
+    max-height: 280px;
+    border-radius: 7px;
+    object-fit: contain;
+}
+
+/* UPLOAD ERROR */
+
+.rc-create-upload-error {
+    margin-top: 12px;
+    padding: 11px 13px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 0.8rem;
+}
+
+/* OR DIVIDER */
+
+.rc-create-image-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 22px 0;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+    .rc-create-image-divider::before,
+    .rc-create-image-divider::after {
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+        content: "";
+    }
+
+@media (max-width: 575.98px) {
+
+    .rc-create-image-section {
+        padding: 15px;
+    }
+
+    .rc-create-upload-area {
+        min-height: 165px;
+        padding: 20px 12px;
+    }
+
+    .rc-create-image-heading {
+        flex-direction: column;
+    }
+}
+/* =========================================================
+   ROYAL COTTAGE - CREATE PAGE         END
+   ========================================================= */
+
+/* =========================================================
+   ROYAL COTTAGE - REGISTER       
+   ========================================================= */
+
+/* Page */
+.register-page {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 55px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(37, 99, 235, .07), transparent 35%), radial-gradient(circle at 90% 90%, rgba(20, 184, 166, .07), transparent 35%), #f8fafc;
+}
+
+/* Card */
+.register-card {
+    width: 100%;
+    max-width: 520px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(23, 37, 84, .12);
+    animation: registerEntrance .5s ease;
+}
+
+/* Header */
+.register-header {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 35px 35px;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg, #172554, #1e40af, #2563eb);
+}
+
+    .register-header::before,
+    .register-header::after {
+        content: "";
+        position: absolute;
+        border: 1px solid rgba(255, 255, 255, .1);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .register-header::before {
+        width: 220px;
+        height: 220px;
+        top: -140px;
+        right: -60px;
+    }
+
+    .register-header::after {
+        width: 170px;
+        height: 170px;
+        bottom: -120px;
+        left: -50px;
+    }
+
+.register-icon {
+    position: relative;
+    z-index: 1;
+    width: 85px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 23px;
+    color: var(--cottage-teal-light);
+    font-size: 2.8rem;
+    backdrop-filter: blur(8px);
+}
+
+.register-subtitle {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin-bottom: 9px;
+    color: var(--cottage-teal-light);
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.register-header h2 {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.register-header p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: rgba(255, 255, 255, .8);
+    font-size: .9rem;
+    line-height: 1.6;
+}
+
+/* Body */
+.register-body {
+    padding: 35px;
+}
+
+.register-alert {
+    border-radius: 10px;
+    font-size: .88rem;
+}
+
+.validation-summary {
+    color: #dc2626;
+    font-size: .85rem;
+}
+
+    .validation-summary:empty {
+        display: none;
+    }
+
+/* Fields */
+.register-field {
+    margin-bottom: 22px;
+}
+
+.register-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--cottage-dark);
+    font-size: .87rem;
+    font-weight: 700;
+}
+
+.input-icon-wrapper {
+    position: relative;
+}
+
+    .input-icon-wrapper > i {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        color: var(--cottage-muted);
+        font-size: 1.05rem;
+        pointer-events: none;
+    }
+
+.register-input {
+    width: 100%;
+    height: 52px;
+    padding: 12px 15px 12px 45px;
+    color: var(--cottage-text);
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: .9rem;
+    transition: all .25s ease;
+}
+
+    .register-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .register-input:focus {
+        background: #ffffff;
+        border-color: var(--cottage-blue);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, .1);
+        outline: none;
+    }
+
+        .register-input:focus + i {
+            color: var(--cottage-blue);
+        }
+
+.field-validation {
+    display: block;
+    margin-top: 5px;
+    color: #dc2626;
+    font-size: .78rem;
+}
+
+.password-hint {
+    display: block;
+    margin-top: 8px;
+    color: var(--cottage-muted);
+    font-size: .75rem;
+}
+
+/* Password Toggle */
+.password-wrapper .register-input {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    padding: 6px;
+    color: var(--cottage-muted);
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+    .password-toggle:hover {
+        color: var(--cottage-blue);
+    }
+
+/* Button */
+.btn-register {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 28px;
+    padding: 15px 20px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #172554, #2563eb);
+    border: none;
+    border-radius: 10px;
+    font-size: .95rem;
+    font-weight: 750;
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+    .btn-register i {
+        color: var(--cottage-teal-light);
+        font-size: 1.2rem;
+        transition: transform .3s ease;
+    }
+
+    .btn-register:hover {
+        background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, .25);
+    }
+
+        .btn-register:hover i {
+            transform: translateX(4px);
+        }
+
+/* Login */
+.register-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 28px 0 20px;
+    color: #94a3b8;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+    .register-divider::before,
+    .register-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+    }
+
+.login-prompt {
+    text-align: center;
+}
+
+    .login-prompt p {
+        margin-bottom: 13px;
+        color: var(--cottage-muted);
+        font-size: .87rem;
+    }
+
+.btn-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 22px;
+    color: var(--cottage-secondary);
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: .88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+    .btn-login:hover {
+        color: var(--cottage-blue);
+        background: #eff6ff;
+        border-color: var(--cottage-blue);
+    }
+
+/* Footer */
+.register-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 17px;
+    color: var(--cottage-muted);
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+    .register-footer i {
+        color: var(--cottage-teal);
+        font-size: .95rem;
+    }
+
+/* Animation */
+@@keyframes registerEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@@media (max-width: 576px) {
+    .register-page {
+        padding: 30px 15px;
+    }
+
+    .register-header {
+        padding: 32px 22px;
+    }
+
+    .register-body {
+        padding: 25px 20px;
+    }
+
+    .register-header h2 {
+        font-size: 1.55rem;
+    }
+
+    .register-icon {
+        width: 75px;
+        height: 75px;
+        font-size: 2.4rem;
+    }
+}
+/* =========================================================
+   ROYAL COTTAGE - REGISTER       END
+   ========================================================= */
+
+/* =========================================================
+   ROYAL COTTAGE - LOGIN       
+   ========================================================= */
+
+/* Page */
+.login-page {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 55px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(37, 99, 235, .07), transparent 35%), radial-gradient(circle at 90% 90%, rgba(20, 184, 166, .07), transparent 35%), #f8fafc;
+}
+
+/* Card */
+.login-card {
+    width: 100%;
+    max-width: 520px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(23, 37, 84, .12);
+    animation: loginEntrance .5s ease;
+}
+
+/* Header */
+.login-header {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 35px 35px;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg, #172554, #1e40af, #2563eb);
+}
+
+    .login-header::before,
+    .login-header::after {
+        content: "";
+        position: absolute;
+        border: 1px solid rgba(255, 255, 255, .1);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .login-header::before {
+        width: 220px;
+        height: 220px;
+        top: -140px;
+        right: -60px;
+    }
+
+    .login-header::after {
+        width: 170px;
+        height: 170px;
+        bottom: -120px;
+        left: -50px;
+    }
+
+.login-icon {
+    position: relative;
+    z-index: 1;
+    width: 85px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 23px;
+    color: var(--cottage-teal-light);
+    font-size: 2.8rem;
+    backdrop-filter: blur(8px);
+}
+
+.login-subtitle {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin-bottom: 9px;
+    color: var(--cottage-teal-light);
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.login-header h2 {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.login-header p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: rgba(255, 255, 255, .8);
+    font-size: .9rem;
+    line-height: 1.6;
+}
+
+/* Body */
+.login-body {
+    padding: 35px;
+}
+
+.login-alert {
+    border-radius: 10px;
+    font-size: .88rem;
+}
+
+.validation-summary {
+    color: #dc2626;
+    font-size: .85rem;
+}
+
+    .validation-summary:empty {
+        display: none;
+    }
+
+/* Fields */
+.login-field {
+    margin-bottom: 23px;
+}
+
+.login-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--cottage-dark);
+    font-size: .87rem;
+    font-weight: 700;
+}
+
+.login-input-wrapper {
+    position: relative;
+}
+
+    .login-input-wrapper > i {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        color: var(--cottage-muted);
+        font-size: 1.05rem;
+        pointer-events: none;
+    }
+
+.login-input {
+    width: 100%;
+    height: 52px;
+    padding: 12px 15px 12px 45px;
+    color: var(--cottage-text);
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: .9rem;
+    transition: all .25s ease;
+}
+
+    .login-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .login-input:focus {
+        background: #ffffff;
+        border-color: var(--cottage-blue);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, .1);
+        outline: none;
+    }
+
+.field-validation {
+    display: block;
+    margin-top: 5px;
+    color: #dc2626;
+    font-size: .78rem;
+}
+
+/* Password */
+.password-wrapper .login-input {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    padding: 6px;
+    color: var(--cottage-muted);
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+    .password-toggle:hover {
+        color: var(--cottage-blue);
+    }
+
+/* Remember Me */
+.login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: -5px;
+    margin-bottom: 25px;
+}
+
+    .login-options .form-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+    }
+
+    .login-options .form-check-input {
+        width: 17px;
+        height: 17px;
+        margin: 0;
+        border-color: #cbd5e1;
+        cursor: pointer;
+    }
+
+        .login-options .form-check-input:checked {
+            background-color: var(--cottage-blue);
+            border-color: var(--cottage-blue);
+        }
+
+    .login-options .form-check-label {
+        color: var(--cottage-muted);
+        font-size: .83rem;
+        cursor: pointer;
+    }
+
+/* Submit Button */
+.btn-login-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 20px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #172554, #2563eb);
+    border: none;
+    border-radius: 10px;
+    font-size: .95rem;
+    font-weight: 750;
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+    .btn-login-submit i {
+        color: var(--cottage-teal-light);
+        font-size: 1.2rem;
+        transition: transform .3s ease;
+    }
+
+    .btn-login-submit:hover {
+        background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, .25);
+    }
+
+        .btn-login-submit:hover i {
+            transform: translateX(4px);
+        }
+
+/* Register Link */
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 28px 0 20px;
+    color: #94a3b8;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+    .login-divider::before,
+    .login-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+    }
+
+.register-prompt {
+    text-align: center;
+}
+
+    .register-prompt p {
+        margin-bottom: 13px;
+        color: var(--cottage-muted);
+        font-size: .87rem;
+    }
+
+.btn-create-account {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 22px;
+    color: var(--cottage-secondary);
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: .88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+    .btn-create-account:hover {
+        color: var(--cottage-blue);
+        background: #eff6ff;
+        border-color: var(--cottage-blue);
+    }
+
+/* Footer */
+.login-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 17px;
+    color: var(--cottage-muted);
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+    .login-footer i {
+        color: var(--cottage-teal);
+        font-size: .95rem;
+    }
+
+/* Animation */
+@@keyframes loginEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@@media (max-width: 576px) {
+    .login-page {
+        padding: 30px 15px;
+    }
+
+    .login-header {
+        padding: 32px 22px;
+    }
+
+    .login-body {
+        padding: 25px 20px;
+    }
+
+    .login-header h2 {
+        font-size: 1.55rem;
+    }
+
+    .login-icon {
+        width: 75px;
+        height: 75px;
+        font-size: 2.4rem;
+    }
+}
+/* Forgot Password */
+.forgot-password-link {
+    color: var(--cottage-blue);
+    font-size: .83rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color .25s ease;
+}
+
+    .forgot-password-link:hover {
+        color: var(--cottage-teal);
+        text-decoration: underline;
+    }
+/* =========================================================
+   ROYAL COTTAGE - LOGIN       END
+   ========================================================= */
+
+/* =========================================================
+   ROYAL COTTAGE - ACCESS DENIED       
+   ========================================================= */
+/* Page Background */
+.access-denied-page {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: radial-gradient(circle at 10% 10%, rgba(37, 99, 235, .07), transparent 35%), radial-gradient(circle at 90% 90%, rgba(20, 184, 166, .07), transparent 35%), #f8fafc;
+}
+
+/* Main Card */
+.access-denied-card {
+    width: 100%;
+    max-width: 560px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(23, 37, 84, .12);
+    animation: cardEntrance .6s ease;
+}
+
+/* Header */
+.access-denied-header {
+    position: relative;
+    overflow: hidden;
+    padding: 45px 35px 40px;
+    text-align: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #172554, #1e40af, #2563eb);
+}
+
+    .access-denied-header::before,
+    .access-denied-header::after {
+        content: "";
+        position: absolute;
+        border: 1px solid rgba(255, 255, 255, .1);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .access-denied-header::before {
+        width: 230px;
+        height: 230px;
+        top: -130px;
+        right: -70px;
+    }
+
+    .access-denied-header::after {
+        width: 180px;
+        height: 180px;
+        bottom: -120px;
+        left: -55px;
+    }
+
+.security-icon {
+    position: relative;
+    z-index: 1;
+    width: 95px;
+    height: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 25px;
+    color: #fbbf24;
+    font-size: 3.5rem;
+    backdrop-filter: blur(8px);
+}
+
+.security-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #5eead4;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.access-denied-header h1 {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.access-denied-header p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: rgba(255, 255, 255, .8);
+    font-size: .95rem;
+}
+
+/* Body */
+.access-denied-body {
+    padding: 35px;
+}
+
+/* Warning Panel */
+.warning-panel {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
+    border-radius: 12px;
+}
+
+.warning-icon {
+    flex-shrink: 0;
+    color: #d97706;
+    font-size: 1.5rem;
+}
+
+.warning-panel h6 {
+    margin-bottom: 6px;
+    color: #92400e;
+    font-size: .95rem;
+    font-weight: 800;
+}
+
+.warning-panel p {
+    margin: 0;
+    color: #78350f;
+    font-size: .85rem;
+    line-height: 1.65;
+}
+
+/* Information */
+.access-denied-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 22px 0 25px;
+    color: var(--cottage-muted);
+    font-size: .85rem;
+    line-height: 1.6;
+}
+
+    .access-denied-message i {
+        flex-shrink: 0;
+        margin-top: 2px;
+        color: var(--cottage-blue);
+        font-size: 1rem;
+    }
+
+/* Buttons */
+.access-denied-actions {
+    display: grid;
+    gap: 12px;
+}
+
+.btn-access-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 20px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #172554, #2563eb);
+    border: none;
+    border-radius: 10px;
+    font-size: .95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+
+    .btn-access-home:hover {
+        color: #ffffff;
+        background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(37, 99, 235, .25);
+    }
+
+    .btn-access-home i:last-child {
+        margin-left: auto;
+        color: #5eead4;
+        transition: transform .3s ease;
+    }
+
+    .btn-access-home:hover i:last-child {
+        transform: translateX(4px);
+    }
+
+.btn-access-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    color: var(--cottage-secondary);
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: .9rem;
+    font-weight: 650;
+    transition: all .3s ease;
+}
+
+    .btn-access-back:hover {
+        color: var(--cottage-blue);
+        background: #eff6ff;
+        border-color: var(--cottage-blue);
+    }
+
+/* Footer */
+.access-denied-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    color: var(--cottage-muted);
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+    .access-denied-footer i {
+        color: var(--cottage-teal);
+        font-size: 1rem;
+    }
+
+/* Animation */
+@@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@@media (max-width: 576px) {
+    .access-denied-page {
+        padding: 35px 15px;
+    }
+
+    .access-denied-header {
+        padding: 35px 20px;
+    }
+
+        .access-denied-header h1 {
+            font-size: 1.7rem;
+        }
+
+    .access-denied-body {
+        padding: 25px 20px;
+    }
+
+    .security-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 3rem;
+    }
+}
+/* =========================================================
+   ROYAL COTTAGE - ACCESS DENIED       END
+   ========================================================= */

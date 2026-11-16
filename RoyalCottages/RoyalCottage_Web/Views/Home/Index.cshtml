@@ -1,9 +1,8 @@
-﻿
-@using RoyalCottage_DTO
+﻿@using RoyalCottage_DTO
 @model IEnumerable<CottageDTO>
 
 @{
-    ViewData["Title"] = "Luxury Cottage Collection";
+    ViewData["Title"] = "RoyalCottage - Luxury Cottage Collection";
 
     var cottages = Model?.ToList() ?? new List<CottageDTO>();
 
@@ -14,70 +13,99 @@
 }
 
 <!-- Hero Carousel -->
-<div id="heroCarousel" class="carousel slide carousel-fade hero-carousel"
-     data-bs-ride="carousel">
+<section id="royalCottageCarousel"
+         class="carousel slide carousel-fade rc-hero"
+         data-bs-ride="carousel"
+         data-bs-interval="6000">
 
     <div class="carousel-indicators">
-        <button type="button" data-bs-target="#heroCarousel"
-                data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#heroCarousel"
-                data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#heroCarousel"
-                data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#royalCottageCarousel"
+                data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+
+        <button type="button" data-bs-target="#royalCottageCarousel"
+                data-bs-slide-to="1" aria-label="Slide 2"></button>
+
+        <button type="button" data-bs-target="#royalCottageCarousel"
+                data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
 
     <div class="carousel-inner">
 
+        <!-- Slide 1 -->
         <div class="carousel-item active">
-            <div class="hero-slide hero-one">
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <span class="hero-subtitle">WELCOME TO ROYAL COTTAGE</span>
+            <div class="rc-hero-slide rc-hero-one">
+                <div class="rc-hero-content">
+
+                    <span class="rc-hero-eyebrow">
+                        <i class="bi bi-house-heart"></i>
+                        WELCOME TO ROYALCOTTAGE
+                    </span>
+
                     <h1>Escape to Something Extraordinary</h1>
+
                     <p>
-                        Discover beautiful cottages designed for comfort,
-                        relaxation and unforgettable experiences.
+                        Discover beautiful cottages, peaceful surroundings
+                        and the freedom to slow down and enjoy life.
                     </p>
-                    <a href="#cottage-listings" class="btn btn-teal">
-                        Explore Our Collection
-                        <i class="bi bi-arrow-right ms-2"></i>
+
+                    <a href="#cottage-listings" class="rc-btn-light">
+                        Explore Our Cottages
+                        <i class="bi bi-arrow-down-circle"></i>
                     </a>
+
                 </div>
             </div>
         </div>
 
+        <!-- Slide 2 -->
         <div class="carousel-item">
-            <div class="hero-slide hero-two">
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <span class="hero-subtitle">EXCLUSIVE EXPERIENCES</span>
-                    <h1>Your Perfect Getaway Awaits</h1>
+            <div class="rc-hero-slide rc-hero-two">
+                <div class="rc-hero-content">
+
+                    <span class="rc-hero-eyebrow">
+                        <i class="bi bi-stars"></i>
+                        YOUR TIME TO UNWIND
+                    </span>
+
+                    <h1>Reconnect With What Matters</h1>
+
                     <p>
-                        From peaceful countryside retreats to stunning
-                        coastal escapes, find your perfect destination.
+                        Step away from everyday distractions, put your devices
+                        aside and enjoy a refreshing digital detox.
                     </p>
-                    <a href="#cottage-listings" class="btn btn-teal">
-                        Discover More
-                        <i class="bi bi-arrow-right ms-2"></i>
+
+                    <a href="#digital-detox" class="rc-btn-light">
+                        Discover Digital Detox
+                        <i class="bi bi-arrow-down-circle"></i>
                     </a>
+
                 </div>
             </div>
         </div>
 
+        <!-- Slide 3 -->
         <div class="carousel-item">
-            <div class="hero-slide hero-three">
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <span class="hero-subtitle">LUXURY MEETS COMFORT</span>
-                    <h1>Make Every Stay Special</h1>
+            <div class="rc-hero-slide rc-hero-three">
+                <div class="rc-hero-content">
+
+                    <span class="rc-hero-eyebrow">
+                        <i class="bi bi-calendar-heart"></i>
+                        YOUR PERFECT GETAWAY
+                    </span>
+
+                    <h1>Make Time for Yourself</h1>
+
                     <p>
-                        Beautiful surroundings, exceptional comfort
-                        and memories that last a lifetime.
+                        Find your perfect cottage and enjoy a slower pace
+                        surrounded by comfort, tranquillity and nature.
                     </p>
-                    <a href="#cottage-listings" class="btn btn-teal">
-                        Find Your Cottage
-                        <i class="bi bi-arrow-right ms-2"></i>
+
+                    <a href="#cottage-listings" class="rc-btn-light">
+                        View Cottage Collection
+                        <i class="bi bi-arrow-down-circle"></i>
                     </a>
+
                 </div>
             </div>
         </div>
@@ -85,45 +113,103 @@
     </div>
 
     <button class="carousel-control-prev" type="button"
-            data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
+            data-bs-target="#royalCottageCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
 
     <button class="carousel-control-next" type="button"
-            data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
+            data-bs-target="#royalCottageCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
 
-</div>
+</section>
 
-<div class="container cottage-container" id="cottage-listings">
 
-    <!-- Section Heading -->
-    <div class="section-heading text-center">
+<!-- Main Content -->
+<div class="rc-home-container" id="cottage-listings">
 
-        <span class="section-subtitle">DISCOVER YOUR NEXT ESCAPE</span>
+    <!-- Page Heading -->
+    <section class="rc-section-heading">
 
-        <h2>Our Exclusive Cottage Collection</h2>
+        <span class="rc-section-eyebrow">
+            DISCOVER ROYALCOTTAGE
+        </span>
+
+        <h2>
+            <i class="bi bi-house-heart-fill"></i>
+            Our Exclusive Cottage Collection
+        </h2>
 
         <p>
-            Explore our carefully selected cottages offering comfort,
-            elegance and unforgettable experiences.
+            Discover handpicked cottages designed for comfort,
+            relaxation and unforgettable escapes.
         </p>
 
-        <div class="blue-divider">
+        <div class="rc-heading-divider">
             <span></span>
             <i class="bi bi-gem"></i>
             <span></span>
         </div>
 
-    </div>
+    </section>
+
+
+    <!-- Digital Detox Section -->
+    <section class="rc-detox-section" id="digital-detox">
+
+        <div class="rc-detox-icon">
+            <i class="bi bi-phone"></i>
+            <span class="rc-detox-cross">
+                <i class="bi bi-slash-circle-fill"></i>
+            </span>
+        </div>
+
+        <div class="rc-detox-content">
+
+            <span class="rc-detox-eyebrow">
+                SLOW DOWN. SWITCH OFF. RECONNECT.
+            </span>
+
+            <h3>Make Room for a Digital Detox</h3>
+
+            <p>
+                Our cottages are ideal for a digital detox.
+                Take a break from constant notifications, screens and
+                everyday distractions. Enjoy peaceful moments, reconnect
+                with nature, spend quality time with loved ones and
+                rediscover the simple pleasures of life.
+            </p>
+
+            <div class="rc-detox-features">
+
+                <span>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Switch off
+                </span>
+
+                <span>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Relax and recharge
+                </span>
+
+                <span>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Reconnect with nature
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
 
     <!-- Error Message -->
     @if (TempData["error"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show"
+        <div class="alert alert-danger alert-dismissible fade show rc-alert"
              role="alert">
 
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -131,22 +217,24 @@
 
             <button type="button" class="btn-close"
                     data-bs-dismiss="alert" aria-label="Close"></button>
-
         </div>
     }
 
-    <!-- Empty State -->
+
+    <!-- Cottage Collection -->
     @if (!cottages.Any())
     {
-        <div class="empty-state text-center">
+        <div class="rc-empty-state">
 
-            <i class="bi bi-house-x"></i>
+            <div class="rc-empty-icon">
+                <i class="bi bi-house-door"></i>
+            </div>
 
-            <h4>No Cottages Available</h4>
+            <h3>No Cottages Available</h3>
 
             <p>
-                There are currently no cottages available.
-                Please check back later.
+                Our cottage collection is currently being updated.
+                Please check back soon for your next getaway.
             </p>
 
         </div>
@@ -160,589 +248,205 @@
             {
                 <div class="col">
 
-                    <div class="cottage-card h-100">
+                    <article class="rc-cottage-card h-100">
 
-                        <!-- Cottage Image -->
-                        <div class="cottage-image-wrapper">
+                        <!-- Image -->
+                        <div class="rc-cottage-image-wrapper">
 
                             @if (!string.IsNullOrWhiteSpace(cottage.ImageUrl))
                             {
                                 <img src="@cottage.ImageUrl"
                                      alt="@cottage.Name"
-                                     class="cottage-image"
+                                     class="rc-cottage-image"
                                      loading="lazy" />
                             }
                             else
                             {
-                                <div class="image-placeholder">
-                                    <i class="bi bi-house-door"></i>
+                                <div class="rc-cottage-placeholder">
+                                    <i class="bi bi-house-heart"></i>
                                 </div>
                             }
 
-                            <!-- Price Badge -->
-                            <div class="price-tag">
-                                <span>£@cottage.Rate.ToString("N0")</span>
-                                <small>/ night</small>
+                            <div class="rc-image-shade"></div>
+
+                            <!-- Price -->
+                            <div class="rc-price-tag">
+                                <strong>£@cottage.Rate.ToString("N0")</strong>
+                                <span>per night</span>
                             </div>
 
-                            <div class="image-overlay"></div>
+                            <!-- Image Label -->
+                            <div class="rc-image-label">
+                                <i class="bi bi-gem"></i>
+                                ROYALCOTTAGE
+                            </div>
 
                         </div>
 
-                        <!-- Cottage Information -->
-                        <div class="cottage-card-body">
 
-                            <h5 class="cottage-title">
-                                @cottage.Name
-                            </h5>
+                        <!-- Card Body -->
+                        <div class="rc-cottage-body">
 
-                            <p class="cottage-description">
+                            <div class="rc-cottage-heading">
+
+                                <div>
+                                    <span class="rc-cottage-category">
+                                        YOUR PRIVATE RETREAT
+                                    </span>
+
+                                    <h3 class="rc-cottage-title">
+                                        @cottage.Name
+                                    </h3>
+                                </div>
+
+                                <div class="rc-cottage-heading-icon">
+                                    <i class="bi bi-house-heart"></i>
+                                </div>
+
+                            </div>
+
+
+                            <!-- Description -->
+                            <p class="rc-cottage-description">
                                 @cottage.Details
                             </p>
 
-                            <div class="cottage-divider"></div>
 
                             <!-- Cottage Features -->
-                            <div class="cottage-features">
+                            <div class="rc-cottage-features">
 
-                                <div class="feature-item">
+                                <div class="rc-feature-item">
                                     <i class="bi bi-people"></i>
+
                                     <div>
                                         <strong>@cottage.Occupancy</strong>
                                         <small>Guests</small>
                                     </div>
                                 </div>
 
-                                <div class="feature-item">
+                                <div class="rc-feature-item">
                                     <i class="bi bi-arrows-fullscreen"></i>
+
                                     <div>
-                                        <strong>@cottage.SqMeters</strong>
-                                        <small>Sq. meters</small>
+                                        <strong>@cottage.SqMeters m²</strong>
+                                        <small>Living Space</small>
                                     </div>
                                 </div>
 
                             </div>
 
+
+                            <!-- Digital Detox Label -->
+                            <div class="rc-cottage-detox">
+                                <i class="bi bi-phone"></i>
+                                <span>Ideal for a digital detox</span>
+                            </div>
+
+
                             <!-- Contact Button -->
-                            <a href="mailto:hello@dotnetmastery.com?subject=Enquiry%20about%20@Uri.EscapeDataString(cottage.Name)"
-                               class="btn btn-cottage w-100">
+                            <div class="rc-cottage-footer">
 
-                                <i class="bi bi-envelope me-2"></i>
-                                Enquire About This Cottage
-                                <i class="bi bi-arrow-right ms-auto"></i>
+                                <a href="#"
+                                   class="rc-btn-cottage">
 
-                            </a>
+                                    <span>Enquire Now</span>
+                                    <i class="bi bi-arrow-up-right"></i>
+
+                                </a>
+
+                            </div>
 
                         </div>
 
-                    </div>
+                    </article>
 
                 </div>
             }
 
         </div>
+
+
+        <!-- Statistics -->
+        <section class="rc-statistics-section">
+
+            <div class="rc-statistics-heading">
+
+                <span>ROYALCOTTAGE AT A GLANCE</span>
+
+                <h2>Discover Our Collection</h2>
+
+                <p>
+                    Everything you need to find your perfect escape.
+                </p>
+
+            </div>
+
+            <div class="row g-4">
+
+                <!-- Total Cottages -->
+                <div class="col-6 col-lg-3">
+                    <div class="rc-stat-card">
+
+                        <div class="rc-stat-icon">
+                            <i class="bi bi-house-heart-fill"></i>
+                        </div>
+
+                        <h3>@totalCottages</h3>
+
+                        <p>Available Cottages</p>
+
+                    </div>
+                </div>
+
+                <!-- Starting Price -->
+                <div class="col-6 col-lg-3">
+                    <div class="rc-stat-card">
+
+                        <div class="rc-stat-icon">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+
+                        <h3>£@startingRate.ToString("N0")</h3>
+
+                        <p>Starting From / Night</p>
+
+                    </div>
+                </div>
+
+                <!-- Occupancy -->
+                <div class="col-6 col-lg-3">
+                    <div class="rc-stat-card">
+
+                        <div class="rc-stat-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+
+                        <h3>@maxOccupancy</h3>
+
+                        <p>Maximum Guests</p>
+
+                    </div>
+                </div>
+
+                <!-- Total Space -->
+                <div class="col-6 col-lg-3">
+                    <div class="rc-stat-card">
+
+                        <div class="rc-stat-icon">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                        </div>
+
+                        <h3>@totalSqMeters.ToString("N0") m²</h3>
+
+                        <p>Total Living Space</p>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
     }
-
-    <!-- Statistics Section -->
-    <section class="statistics-section">
-
-        <div class="section-heading text-center">
-
-            <span class="section-subtitle">THE ROYAL COTTAGE EXPERIENCE</span>
-
-            <h2>Our Collection at a Glance</h2>
-
-            <p>Discover what makes our cottage collection special.</p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-6 col-lg-3">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="bi bi-house-heart"></i>
-                    </div>
-                    <h3>@totalCottages</h3>
-                    <p>Total Cottages</p>
-                </div>
-            </div>
-
-            <div class="col-6 col-lg-3">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="bi bi-cash-stack"></i>
-                    </div>
-                    <h3>£@(totalCottages > 0 ? startingRate.ToString("N0") : "N/A")</h3>
-                    <p>Starting Price / Night</p>
-                </div>
-            </div>
-
-            <div class="col-6 col-lg-3">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <h3>@maxOccupancy</h3>
-                    <p>Maximum Occupancy</p>
-                </div>
-            </div>
-
-            <div class="col-6 col-lg-3">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="bi bi-aspect-ratio"></i>
-                    </div>
-                    <h3>@totalSqMeters.ToString("N0")</h3>
-                    <p>Total Sq. Meters</p>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
 
 </div>
-
-<!-- Custom CSS -->
-<style>
-
-    :root {
-        --cottage-dark: #172554;
-        --cottage-secondary: #1e3a8a;
-        --cottage-blue: #2563eb;
-        --cottage-teal: #14b8a6;
-        --cottage-teal-light: #5eead4;
-        --cottage-text: #334155;
-        --cottage-muted: #64748b;
-        --cottage-light: #f8fafc;
-        --cottage-white: #ffffff;
-    }
-
-    /* Global */
-
-    .cottage-container {
-        padding-top: 65px;
-        padding-bottom: 50px;
-    }
-
-    /* Hero Carousel */
-
-    .hero-carousel {
-        overflow: hidden;
-    }
-
-    .hero-slide {
-        height: 540px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .hero-one {
-        background: linear-gradient(135deg, #172554, #1e40af);
-    }
-
-    .hero-two {
-        background: linear-gradient(135deg, #0f766e, #164e63);
-    }
-
-    .hero-three {
-        background: linear-gradient(135deg, #1e3a8a, #0f172a);
-    }
-
-    .hero-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient( 90deg, rgba(15, 23, 42, .85), rgba(15, 23, 42, .3) );
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 850px;
-        padding: 30px;
-        text-align: center;
-        color: white;
-        animation: fadeInUp 1s ease;
-    }
-
-    .hero-subtitle {
-        display: inline-block;
-        color: var(--cottage-teal-light);
-        letter-spacing: 4px;
-        font-size: .8rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(2.2rem, 5vw, 4rem);
-        font-weight: 700;
-        line-height: 1.2;
-        margin-bottom: 20px;
-    }
-
-    .hero-content p {
-        font-size: 1.15rem;
-        color: rgba(255,255,255,.85);
-        margin-bottom: 30px;
-    }
-
-    .btn-teal {
-        background: var(--cottage-teal);
-        color: #102a43;
-        border: 1px solid var(--cottage-teal);
-        padding: 13px 30px;
-        border-radius: 6px;
-        font-weight: 700;
-        transition: all .3s ease;
-    }
-
-        .btn-teal:hover {
-            background: var(--cottage-teal-light);
-            border-color: var(--cottage-teal-light);
-            color: var(--cottage-dark);
-            transform: translateY(-3px);
-        }
-
-    /* Carousel Controls */
-
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        background-color: rgba(23,37,84,.55);
-        border-radius: 50%;
-        padding: 20px;
-    }
-
-    /* Section Heading */
-
-    .section-heading {
-        margin-bottom: 45px;
-    }
-
-    .section-subtitle {
-        color: var(--cottage-blue);
-        font-size: .78rem;
-        font-weight: 700;
-        letter-spacing: 3px;
-    }
-
-    .section-heading h2 {
-        color: var(--cottage-dark);
-        font-size: 2.3rem;
-        font-weight: 700;
-        margin: 12px 0;
-    }
-
-    .section-heading p {
-        color: var(--cottage-muted);
-        font-size: 1rem;
-    }
-
-    .blue-divider {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        color: var(--cottage-teal);
-        margin-top: 25px;
-    }
-
-        .blue-divider span {
-            width: 65px;
-            height: 2px;
-            background: linear-gradient( 90deg, transparent, var(--cottage-blue), transparent );
-        }
-
-    /* Cottage Cards */
-
-    .cottage-card {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 5px 20px rgba(23,37,84,.06);
-        transition: transform .3s ease, box-shadow .3s ease;
-    }
-
-        .cottage-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(23,37,84,.14);
-        }
-
-    .cottage-image-wrapper {
-        height: 250px;
-        position: relative;
-        overflow: hidden;
-        background: var(--cottage-secondary);
-    }
-
-    .cottage-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform .6s ease;
-    }
-
-    .cottage-card:hover .cottage-image {
-        transform: scale(1.08);
-    }
-
-    .image-placeholder {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 4rem;
-    }
-
-    .image-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient( to top, rgba(15,23,42,.25), transparent 50% );
-        pointer-events: none;
-    }
-
-    /* Price Badge */
-
-    .price-tag {
-        position: absolute;
-        top: 18px;
-        right: 18px;
-        z-index: 2;
-        background: var(--cottage-teal);
-        color: #102a43;
-        padding: 9px 15px;
-        border-radius: 6px;
-        font-weight: 700;
-        box-shadow: 0 3px 10px rgba(0,0,0,.15);
-    }
-
-        .price-tag small {
-            font-weight: 500;
-            font-size: .75rem;
-        }
-
-    /* Cottage Information */
-
-    .cottage-card-body {
-        padding: 25px;
-        display: flex;
-        flex-direction: column;
-        min-height: 285px;
-    }
-
-    .cottage-title {
-        color: var(--cottage-dark);
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 12px;
-    }
-
-    .cottage-description {
-        color: var(--cottage-muted);
-        font-size: .92rem;
-        line-height: 1.7;
-        flex-grow: 1;
-    }
-
-    .cottage-divider {
-        height: 1px;
-        background: #e2e8f0;
-        margin: 15px 0;
-    }
-
-    /* Cottage Features */
-
-    .cottage-features {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        margin-bottom: 22px;
-    }
-
-    .feature-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-        .feature-item i {
-            color: var(--cottage-blue);
-            font-size: 1.35rem;
-        }
-
-        .feature-item strong {
-            display: block;
-            color: var(--cottage-dark);
-            font-size: .9rem;
-        }
-
-        .feature-item small {
-            display: block;
-            color: var(--cottage-muted);
-            font-size: .75rem;
-        }
-
-    /* Contact Button */
-
-    .btn-cottage {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        background: var(--cottage-dark);
-        color: white;
-        border: 1px solid var(--cottage-dark);
-        border-radius: 6px;
-        padding: 12px 15px;
-        font-weight: 600;
-        transition: all .3s ease;
-    }
-
-        .btn-cottage:hover {
-            background: var(--cottage-blue);
-            border-color: var(--cottage-blue);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37,99,235,.2);
-        }
-
-    /* Statistics */
-
-    .statistics-section {
-        margin-top: 90px;
-        padding: 55px 35px;
-        background: linear-gradient( 135deg, #172554, #1e40af );
-        border-radius: 15px;
-    }
-
-        .statistics-section .section-heading h2 {
-            color: white;
-        }
-
-        .statistics-section .section-heading p {
-            color: rgba(255,255,255,.75);
-        }
-
-        .statistics-section .section-subtitle {
-            color: var(--cottage-teal-light);
-        }
-
-    .stat-card {
-        height: 100%;
-        padding: 25px 15px;
-        text-align: center;
-        border: 1px solid rgba(255,255,255,.15);
-        border-radius: 10px;
-        background: rgba(255,255,255,.06);
-        transition: all .3s ease;
-    }
-
-        .stat-card:hover {
-            background: rgba(255,255,255,.12);
-            transform: translateY(-5px);
-        }
-
-    .stat-icon {
-        color: var(--cottage-teal-light);
-        font-size: 2.2rem;
-        margin-bottom: 12px;
-    }
-
-    .stat-card h3 {
-        color: white;
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .stat-card p {
-        color: rgba(255,255,255,.75);
-        margin: 0;
-        font-size: .9rem;
-    }
-
-    /* Empty State */
-
-    .empty-state {
-        padding: 70px 20px;
-        background: white;
-        border-radius: 12px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 5px 20px rgba(23,37,84,.05);
-    }
-
-        .empty-state i {
-            font-size: 4rem;
-            color: var(--cottage-blue);
-            display: block;
-            margin-bottom: 20px;
-        }
-
-        .empty-state h4 {
-            color: var(--cottage-dark);
-            font-weight: 700;
-        }
-
-        .empty-state p {
-            color: var(--cottage-muted);
-        }
-
-    /* Animations */
-
-    @@keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(25px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Responsive */
-
-    @@media (max-width: 768px) {
-
-        .hero-slide {
-            height: 430px;
-        }
-
-        .hero-content {
-            padding: 20px;
-        }
-
-            .hero-content h1 {
-                font-size: 2.1rem;
-            }
-
-            .hero-content p {
-                font-size: 1rem;
-            }
-
-        .cottage-container {
-            padding-top: 40px;
-        }
-
-        .section-heading h2 {
-            font-size: 1.8rem;
-        }
-
-        .statistics-section {
-            padding: 35px 15px;
-            margin-top: 60px;
-        }
-
-        .cottage-card-body {
-            padding: 20px;
-        }
-    }
-
-</style>

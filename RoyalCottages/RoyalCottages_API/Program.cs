@@ -1,3 +1,5 @@
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -36,6 +38,19 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Add API versioning services to the container and configure the default API version and reporting of API versions
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true; // Assume the default API version when no version is specified in the request
+    options.DefaultApiVersion = new ApiVersion(1.0); // Set the default API version to 1.0
+    options.ReportApiVersions = true; // Report the supported API versions in the response headers
+}).AddApiExplorer(option => // Add API explorer services to the container and configure the group name format and substitution of API version in the URL
+{
+    option.GroupNameFormat = "'v'VVV"; // Set the group name format for API versioning to "v{version}" (e.g., v1, v2, etc.)
+    option.SubstituteApiVersionInUrl = true; // Substitute the API version in the URL when generating links to the API endpoints
+});
+
+// Add CORS services to the container to allow cross-origin requests from any origin, with any header and method, and expose all headers in the response
 builder.Services.AddCors();
 
 // Set up default connection to Server SQL
@@ -45,38 +60,62 @@ options => options.UseSqlServer(builder.Configuration.GetConnectionString("Defau
 // Add services to the container for controllers, which handle incoming HTTP requests and return responses
 builder.Services.AddControllers();
 
-// Add OpenAPI services to the container for API documentation and testing
-builder.Services.AddOpenApi(options =>
-{
-    // Add a document transformer to customize the OpenAPI document for JWT authentication
-    options.AddDocumentTransformer((document, context, cancellationToken) =>
-    {
-        document.Components ??= new();
-        document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>
-        {
-            // Add a security scheme for JWT bearer authentication to the OpenAPI document
-            ["Bearer"] = new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT",
-                Description = "Enter JWT Bearer token"
-            }
-        };
+// Add API version description provider to the container, which provides information about the available API versions and their descriptions
+var builderProvider = builder.Services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
 
-        // Document security array - Add a security requirement to the OpenAPI document to require JWT authentication for all endpoint
-        document.Security =
-        [
-            new OpenApiSecurityRequirement
+// Add OpenAPI services to the container for API documentation and testing
+foreach (var description in builderProvider.ApiVersionDescriptions)
+{
+    var versionName = description.GroupName; // Get the group name for the API version (e.g., "v1", "v2", etc.)
+    var versionNumber = description.ApiVersion.ToString(); // Get the API version number as a string (e.g., "1.0", "2.0", etc.)
+    var displayName = $"Demo API -- {versionNumber}";
+
+    // Add OpenAPI services to the container for API documentation and testing
+    builder.Services.AddOpenApi(versionName,options =>
+    {
+        // Add a document transformer to customize the OpenAPI document for JWT authentication
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new OpenApiInfo
+            {
+                Title = "Royal Cottage API",
+                Version = versionName,
+                Description = displayName,
+                Contact = new OpenApiContact
+                {
+                    Name = "Miro Resutik",
+                    Email = "miro@ApiTest.co.uk"
+                }
+            };
+            document.Components ??= new();
+            document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>
+            {
+                // Add a security scheme for JWT bearer authentication to the OpenAPI document
+                ["Bearer"] = new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Description = "Enter JWT Bearer token"
+                }
+            };
+
+            // Document security array - Add a security requirement to the OpenAPI document to require JWT authentication for all endpoint
+            document.Security =
+            [
+                new OpenApiSecurityRequirement
             {
                 {new OpenApiSecuritySchemeReference("Bearer"), new List<string>() }
             }
-        ];
+            ];
 
-        // Return a completed task to indicate that the document transformation is complete
-        return Task.CompletedTask;
+            // Return a completed task to indicate that the document transformation is complete
+            return Task.CompletedTask;
+        });
     });
-});
+
+}
+
 
 // Add AutoMapper for DTO 
 // AutoMapper is a library that helps to map objects from one type to another.
@@ -109,8 +148,34 @@ await SeedDataAsync(app);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.MapScalarApiReference();
+    // Use Swagger for API documentation and testing in development environment
+    app.MapOpenApi("/openapi/{documentName}.json");
+
+    // Get the API version description provider from the service provider
+    var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+    // Map the OpenAPI documents for each API version to the corresponding endpoint
+    app.MapScalarApiReference(option=>
+    {
+        option.Title = "Demo - Royal Cottage API";
+
+        // Sort the API version descriptions by version number in ascending order
+        var sortedVersion = provider.ApiVersionDescriptions.OrderBy(v => v.ApiVersion).ToList();
+
+        // Loop through each API version description and add a document for it to the OpenAPI reference
+        foreach (var description in sortedVersion)
+        {
+            var versionName = description.GroupName;
+            var versionNumber = description.ApiVersion.ToString();
+            var displayName = $"Demo API -- {versionNumber}";
+
+            var isDefault = description.ApiVersion.Equals(new ApiVersion(2.0));
+
+            option.AddDocument(versionName, displayName, $"/openapi/{versionName}.json", isDefault);
+
+        }
+        
+    });
 
 }
 // No restriction on API Endpoint

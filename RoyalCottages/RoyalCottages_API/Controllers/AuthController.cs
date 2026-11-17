@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RoyalCottage_DTO;
@@ -9,7 +10,8 @@ namespace RoyalCottages_API.Controllers
 {
     // Controller for handling authentication-related endpoints
     [Route("api/auth")] // Base route for the controller
-    [ApiController]
+    [ApiVersionNeutral] // Indicates that this controller is not versioned and can be accessed without specifying an API version
+    [ApiController] // Indicates that this class is an API controller and enables automatic model validation and response formatting
     public class AuthController : ControllerBase
     {
         // Inject the AuthService into the controller

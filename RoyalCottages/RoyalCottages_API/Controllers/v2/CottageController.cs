@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +8,11 @@ using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
 using System.Collections;
 
-namespace RoyalCottages_API.Controllers
+namespace RoyalCottages_API.Controllers.v2
 {
     // Route attribute to specify the base route for the controller
-    [Route("api/cottage")]
+    [Route("api/v{version:apiVersion}/cottage")]
+    [ApiVersion("2.0")]
     [ApiController]
     //[Authorize] // Authorize attribute to restrict access to authenticated users
     //[AllowAnonymous] // Allow anyone to access - only for development phase
@@ -30,25 +32,97 @@ namespace RoyalCottages_API.Controllers
         }
 
         // Endpoint to get all Cottages
-        // ActionResult - To return a response to the client
-        // Async - To stop from blocking the thread
-        // IEnumerable - To return a collection of cottages
         [HttpGet]
-        // ProducesResponseType - To specify the response type and status code
-        [ProducesResponseType(typeof(ApiResponse<IEnumerable<CottageDTO>>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<CottageDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ApiResponse<IEnumerable<CottageDTO>>>> GetCottages()
+        public async Task<ActionResult<ApiResponse<IEnumerable<CottageDTO>>>> GetCottages([FromQuery] string? filterBy,
+            [FromQuery] string? filterQuery) // Accept filterBy and filterQuery as query parameters for filtering the cottages
         {
-            var cottages = await _db.Cottage.ToListAsync();
+            // Get all cottages from the database using linq query operation
+            var cottagesQuery = _db.Cottage.AsQueryable();
+
+            // Apply filtering based on the filterBy and filterQuery parameters if they are provided
+            if (!string.IsNullOrEmpty(filterQuery) && (!string.IsNullOrEmpty(filterBy)))
+            {
+                // Apply filtering based on the filterBy parameter
+                switch (filterBy.ToLower())
+                {
+                    case "id":
+                        if (int.TryParse(filterQuery, out int id))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.Id == id);
+                        }
+                        break;
+                    case "name":
+                        cottagesQuery = cottagesQuery.Where(u => u.Name.ToLower().Contains(filterQuery.ToLower()));
+                        break;
+                    case "details":
+                        cottagesQuery = cottagesQuery.Where(u => u.Details.ToLower().Contains(filterQuery.ToLower()));
+                        break;
+                    case "rate":
+                        if (double.TryParse(filterQuery, out double rate))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.Rate == rate);
+                        }
+                        break;
+                    case "occupancy":
+                        if (int.TryParse(filterQuery, out int occupancy))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.Occupancy == occupancy);
+                        }
+                        break;
+                    case "minrate":
+                        if (double.TryParse(filterQuery, out double minRate))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.Rate >= minRate);
+                        }
+                        break;
+                    case "maxrate":
+                        if (double.TryParse(filterQuery, out double maxRate))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.Rate <= maxRate);
+                        }
+                        break;
+                    case "minoccupancy":
+                        if (int.TryParse(filterQuery, out int minOccupancy))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.Occupancy >= minOccupancy);
+                        }
+                        break;
+                    case "maxoccupancy":
+                        if (int.TryParse(filterQuery, out int maxOccupancy))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.Occupancy <= maxOccupancy);
+                        }
+                        break;
+                    case "minsqmeters":
+                        if (int.TryParse(filterQuery, out int minSqMeters))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.SqMeters >= minSqMeters);
+                        }
+                        break;
+                    case "maxsqmeters":
+                        if (int.TryParse(filterQuery, out int maxSqMeters))
+                        {
+                            cottagesQuery = cottagesQuery.Where(u => u.SqMeters <= maxSqMeters);
+                        }
+                        break;
+                }
+
+            }
+            // Get the filtered cottages from the database and convert them to a list
+            var cottages = await cottagesQuery.ToListAsync();
+
+            // Map the cottages to CottageDTO objects and return them in an ApiResponse object with a 200 status code and a success message
             var dtoResponseCottage = _mapper.Map<List<CottageDTO>>(cottages);
+
+            // Return the cottages with a 200 status code and a success message
             var response = ApiResponse<IEnumerable<CottageDTO>>.Ok(dtoResponseCottage, "Cottages retrieved successfully");
             return Ok(response);
         }
 
         // Endpoint to get  Cottage by Id
-        // Route parameter binding
         [HttpGet("{id:int}")]
-        //[AllowAnonymous] // Anyone can access
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
@@ -56,21 +130,10 @@ namespace RoyalCottages_API.Controllers
         {
             try
             {
-                // ID Validation
-                if(id <= 0)
+                if (id <= 0)
                 {
                     return NotFound(ApiResponse<object>.NotFound("Cottage ID must be greater than 0"));
 
-                    // Hardcoded Api Response
-                    /*
-                    return new ApiResponse<CottageDTO>()
-                    {
-                        StatusCode = 400,
-                        Errors = "Cottage ID must be greater than 0",
-                        Success = false,
-                        Message = "Bad Request"
-                    };
-                    */
                 }
 
                 // Get cottage by ID using linq query operation
@@ -86,30 +149,18 @@ namespace RoyalCottages_API.Controllers
                 // Return the cottage with a 200 status code and a success message
                 return Ok(ApiResponse<CottageDTO>.Ok(_mapper.Map<CottageDTO>(cottage), "Records retrieved successfully"));
 
-                // Hardcoded Api Response
-                /*
-                return new ApiResponse<CottageDTO>()
-                {
-                    StatusCode = 200,
-                    Success = true,
-                    Message = "Records retrieved successfully",
-                    Data = _mapper.Map<CottageDTO>(cottage)
-                };
-                */
-        }
-        catch (Exception ex)
-        {
+            }
+            catch (Exception ex)
+            {
                 // Return a 500 status code and an error message
                 var errorResponse = ApiResponse<object>.Error(500, "An error occurred while retrieving cottage with ID", ex.Message);
                 return StatusCode(500, errorResponse);
-                //return StatusCode(StatusCodes.Status500InternalServerError,
-                //$"An error occurred while retrieving cottage with ID {id}: {ex.Message}");
+            }
         }
-    }
 
         // Endpoint to create Cottage
         [HttpPost]
-        [Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
+        //[Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
@@ -118,12 +169,10 @@ namespace RoyalCottages_API.Controllers
         {
             try
             {
-                // ID Validation
                 if (cottageDTO == null)
                 {
-                        return BadRequest(ApiResponse<object>.BadRequest("Cottage data is required"));
+                    return BadRequest(ApiResponse<object>.BadRequest("Cottage data is required"));
 
-                        //return BadRequest("Cottage data is required");
                 }
                 // Check for duplicate cottage name (case-insensitive) excluding the current cottage being updated
                 var duplicateCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Name.ToLower() == cottageDTO.Name.ToLower());
@@ -131,31 +180,15 @@ namespace RoyalCottages_API.Controllers
                 // Check if a duplicate cottage exists
                 if (duplicateCottage != null)
                 {
-                        return Conflict(ApiResponse<object>.Conflict($"A Cottage with the name '{cottageDTO.Name}' already exists!!!"));
-                        //return Conflict($"A Cottage with the name '{cottageDTO.Name}' already exists!!!");
-
+                    return Conflict(ApiResponse<object>.Conflict($"A Cottage with the name '{cottageDTO.Name}' already exists!!!"));
                 }
 
                 // Convert to cottage object for _db
-                // Automatic mapping using mapper
                 Cottage cottage = _mapper.Map<Cottage>(cottageDTO);
 
-                // Manual mapping
-                /*
-                Cottage cottage = new()
-                {
-                    Name = cottageDTO.Name,
-                    Details = cottageDTO.Details,
-                    ImageUrl = cottageDTO.ImageUrl,
-                    Occupancy = cottageDTO.Occupancy,
-                    SqMeters = cottageDTO.SqMeters,
-                    Rate = cottageDTO.Rate,
-                    CreatedDate = DateTime.Now
-                };
-                */
-                    // Create Cottage and send it and save it in DB
-                    await _db.Cottage.AddAsync(cottage);
-                    await _db.SaveChangesAsync();
+                // Create Cottage and send it and save it in DB
+                await _db.Cottage.AddAsync(cottage);
+                await _db.SaveChangesAsync();
 
                 // Return the created cottage with a 201 status code and a success message
                 var response = ApiResponse<CottageDTO>.CreatedAt(_mapper.Map<CottageDTO>(cottage), "Cottage created successfully");
@@ -163,17 +196,17 @@ namespace RoyalCottages_API.Controllers
                 // Return the created cottage with a 201 status code and the location of the new resource
                 return CreatedAtAction(nameof(GetCottageById), new { id = cottage.Id }, response);
 
-                }
-                catch (Exception ex)
-                {
-                    var errorResponse = ApiResponse<object>.Error(500, "An error occurred while creating cottage", ex.Message);
-                    return StatusCode(500, errorResponse);
-                }
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = ApiResponse<object>.Error(500, "An error occurred while creating cottage", ex.Message);
+                return StatusCode(500, errorResponse);
+            }
         }
 
         // Endpoint to update Cottage - ActionResult - To return a response to the client
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
+        //[Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
@@ -183,19 +216,15 @@ namespace RoyalCottages_API.Controllers
         {
             try
             {
-                // ID Validation
                 if (cottageDTO == null)
                 {
                     return BadRequest(ApiResponse<object>.BadRequest("Cottage data is required"));
 
-                    //return BadRequest("Cottage data is required");
                 }
                 // Check if the ID in the URL matches the ID in the request body
                 if (id != cottageDTO.Id)
                 {
                     return BadRequest(ApiResponse<object>.BadRequest("Cottage ID in URL does not match Cottage ID in request body!!!"));
-
-                    //return BadRequest("Cottage ID in URL does not match Cottage ID in request body!!!");
 
                 }
                 // Get the existing cottage from the database
@@ -205,8 +234,6 @@ namespace RoyalCottages_API.Controllers
                 if (existingCottage == null)
                 {
                     return NotFound(ApiResponse<object>.NotFound($"Cottage with ID {id} was not found!"));
-
-                    //return NotFound($"Cottage with ID {id} was not found!!!");
                 }
 
                 // Check for duplicate cottage name (case-insensitive) excluding the current cottage being updated
@@ -216,8 +243,6 @@ namespace RoyalCottages_API.Controllers
                 if (duplicateCottage != null)
                 {
                     return Conflict(ApiResponse<object>.Conflict($"A Cottage with the name '{cottageDTO.Name}' already exists!!!"));
-
-                    //return Conflict($"A Cottage with hte name '{cottageDTO.Name}' already exists!!!");
 
                 }
 
@@ -231,7 +256,7 @@ namespace RoyalCottages_API.Controllers
                 await _db.SaveChangesAsync();
 
                 // Return the updated cottage with a 200 status code and a success message
-                var response = ApiResponse<CottageDTO>.Ok(_mapper.Map<CottageDTO>(cottageDTO),"Cottage updated successfully");
+                var response = ApiResponse<CottageDTO>.Ok(_mapper.Map<CottageDTO>(cottageDTO), "Cottage updated successfully");
 
                 // Return the updated cottage with a 200 status code
                 return Ok(response);
@@ -240,14 +265,12 @@ namespace RoyalCottages_API.Controllers
             {
                 var errorResponse = ApiResponse<object>.Error(500, "An error occurred while updating cottage", ex.Message);
                 return StatusCode(500, errorResponse);
-                //return StatusCode(StatusCodes.Status500InternalServerError,
-                    //$"An error occurred while updating cottage!: {ex.Message}");
             }
         }
 
         // Endpoint to update Cottage 
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the"Admin" roles
+        //[Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the"Admin" roles
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
@@ -255,15 +278,12 @@ namespace RoyalCottages_API.Controllers
         {
             try
             {
-                // ID Validation
                 var existingCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Id == id);
 
                 // Check if the existing cottage is null
                 if (existingCottage == null)
                 {
                     return NotFound(ApiResponse<object>.NotFound($"Cottage with ID {id} was not found!"));
-
-                    //return NotFound($"Cottage with ID {id} was not found!!!");
                 }
 
                 // Remove the existing cottage from the database
@@ -279,40 +299,8 @@ namespace RoyalCottages_API.Controllers
             {
                 var errorResponse = ApiResponse<object>.Error(500, "An error occurred while deleting the cottage", ex.Message);
                 return StatusCode(500, errorResponse);
-                //return StatusCode(StatusCodes.Status500InternalServerError,
-                    //$"An error occurred while deleting the cottage!: {ex.Message}");
             }
         }
 
-        // Example of route parameter binding with different sources (commented out)
-        /*
-        // Route parameter binding - string is default so it does not need to be declared
-        [HttpGet("{id:int}/{name}")]
-        public string GetCottageByIdAndName(int id, string name)
-        {
-            return "Get Cottage: " + id + " " +name;
-        }
-
-        // Route parameter binding - string is default 
-        [HttpGet("{id:int}/{name}")]
-        public string GetCottageByIdAndNameFromRoute([FromRoute] int id, [FromRoute] string name)
-        {
-            return "Get Cottage: " + id + " " + name;
-        }        
-
-        // Route parameter binding - string is default 
-        [HttpGet("{id:int}/{name}")]
-        public string GetCottageByIdAndNameFromQuery([FromQuery] int id, [FromQuery] string name)
-        {
-            return "Get Cottage: " + id + " " + name;
-        }
-
-        // Route parameter binding - string is default 
-        [HttpGet("{id:int}/{name}")]
-        public string GetCottageByIdAndNameFromHeader([FromHeader] int id, [FromHeader] string name)
-        {
-            return "Get Cottage: " + id + " " + name;
-        }
-        */
     }
 }

@@ -35,8 +35,11 @@ namespace RoyalCottages_API.Controllers.v2
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<CottageDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ApiResponse<IEnumerable<CottageDTO>>>> GetCottages([FromQuery] string? filterBy,
-            [FromQuery] string? filterQuery) // Accept filterBy and filterQuery as query parameters for filtering the cottages
+        public async Task<ActionResult<ApiResponse<IEnumerable<CottageDTO>>>> GetCottages(
+            [FromQuery] string? filterBy,
+            [FromQuery] string? filterQuery, 
+            [FromQuery] string? sortBy, 
+            [FromQuery] string? sortOrder = "asc") // Accept filterBy and filterQuery as query parameters for filtering the cottages
         {
             // Get all cottages from the database using linq query operation
             var cottagesQuery = _db.Cottage.AsQueryable();
@@ -110,8 +113,34 @@ namespace RoyalCottages_API.Controllers.v2
                 }
 
             }
-            // Get the filtered cottages from the database and convert them to a list
-            var cottages = await cottagesQuery.ToListAsync();
+
+            // sorting logic
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                var isDescending = sortOrder?.ToLower() == "desc";
+
+                cottagesQuery = sortBy.ToLower() switch
+
+                {
+                    "name" => isDescending ? cottagesQuery.OrderByDescending(u => u.Name)
+                    : cottagesQuery.OrderBy(u => u.Name),
+                    "rate" => isDescending ? cottagesQuery.OrderByDescending(u => u.Rate)
+                    : cottagesQuery.OrderBy(u => u.Rate),
+                    "occupancy" => isDescending ? cottagesQuery.OrderByDescending(u => u.Occupancy)
+                    : cottagesQuery.OrderBy(u => u.Occupancy),
+                    "sqmeters" => isDescending ? cottagesQuery.OrderByDescending(u => u.SqMeters)
+                    : cottagesQuery.OrderBy(u => u.SqMeters),
+                    "id" => isDescending ? cottagesQuery.OrderByDescending(u => u.Id)
+                    : cottagesQuery.OrderBy(u => u.Id),
+                    _=> cottagesQuery.OrderBy(u => u.Id)
+                };
+            }
+            else
+            {
+                cottagesQuery = cottagesQuery.OrderBy(u=>u.Id);
+            }
+                // Get the filtered cottages from the database and convert them to a list
+                var cottages = await cottagesQuery.ToListAsync();
 
             // Map the cottages to CottageDTO objects and return them in an ApiResponse object with a 200 status code and a success message
             var dtoResponseCottage = _mapper.Map<List<CottageDTO>>(cottages);

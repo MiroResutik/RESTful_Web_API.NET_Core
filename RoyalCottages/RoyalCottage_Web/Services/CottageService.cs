@@ -10,7 +10,7 @@ namespace RoyalCottage_Web.Services
         private readonly string _cottageUrl;
 
         // Constant string to define the API endpoint for cottages
-        private const string APIEndpoint = "/api/cottage";
+        private const string APIEndpoint = $"/api/{SD.CurrentAPIVersion}/cottage";
 
         // Constructor to initialize the CottageService with dependencies
         public CottageService(IHttpClientFactory httpClient, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClient, httpContextAccessor)

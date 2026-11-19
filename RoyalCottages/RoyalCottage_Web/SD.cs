@@ -10,5 +10,8 @@
 
         // SessionToken is a constant string that represents the key used to store the JWT token in the session
         public const string SessionToken = "JWTToken";
+
+        // CurrentAPIVersion is a constant string that represents the current version of the API being used in the application
+        public const string CurrentAPIVersion = "v2";
     }
 }

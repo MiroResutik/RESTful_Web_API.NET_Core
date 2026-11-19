@@ -30,17 +30,22 @@ namespace RoyalCottages_API.Controllers.v2
             _db = db;
             _mapper = mapper;
         }
-
-        // Endpoint to get all Cottages
+        // Endpoint to get all Cottages with filtering, sorting, and pagination
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<CottageDTO>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ApiResponse<IEnumerable<CottageDTO>>>> GetCottages(
             [FromQuery] string? filterBy,
-            [FromQuery] string? filterQuery, 
-            [FromQuery] string? sortBy, 
-            [FromQuery] string? sortOrder = "asc") // Accept filterBy and filterQuery as query parameters for filtering the cottages
+            [FromQuery] string? filterQuery, // Accept filterBy and filterQuery as query parameters for filtering the cottages
+            [FromQuery] string? sortBy, // Accept sortBy as a query parameter for sorting the cottages
+            [FromQuery] string? sortOrder = "asc",
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10) // Accept page and pageSize as query parameters for pagination
         {
+            if (page < 1) page = 1; // Ensure that the page number is at least 1
+            if (pageSize < 1) pageSize = 10; // Ensure that the page size is at least 1
+            if (pageSize > 100) pageSize = 100; // Ensure that the page size does not exceed 100
+
             // Get all cottages from the database using linq query operation
             var cottagesQuery = _db.Cottage.AsQueryable();
 
@@ -114,13 +119,14 @@ namespace RoyalCottages_API.Controllers.v2
 
             }
 
-            // sorting logic
+            // Apply sorting based on the sortBy and sortOrder parameters if they are provided
             if (!string.IsNullOrEmpty(sortBy))
             {
+                // Determine if the sort order is descending based on the sortOrder parameter
                 var isDescending = sortOrder?.ToLower() == "desc";
 
+                // Apply sorting based on the sortBy parameter using a switch expression
                 cottagesQuery = sortBy.ToLower() switch
-
                 {
                     "name" => isDescending ? cottagesQuery.OrderByDescending(u => u.Name)
                     : cottagesQuery.OrderBy(u => u.Name),
@@ -132,24 +138,58 @@ namespace RoyalCottages_API.Controllers.v2
                     : cottagesQuery.OrderBy(u => u.SqMeters),
                     "id" => isDescending ? cottagesQuery.OrderByDescending(u => u.Id)
                     : cottagesQuery.OrderBy(u => u.Id),
-                    _=> cottagesQuery.OrderBy(u => u.Id)
+                    _ => cottagesQuery.OrderBy(u => u.Id)
                 };
             }
             else
             {
-                cottagesQuery = cottagesQuery.OrderBy(u=>u.Id);
+                cottagesQuery = cottagesQuery.OrderBy(u => u.Id);
             }
-                // Get the filtered cottages from the database and convert them to a list
-                var cottages = await cottagesQuery.ToListAsync();
+
+            // Calculate the number of records to skip based on the page number and page size for pagination
+            var skip = (page - 1) * pageSize;
+
+            // Calculate the total number of records in the cottagesQuery for pagination metadata
+            var totalCount = await cottagesQuery.CountAsync();
+
+            // Calculate the total number of pages based on the total count and page size
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            // Retrieve the cottages from the database with pagination applied using Skip and Take methods    
+            var cottages = await cottagesQuery.Skip(skip).Take(pageSize).ToListAsync();
 
             // Map the cottages to CottageDTO objects and return them in an ApiResponse object with a 200 status code and a success message
             var dtoResponseCottage = _mapper.Map<List<CottageDTO>>(cottages);
 
+            // Build a message string to include in the ApiResponse object with pagination and filtering information
+            var messageBuilder = new System.Text.StringBuilder();
+
+            // Append the number of cottages retrieved, the current page, total pages, and total records to the message
+            messageBuilder.Append($"Successfully retrieved {dtoResponseCottage.Count} cottage(s)");
+            messageBuilder.Append($"(Page {page} of {totalPages}, {totalCount} total records");
+
+            // Append filtering information to the message if filterBy and filterQuery are provided
+            if (!string.IsNullOrEmpty(filterQuery) && (!string.IsNullOrEmpty(filterBy)))
+            {
+                messageBuilder.Append($"(filtered by {filterBy}: '{filterQuery}'");
+            }
+
+            // Append sorting information to the message if sortBy is provided
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                messageBuilder.Append($"(sorted by {sortBy}: '{sortOrder?.ToLower() ?? "asc"}'");
+            }
+
+            // Append closing parentheses to the message
+            Response.Headers.Append("Pagination_CurrentPage", page.ToString());
+            Response.Headers.Append("Pagination_PageSize", pageSize.ToString());
+            Response.Headers.Append("Pagination_TotalCount", totalCount.ToString());
+            Response.Headers.Append("Pagination_TotalPages", totalPages.ToString());
+
             // Return the cottages with a 200 status code and a success message
-            var response = ApiResponse<IEnumerable<CottageDTO>>.Ok(dtoResponseCottage, "Cottages retrieved successfully");
+            var response = ApiResponse<IEnumerable<CottageDTO>>.Ok(dtoResponseCottage, messageBuilder.ToString());
             return Ok(response);
         }
-
         // Endpoint to get  Cottage by Id
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]

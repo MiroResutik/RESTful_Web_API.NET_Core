@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RoyalCottages_API.Models;
 
 namespace RoyalCottages_API.Data
 {
     // Define DbSet properties for your entities
     // Accepting dbContextOptions to configure the database connection and other options
-    public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext(options)
     {
         // Define DbSet properties Cottage entity
         public DbSet<Cottage> Cottage { get; set; }
@@ -13,6 +14,7 @@ namespace RoyalCottages_API.Data
         // Define DbSet properties for User entity
         public DbSet<User> Users { get; set; }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public DbSet<CottageAmenities> CottageAmenities { get; set; }
 

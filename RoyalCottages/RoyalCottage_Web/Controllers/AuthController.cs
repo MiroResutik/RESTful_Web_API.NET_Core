@@ -70,6 +70,11 @@ namespace RoyalCottage_Web.Controllers
                     // Redirect the user to the home page after successful login
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    TempData["error"] = response.Message;
+                    return View(loginRequestDTO);
+                }
             }
             catch (Exception ex)
             {

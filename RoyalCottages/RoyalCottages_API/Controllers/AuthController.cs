@@ -94,7 +94,7 @@ namespace RoyalCottages_API.Controllers
                 // Check if the user object is null, indicating that registration failed
                 if (loginResponse == null)
                 {
-                    return BadRequest(ApiResponse<object>.BadRequest("User login failed"));
+                    return BadRequest(ApiResponse<object>.BadRequest("User login failed. Please check your credentials"));
                 }
 
                 // Authenticate the user and get the token

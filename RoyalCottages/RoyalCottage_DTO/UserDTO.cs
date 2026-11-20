@@ -4,7 +4,8 @@ namespace RoyalCottage_DTO
 {
     public class UserDTO
     {
-        public int Id { get; set; }
+        // Id changed from int to string when using ApplicationUser to register  
+        public string Id { get; set; }
 
         public string Email { get; set; } = default!;
 

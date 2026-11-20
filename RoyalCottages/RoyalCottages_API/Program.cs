@@ -131,7 +131,8 @@ builder.Services.AddAutoMapper(o =>
     o.CreateMap<Cottage, CottageUpdateDTO>().ReverseMap(); 
     o.CreateMap<Cottage, CottageDTO>().ReverseMap();
     o.CreateMap<CottageUpdateDTO, CottageDTO>().ReverseMap();
-    o.CreateMap<User, UserDTO>().ReverseMap();
+    //o.CreateMap<User, UserDTO>().ReverseMap(); 
+    o.CreateMap<ApplicationUser, UserDTO>().ReverseMap();
     o.CreateMap<CottageAmenities, CottageAmenitiesCreateDTO>().ReverseMap();
     o.CreateMap<CottageAmenities, CottageAmenitiesUpdateDTO>().ReverseMap();
     o.CreateMap<CottageAmenities, CottageAmenitiesDTO>()

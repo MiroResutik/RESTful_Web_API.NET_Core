@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RoyalCottage_DTO;
@@ -15,24 +16,38 @@ namespace RoyalCottages_API.Services
     {
         // Inject the database context into the service
         private readonly ApplicationDbContext _db;
+
+        // Inject the UserManager and RoleManager for managing users and roles
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        // Inject the RoleManager for managing roles
+        private readonly RoleManager<IdentityRole> _roleManager;
+
         // Inject the configuration into the service
         private readonly IConfiguration _configuration;
         // Inject the AutoMapper into the service
         private readonly IMapper _mapper;
 
         // Constructor for dependency injection
-        public AuthService(ApplicationDbContext db, IConfiguration configuration, IMapper mapper)
+        public AuthService(
+            ApplicationDbContext db, 
+            IConfiguration configuration, 
+            IMapper mapper,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             _configuration = configuration;
             _mapper = mapper;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         // Endpoint to check if an email already exists
         public async Task<bool> EmailExistsAsync(string email)
         {
-            // Check if the email exists in the database (case-insensitive)
-            return await _db.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower());
+            // Check if any user in the database has the specified email (case-insensitive)
+            return await _db.ApplicationUsers.AnyAsync(u => u.Email.ToLower() == email.ToLower());
         }
 
         // Endpoint for user login
@@ -60,7 +75,7 @@ namespace RoyalCottages_API.Services
                     UserDTO = _mapper.Map<UserDTO>(user),
                     Token = token
                 };
-               
+
             }
             catch (Exception ex)
             {
@@ -79,23 +94,47 @@ namespace RoyalCottages_API.Services
                 {
                     throw new InvalidOperationException($"User with email {registrationRequestDTO.Email} already exists");
                 }
-                // Create a new user object from the registration request DTO
-                User user = new()
+                // Create a new ApplicationUser object with the provided registration details
+                ApplicationUser user = new()
                 {
                     Email = registrationRequestDTO.Email,
                     Name = registrationRequestDTO.Name,
-                    Password = registrationRequestDTO.Password,
-                    Role = string.IsNullOrEmpty(registrationRequestDTO.Role) ? "Customer" : registrationRequestDTO.Role,
-                    CreatedDate = DateTime.UtcNow,
+                    UserName = registrationRequestDTO.Email,
+                    NormalizedEmail = registrationRequestDTO.Email.ToUpper(),
+                    EmailConfirmed = true
+                    
                 };
 
-                // Add the new user to the database and save changes
-                await _db.Users.AddAsync(user);
-                await _db.SaveChangesAsync();
+                // Create the user in the database using UserManager
+                var result = await _userManager.CreateAsync(user,registrationRequestDTO.Password);
 
-                // Map the user object to a UserDTO and return it
-                return _mapper.Map<UserDTO>(user);
+                // Check if the user creation was successful
+                if (!result.Succeeded)
+                {
+                    // If user creation failed, throw an exception with the error messages
+                    var errors = string.Join(",", result.Errors.Select(e => e.Description));
+                    throw new InvalidOperationException($"User registration failed: {errors}");
 
+                }
+
+                // Determine the role for the user, defaulting to "Customer" if not provided
+                var role = string.IsNullOrEmpty(registrationRequestDTO.Role) ? "Customer" : registrationRequestDTO.Role;
+
+                // Check if the role exists, and create it if it doesn't
+                if (!await _roleManager.RoleExistsAsync(role))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(role));
+                }
+
+                // Assign the user to the specified role
+                await _userManager.AddToRoleAsync(user, role);
+
+
+                // Map the ApplicationUser to UserDTO and set the role
+                var userDTO = _mapper.Map<UserDTO>(user);
+                userDTO.Role = role;
+
+                return userDTO;
             }
             catch (Exception ex)
             {
@@ -105,10 +144,14 @@ namespace RoyalCottages_API.Services
         }
 
         // Generate a JWT token for the authenticated user
-        private string GenerateJwtToken(User user)
+        private async Task<string> GenerateJwtToken(ApplicationUser user)
         {
             // Get the secret key from the configuration
-            var secret = _configuration.GetSection("JwtSettings")["Secret"]; if (string.IsNullOrEmpty(secret)) throw new InvalidOperationException("JwtSecret not configured"); var key = Encoding.ASCII.GetBytes(secret);
+            var secret = _configuration.GetSection("JwtSettings")["Secret"]; 
+            if (string.IsNullOrEmpty(secret)) throw new InvalidOperationException("JwtSecret not configured"); 
+            var key = Encoding.ASCII.GetBytes(secret);
+
+            var roles = await _userManager.GetRolesAsync(user);
 
             // Create a token descriptor with claims, expiration, and signing credentials
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -119,7 +162,7 @@ namespace RoyalCottages_API.Services
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, roles.FirstOrDefault()),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 // Set the signing credentials using the secret key and HMAC SHA256 algorithm

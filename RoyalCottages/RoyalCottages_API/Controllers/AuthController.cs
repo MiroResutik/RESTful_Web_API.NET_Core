@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RoyalCottage_DTO;
 using RoyalCottages_API.Data;
-using RoyalCottages_API.Services;
+using RoyalCottages_API.Services.IServices;
 
 namespace RoyalCottages_API.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using RoyalCottage_DTO;
 
-namespace RoyalCottages_API.Services
+namespace RoyalCottages_API.Services.IServices
 {
     public interface IAuthService
     {

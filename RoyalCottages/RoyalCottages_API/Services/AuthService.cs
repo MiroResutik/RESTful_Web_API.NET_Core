@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using RoyalCottage_DTO;
 using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
+using RoyalCottages_API.Services.IServices;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -57,25 +58,41 @@ namespace RoyalCottages_API.Services
             try
             {
                 // Find the user in the database by email (case-insensitive)
-                var user = await _db.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == loginRequestDTO.Email.ToLower());
+                var user = await _db.ApplicationUsers.FirstOrDefaultAsync(u => u.Email.ToLower() == loginRequestDTO.Email.ToLower());
 
-                // Check if the user object is null or if the password does not match
-                if (user == null || user.Password != loginRequestDTO.Password)
+                // If the user is not found, return null
+                if (user == null)
                 {
-                    return null;
+                    return null; // user not found
+                }
+
+                // Check if the provided password is valid for the found user
+                bool isValid = await _userManager.CheckPasswordAsync(user, loginRequestDTO.Password);
+
+                // If the password is invalid, return null
+                if (!isValid)
+                {
+                    return null; // invalid password
                 }
 
                 // Generate a JWT token for the authenticated user
-                var token = GenerateJwtToken(user);
+                var token = await GenerateJwtToken(user);
 
+                // Retrieve the roles of the user
+                var roles = await _userManager.GetRolesAsync(user);
 
-                // Create a login response DTO
-                return new LoginResponseDTO
+                // Create a LoginResponseDTO to return the user information and token
+                LoginResponseDTO loginResponseDTO =  new LoginResponseDTO
                 {
+                    // Map the ApplicationUser to UserDTO and include the generated token
                     UserDTO = _mapper.Map<UserDTO>(user),
                     Token = token
                 };
 
+                // Set the user's role in the response, defaulting to "Customer" if no roles are found
+                loginResponseDTO.UserDTO.Role = roles.FirstOrDefault()??"Customer";
+
+                return loginResponseDTO;
             }
             catch (Exception ex)
             {

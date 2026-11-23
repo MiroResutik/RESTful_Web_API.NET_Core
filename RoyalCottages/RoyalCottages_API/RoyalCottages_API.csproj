@@ -24,12 +24,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Scalar.AspNetCore" Version="3.0.2" />
+    <PackageReference Include="Scalar.AspNetCore" Version="3.1.1" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\Images\Cottages\" />
   </ItemGroup>
 
   <ItemGroup>

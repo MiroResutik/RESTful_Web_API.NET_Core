@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace RoyalCottage_DTO
 {
@@ -14,6 +15,8 @@ namespace RoyalCottage_DTO
         public int SqMeters { get; set; }
         public int Occupancy { get; set; }
         public string? ImageUrl { get; set; }
+        // Property to hold the uploaded image file
+        public IFormFile? Image { get; set; }
 
     }
 }

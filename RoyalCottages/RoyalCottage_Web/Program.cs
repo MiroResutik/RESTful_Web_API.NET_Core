@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using RoyalCottage_DTO;
+using RoyalCottage_Web;
 using RoyalCottage_Web.Services;
 using RoyalCottage_Web.Services.IServices;
 
@@ -41,11 +42,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/auth/accessdenied"; // Set the access denied path for users without sufficient permissions to redirect to the access denied page
     });
 
+// Retrieve the CottageAPI URL from the configuration settings and assign it to the static property SD.APIBaseUrl
+SD.APIBaseUrl = builder.Configuration.GetValue<string>("ServiceUrl:CottageAPI");
+
 // Register the CottageService with the dependency injection container
 builder.Services.AddHttpClient("RoyalCottageAPI", client =>
 {
     // Retrieve the CottageAPI URL from the configuration settings
-    var cottageAPIUrl = builder.Configuration.GetValue<string>("ServiceUrl:CottageAPI");
+    var cottageAPIUrl = SD.APIBaseUrl;
 
     // Set the base address for the HttpClient to the CottageAPI URL
     client.BaseAddress = new Uri(cottageAPIUrl);

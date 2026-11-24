@@ -9,6 +9,7 @@ using RoyalCottage_DTO;
 using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
 using RoyalCottages_API.Services;
+using RoyalCottages_API.Services.IServices;
 using Scalar.AspNetCore;
 using System.Text;
 
@@ -41,6 +42,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+
+builder.Services.AddScoped<IImageService, ImageService>();
 // Add API versioning services to the container and configure the default API version and reporting of API versions
 builder.Services.AddApiVersioning(options =>
 {
@@ -182,6 +185,10 @@ if (app.Environment.IsDevelopment())
     });
 
 }
+
+
+app.UseStaticFiles();
+
 // No restriction on API Endpoint
 app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("*"));
 

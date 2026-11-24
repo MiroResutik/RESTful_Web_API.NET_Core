@@ -1,11 +1,13 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RoyalCottage_DTO;
 using RoyalCottages_API.Data;
 using RoyalCottages_API.Models;
+using RoyalCottages_API.Services.IServices;
 using System.Collections;
 
 namespace RoyalCottages_API.Controllers.v2
@@ -15,20 +17,24 @@ namespace RoyalCottages_API.Controllers.v2
     [ApiVersion("2.0")]
     [ApiController]
     //[Authorize] // Authorize attribute to restrict access to authenticated users
-    //[AllowAnonymous] // Allow anyone to access - only for development phase
+    [AllowAnonymous] // Allow anyone to access - only for development phase
     public class CottageController : ControllerBase
     {
         // Access the Database - access entity framework core
         private readonly ApplicationDbContext _db;
 
+        // Access the Image Service - access the image service for image upload and deletion
+        private readonly IImageService _imageService;
+
         // Access the Mapper - access AutoMapper
         private readonly IMapper _mapper;
 
         // Constructor for Database - dependency injection
-        public CottageController(ApplicationDbContext db, IMapper mapper)
+        public CottageController(ApplicationDbContext db, IMapper mapper, IImageService imageService)
         {
             _db = db;
             _mapper = mapper;
+            _imageService = imageService;
         }
         // Endpoint to get all Cottages with filtering, sorting, and pagination
         [HttpGet]
@@ -40,10 +46,10 @@ namespace RoyalCottages_API.Controllers.v2
             [FromQuery] string? sortBy, // Accept sortBy as a query parameter for sorting the cottages
             [FromQuery] string? sortOrder = "asc",
             [FromQuery] int page = 1,
-            [FromQuery] int pageSize = 10) // Accept page and pageSize as query parameters for pagination
+            [FromQuery] int pageSize = 20) // Accept page and pageSize as query parameters for pagination
         {
             if (page < 1) page = 1; // Ensure that the page number is at least 1
-            if (pageSize < 1) pageSize = 10; // Ensure that the page size is at least 1
+            if (pageSize < 1) pageSize = 20; // Ensure that the page size is at least 1
             if (pageSize > 100) pageSize = 100; // Ensure that the page size does not exceed 100
 
             // Get all cottages from the database using linq query operation
@@ -190,6 +196,7 @@ namespace RoyalCottages_API.Controllers.v2
             var response = ApiResponse<IEnumerable<CottageDTO>>.Ok(dtoResponseCottage, messageBuilder.ToString());
             return Ok(response);
         }
+        
         // Endpoint to get  Cottage by Id
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
@@ -229,12 +236,13 @@ namespace RoyalCottages_API.Controllers.v2
 
         // Endpoint to create Cottage
         [HttpPost]
+        [Consumes("multipart/form-data")] // Specify that the endpoint consumes multipart/form-data for file uploads
         //[Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ApiResponse<CottageDTO>>> CreateCottage(CottageCreateDTO cottageDTO)
+        public async Task<ActionResult<ApiResponse<CottageDTO>>> CreateCottage([FromForm]CottageCreateDTO cottageDTO)
         {
             try
             {
@@ -254,6 +262,19 @@ namespace RoyalCottages_API.Controllers.v2
 
                 // Convert to cottage object for _db
                 Cottage cottage = _mapper.Map<Cottage>(cottageDTO);
+
+                // Validate the image file if it is provided in the request
+                if (cottageDTO.Image != null)
+                {
+                    // Validate the image file using the _imageService.ValidateImage method
+                    if (!_imageService.ValidateImage(cottageDTO.Image))
+                    {
+                        return BadRequest(ApiResponse<object>.BadRequest("Invalid image file. Allowed formats: jpg, jpeg, png. Max size 5MB"));
+                    }
+
+                    // Upload the image file using the _imageService.UploadImageAsync method and set the ImageUrl property of the cottage object
+                    cottage.ImageUrl = await _imageService.UploadImageAsync(cottageDTO.Image);
+                }
 
                 // Create Cottage and send it and save it in DB
                 await _db.Cottage.AddAsync(cottage);
@@ -275,13 +296,14 @@ namespace RoyalCottages_API.Controllers.v2
 
         // Endpoint to update Cottage - ActionResult - To return a response to the client
         [HttpPut("{id:int}")]
+        [Consumes("multipart/form-data")] // Specify that the endpoint consumes multipart/form-data for file uploads
         //[Authorize(Roles = "Admin")] // Authorize attribute to restrict access to users with the "Customer" or "Admin" roles
         [ProducesResponseType(typeof(ApiResponse<CottageDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ApiResponse<CottageDTO>>> UpdateCottage(int id, CottageUpdateDTO cottageDTO)
+        public async Task<ActionResult<ApiResponse<CottageDTO>>> UpdateCottage(int id,[FromForm] CottageUpdateDTO cottageDTO)
         {
             try
             {
@@ -296,6 +318,13 @@ namespace RoyalCottages_API.Controllers.v2
                     return BadRequest(ApiResponse<object>.BadRequest("Cottage ID in URL does not match Cottage ID in request body!!!"));
 
                 }
+
+                // Validate the image file if it is provided in the request
+                if (cottageDTO.Image != null && !_imageService.ValidateImage(cottageDTO.Image))
+                {
+                    return BadRequest(ApiResponse<object>.BadRequest("Invalid image file. Allowed formats: jpg, jpeg, png. Max size 5MB"));
+                }
+
                 // Get the existing cottage from the database
                 var existingCottage = await _db.Cottage.FirstOrDefaultAsync(v => v.Id == id);
 
@@ -315,11 +344,30 @@ namespace RoyalCottages_API.Controllers.v2
 
                 }
 
+                // Store the old image URL before updating the cottage
+                var oldImageUrl = existingCottage.ImageUrl;
+
                 // Map the updated properties from the DTO to the existing cottage entity
                 _mapper.Map(cottageDTO, existingCottage);
 
                 // Update the UpdatedDate property to the current date and time
                 existingCottage.UpdatedDate = DateTime.UtcNow;
+
+                // If a new image is provided, upload it and update the ImageUrl property
+                if (cottageDTO.Image!= null)
+                {
+                    // Upload the new image and update the ImageUrl property of the existing cottage
+                    existingCottage.ImageUrl = await _imageService.UploadImageAsync(cottageDTO.Image);
+
+                    // Update the ImageUrl property of the DTO to reflect the new image URL
+                    cottageDTO.ImageUrl = existingCottage.ImageUrl;
+
+                    // Delete the old image if it exists and is different from the new image
+                    if (!string.IsNullOrEmpty(oldImageUrl) && oldImageUrl!= existingCottage.ImageUrl)
+                    {
+                        await _imageService.DeleteImageAsync(oldImageUrl); // Delete the old image from the image service
+                    }
+                }
 
                 // Save the changes to the database
                 await _db.SaveChangesAsync();
@@ -354,6 +402,13 @@ namespace RoyalCottages_API.Controllers.v2
                 {
                     return NotFound(ApiResponse<object>.NotFound($"Cottage with ID {id} was not found!"));
                 }
+
+                // Delete the image associated with the cottage if it exists
+                if (!string.IsNullOrEmpty(existingCottage.ImageUrl))
+                {
+                    await _imageService.DeleteImageAsync(existingCottage.ImageUrl);
+                }
+                
 
                 // Remove the existing cottage from the database
                 _db.Cottage.Remove(existingCottage);

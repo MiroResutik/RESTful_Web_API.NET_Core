@@ -130,10 +130,9 @@ namespace RoyalCottage_Web.Controllers
                 // Call the service to delete the specific cottage and handle the response
                 var response = await _cottageService.DeleteAsync<ApiResponse<object>>(cottageDTO.Id);
 
-                // Check if the response is successful and contains data
-                if (response != null && response.Success && response.Data != null)
+                //Check if the response is successful and contains data
+                if (response != null && response.Success)
                 {
-                    // NOT WORKING - NEED FIXING
                     TempData["success"] = "Cottage deleted successfully";
                 }
             }

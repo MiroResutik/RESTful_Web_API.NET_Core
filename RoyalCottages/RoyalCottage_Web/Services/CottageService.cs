@@ -1,4 +1,5 @@
 ﻿using RoyalCottage_DTO;
+using RoyalCottage_Web.Extensions;
 using RoyalCottage_Web.Models;
 using RoyalCottage_Web.Services.IServices;
 
@@ -21,11 +22,14 @@ namespace RoyalCottage_Web.Services
         // Method to create a new cottage by sending a POST request to the API
         public Task<T?> CreateAsync<T>(CottageCreateDTO dto )
         {
+            // Convert the CottageCreateDTO to MultipartFormDataContent for sending multipart/form-data requests
+            var formData = dto.ToMultipartFormDataContent();
+
             // Send a POST request to the API endpoint with the provided DTO and token
             return SendAsync<T>(new ApiRequest
             {
                 ApiType=SD.ApiType.POST,
-                Data = dto,
+                Data = formData,
                 Url = APIEndpoint
             });
         }
@@ -63,10 +67,14 @@ namespace RoyalCottage_Web.Services
         // Method to update a cottage by sending a PUT request to the API
         public Task<T?> UpdateAsync<T>(CottageUpdateDTO dto)
         {
+            // Convert the CottageUpdateDTO to MultipartFormDataContent for sending multipart/form-data requests
+            var formData = dto.ToMultipartFormDataContent();
+
+            // Send a PUT request to the API endpoint with the provided DTO and token
             return SendAsync<T>(new ApiRequest
             {
                 ApiType = SD.ApiType.PUT,
-                Data = dto,
+                Data = formData,
                 Url = $"{APIEndpoint}/{dto.Id}"
             });
         }

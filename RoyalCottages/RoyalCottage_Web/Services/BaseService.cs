@@ -56,10 +56,20 @@ namespace RoyalCottage_Web.Services
                     message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 }
 
-                // Add the Authorization header with the Bearer token if it is provided in the ApiRequest
+                // If the ApiRequest contains data, set the request content based on its type (MultipartFormDataContent or JSON)
                 if (apiRequest.Data != null)
                 {
-                    message.Content = JsonContent.Create(apiRequest.Data, options: JsonOptions);
+                    // Check if the data is of type MultipartFormDataContent and set it as the request content
+                    if (apiRequest.Data is MultipartFormDataContent multipartFormDataContent)
+                    {
+                        message.Content = multipartFormDataContent;
+                    }
+                    else
+                    {
+                        message.Content = JsonContent.Create(apiRequest.Data, options: JsonOptions);
+
+                    }
+
                 }
 
                 // Send the HTTP request and get the response

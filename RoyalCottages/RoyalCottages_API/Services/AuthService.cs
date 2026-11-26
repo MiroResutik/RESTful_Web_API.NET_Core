@@ -52,7 +52,7 @@ namespace RoyalCottages_API.Services
         }
 
         // Endpoint for user login
-        public async Task<LoginResponseDTO?> LoginAsync(LoginRequestDTO loginRequestDTO)
+        public async Task<TokenDTO?> LoginAsync(LoginRequestDTO loginRequestDTO)
         {
             // Validate the login request
             try
@@ -81,18 +81,18 @@ namespace RoyalCottages_API.Services
                 // Retrieve the roles of the user
                 var roles = await _userManager.GetRolesAsync(user);
 
-                // Create a LoginResponseDTO to return the user information and token
-                LoginResponseDTO loginResponseDTO =  new LoginResponseDTO
+                // Create a TokenDTO to return the generated token
+                TokenDTO tokenDTO =  new TokenDTO
                 {
-                    // Map the ApplicationUser to UserDTO and include the generated token
-                    UserDTO = _mapper.Map<UserDTO>(user),
-                    Token = token
+                    //// Map the ApplicationUser to UserDTO and include the generated token
+                    //UserDTO = _mapper.Map<UserDTO>(user),
+                    AccessToken = token
                 };
 
-                // Set the user's role in the response, defaulting to "Customer" if no roles are found
-                loginResponseDTO.UserDTO.Role = roles.FirstOrDefault()??"Customer";
+                //// Set the user's role in the response, defaulting to "Customer" if no roles are found
+                //loginResponseDTO.UserDTO.Role = roles.FirstOrDefault()??"Customer";
 
-                return loginResponseDTO;
+                return tokenDTO;
             }
             catch (Exception ex)
             {

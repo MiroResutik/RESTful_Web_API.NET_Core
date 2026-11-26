@@ -8,7 +8,7 @@ namespace RoyalCottages_API.Services.IServices
         Task<UserDTO?> RegisterAsync(RegistrationRequestDTO registrationRequestDTO);
 
         // Endpoint for user login
-        Task<LoginResponseDTO?> LoginAsync(LoginRequestDTO loginRequestDTO);
+        Task<TokenDTO?> LoginAsync(LoginRequestDTO loginRequestDTO);
 
         // Endpoint to check if an email already exists
         Task<bool> EmailExistsAsync(string email);

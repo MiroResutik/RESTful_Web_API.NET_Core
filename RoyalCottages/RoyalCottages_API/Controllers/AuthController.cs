@@ -74,10 +74,10 @@ namespace RoyalCottages_API.Controllers
         // POST: api/auth/login
         [HttpPost("login")] // Route for the login endpoint
         // ProducesResponseType - To specify the response type and status code
-        [ProducesResponseType(typeof(ApiResponse<IEnumerable<LoginResponseDTO>>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<TokenDTO>>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ApiResponse<LoginResponseDTO>>> Login([FromBody] LoginRequestDTO loginRequestDTO)
+        public async Task<ActionResult<ApiResponse<TokenDTO>>> Login([FromBody] LoginRequestDTO loginRequestDTO)
         {
             // Wrap the login logic in a try-catch block to handle exceptions
             try
@@ -98,7 +98,7 @@ namespace RoyalCottages_API.Controllers
                 }
 
                 // Authenticate the user and get the token
-                var response = ApiResponse<LoginResponseDTO>.Ok(loginResponse, "User logged in successfully");
+                var response = ApiResponse<TokenDTO>.Ok(loginResponse, "User logged in successfully");
 
                 // Return the response with the CreatedAtAction method, which returns a
                 // 201 Created status code and the location of the newly created resource

@@ -14,7 +14,7 @@ namespace RoyalCottage_Web.Services
         private const string APIEndpoint = $"/api/{SD.CurrentAPIVersion}/cottage";
 
         // Constructor to initialize the CottageService with dependencies
-        public CottageService(IHttpClientFactory httpClient, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClient, httpContextAccessor)
+        public CottageService(IHttpClientFactory httpClient, IConfiguration configuration, ITokenProvider tokenProvider) : base(httpClient,tokenProvider)
         {
             
         }

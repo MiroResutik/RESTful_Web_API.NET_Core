@@ -13,7 +13,7 @@ namespace RoyalCottage_Web.Services
         public IHttpClientFactory _httpClient {  get; set; }
 
         // IHttpContextAccessor is used to access the current HTTP context, which allows retrieving information about the current request and session
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ITokenProvider _tokenProvider;
 
         // Optional - JsonSerializerOptions is used to configure the behavior of the JSON serializer and de-serializer
         private static readonly JsonSerializerOptions JsonOptions = new()
@@ -25,15 +25,15 @@ namespace RoyalCottage_Web.Services
         public ApiResponse<object> ResponseModel { get; set; }
 
         // Constructor to initialize the BaseService with dependencies
-        public BaseService(IHttpClientFactory httpClient, IHttpContextAccessor httpContextAccessor) 
+        public BaseService(IHttpClientFactory httpClient, ITokenProvider tokenProvider) 
         {
             this.ResponseModel = new();
             _httpClient = httpClient;
-            _httpContextAccessor = httpContextAccessor;
+            _tokenProvider = tokenProvider;
         }
 
         // SendAsync is a generic method that sends an HTTP request to the specified API endpoint and returns the response as an object of type T
-        public async Task<T?> SendAsync<T>(ApiRequest apiRequest)
+        public async Task<T?> SendAsync<T>(ApiRequest apiRequest, bool withBearer=true)
         {
             try
             {
@@ -48,10 +48,10 @@ namespace RoyalCottage_Web.Services
                 };
 
                 // Retrieve the Bearer token from the session and add it to the Authorization header if it exists
-                var token = _httpContextAccessor.HttpContext?.Session?.GetString(SD.SessionToken);
+                var token = _tokenProvider.GetToken();
 
-                // Add the Authorization header with the Bearer token if it is provided in the ApiRequest
-                if (!string.IsNullOrEmpty(token))
+                // If withBearer is true and the token is not null or empty, set the Authorization header with the Bearer token
+                if (withBearer && !string.IsNullOrEmpty(token))
                 {
                     message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 }
@@ -67,9 +67,7 @@ namespace RoyalCottage_Web.Services
                     else
                     {
                         message.Content = JsonContent.Create(apiRequest.Data, options: JsonOptions);
-
                     }
-
                 }
 
                 // Send the HTTP request and get the response

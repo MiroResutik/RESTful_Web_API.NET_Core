@@ -19,11 +19,15 @@ namespace RoyalCottage_Web.Controllers
         // Inject IMapper for mapping between DTOs and models
         private readonly IMapper _mapper;
 
+        // Inject ITokenProvider for handling JWT tokens
+        private readonly ITokenProvider _tokenProvider;
+
         // Constructor to initialize dependencies
-        public AuthController(IAuthService authService, IMapper mapper)
+        public AuthController(IAuthService authService, IMapper mapper, ITokenProvider tokenProvider)
         {
             _authService = authService;
             _mapper = mapper;
+            _tokenProvider = tokenProvider;
         }
 
         // Display the login page
@@ -41,40 +45,39 @@ namespace RoyalCottage_Web.Controllers
             try
             {
                 // Call the LoginAsync method of the IAuthService to authenticate the user
-                var response = await _authService.LoginAsync<ApiResponse<LoginResponseDTO>>(loginRequestDTO);
+                var response = await _authService.LoginAsync<ApiResponse<TokenDTO>>(loginRequestDTO);
 
                 // Check if the response is successful and contains data
                 if (response != null && response.Success && response.Data != null)
                 {
-                    // Retrieve the login response data from the response
-                    LoginResponseDTO model = response.Data;
 
-                    // Create a JwtSecurityTokenHandler to read the JWT token from the response
-                    var handler = new JwtSecurityTokenHandler();
-                    var jwt = handler.ReadJwtToken(model.Token);
+                    // Create a ClaimsPrincipal from the JWT token
+                    var principal = _tokenProvider.CreatePrincipalFromJwtToken(response.Data.AccessToken);
 
-                    // Create a ClaimsIdentity and add claims for the user's email and role
-                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == "email").Value));
-                    identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
+                    // Check if the ClaimsPrincipal is not null
+                    if (principal != null) 
+                    {
+                        // Sign in the user and set the authentication cookie
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    // Create a ClaimsPrincipal with the identity and sign in the user using cookie authentication
-                    var principal = new ClaimsPrincipal(identity);
+                        // Store the JWT token in the session for future use
+                        _tokenProvider.SetToken(response.Data.AccessToken);
 
-                    // Sign in the user and set the authentication cookie
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
-                    // Store the JWT token in the session for later use
-                    HttpContext.Session.SetString(SD.SessionToken, model.Token);
-
-                    // Redirect the user to the home page after successful login
-                    return RedirectToAction("Index", "Home");
+                        // Redirect the user to the home page after successful login
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        TempData["error"] = "Invalid token received. Please try again.";
+                        return View(loginRequestDTO);
+                    }
                 }
                 else
                 {
                     TempData["error"] = response.Message;
-                    return View(loginRequestDTO);
+                    
                 }
+                return View(loginRequestDTO);
             }
             catch (Exception ex)
             {
@@ -141,8 +144,11 @@ namespace RoyalCottage_Web.Controllers
         // Handle user logout
         public async Task<IActionResult> Logout()
         {
-            // Sign out the user and clear the authentication cookie
-            await HttpContext.SignOutAsync();
+            // Sign out the user and remove the authentication cookie
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Clear the JWT token from the session
+            _tokenProvider.ClearToken(); 
 
             // Redirect the user to the home page after logout
             return RedirectToAction("Index", "Home");

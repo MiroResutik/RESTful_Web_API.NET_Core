@@ -59,6 +59,9 @@ builder.Services.AddHttpClient("RoyalCottageAPI", client =>
 
 });
 
+
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+
 // Register the ICottageService interface with its implementation CottageService
 builder.Services.AddScoped<ICottageService, CottageService>();
 

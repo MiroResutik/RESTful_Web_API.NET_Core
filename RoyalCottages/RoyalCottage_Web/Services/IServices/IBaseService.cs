@@ -9,6 +9,6 @@ namespace RoyalCottage_Web.Services.IServices
         ApiResponse<object> ResponseModel { get; set; }
 
         // SendAsync is a generic method that sends an HTTP request to the specified API endpoint and returns the response as an object of type T
-        Task<T?> SendAsync<T>(ApiRequest apiRequest);
+        Task<T?> SendAsync<T>(ApiRequest apiRequest,bool withBearer = true);
     }
 }

@@ -11,7 +11,7 @@ namespace RoyalCottage_Web.Services
         private const string APIEndpoint = "/api/auth";
 
         // Constructor to initialize the AuthService with dependencies
-        public AuthService(IHttpClientFactory httpClient, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClient, httpContextAccessor)
+        public AuthService(IHttpClientFactory httpClient, IConfiguration configuration, ITokenProvider tokenProvider) : base(httpClient, tokenProvider)
         {
 
         }
@@ -24,8 +24,8 @@ namespace RoyalCottage_Web.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = loginRequestDTO,
-                Url = APIEndpoint+"/login",
-            });
+                Url = APIEndpoint + "/login",
+            }, withBearer:false); // Set withBearer to false since the user is not authenticated yet
         }
 
         // Implement the RegisterAsync method to handle user registration requests
@@ -37,7 +37,7 @@ namespace RoyalCottage_Web.Services
                 ApiType = SD.ApiType.POST,
                 Data = registrationRequestDTO,
                 Url = APIEndpoint+"/register",
-            });
+            }, withBearer: false); // Set withBearer to false since the user is not authenticated yet
         }
     }
 }

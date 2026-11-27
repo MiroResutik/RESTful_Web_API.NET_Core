@@ -29,19 +29,23 @@ namespace RoyalCottages_API.Services
         // Inject the AutoMapper into the service
         private readonly IMapper _mapper;
 
+        private readonly ITokenService _tokenService;
+
         // Constructor for dependency injection
         public AuthService(
             ApplicationDbContext db, 
             IConfiguration configuration, 
             IMapper mapper,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ITokenService tokenService)
         {
             _db = db;
             _configuration = configuration;
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
+            _tokenService = tokenService;
         }
 
         // Endpoint to check if an email already exists
@@ -76,7 +80,7 @@ namespace RoyalCottages_API.Services
                 }
 
                 // Generate a JWT token for the authenticated user
-                var token = await GenerateJwtToken(user);
+                var token = await _tokenService.GenerateJwtTokenAsync(user);
 
                 // Retrieve the roles of the user
                 var roles = await _userManager.GetRolesAsync(user);
@@ -160,38 +164,5 @@ namespace RoyalCottages_API.Services
             }
         }
 
-        // Generate a JWT token for the authenticated user
-        private async Task<string> GenerateJwtToken(ApplicationUser user)
-        {
-            // Get the secret key from the configuration
-            var secret = _configuration.GetSection("JwtSettings")["Secret"]; 
-            if (string.IsNullOrEmpty(secret)) throw new InvalidOperationException("JwtSecret not configured"); 
-            var key = Encoding.ASCII.GetBytes(secret);
-
-            var roles = await _userManager.GetRolesAsync(user);
-
-            // Create a token descriptor with claims, expiration, and signing credentials
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                // Set the subject of the token with claims for user ID, email, and role
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Role, roles.FirstOrDefault()),
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                // Set the signing credentials using the secret key and HMAC SHA256 algorithm
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            // Create a token handler to generate the JWT token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            // Create the token using the token descriptor
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            // Return the serialized token as a string
-            return tokenHandler.WriteToken(token);
-        }
     }
 }

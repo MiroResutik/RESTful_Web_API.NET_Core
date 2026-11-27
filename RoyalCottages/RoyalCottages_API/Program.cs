@@ -42,8 +42,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
+// Add the ImageService to the dependency injection container, which implements the IImageService interface
 builder.Services.AddScoped<IImageService, ImageService>();
+
+// Add the TokenService to the dependency injection container, which implements the ITokenService interface
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 // Add API versioning services to the container and configure the default API version and reporting of API versions
 builder.Services.AddApiVersioning(options =>
 {
@@ -186,7 +190,7 @@ if (app.Environment.IsDevelopment())
 
 }
 
-
+// Use static files middleware to serve static files (e.g., images, CSS, JavaScript) from the wwwroot folder
 app.UseStaticFiles();
 
 // No restriction on API Endpoint
